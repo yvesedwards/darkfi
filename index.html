@@ -165,7 +165,8 @@ Please visit https://rustup.rs/ for instructions.</p>
 <p>Users of Debian-based systems (e.g. Ubuntu) can simply run the following 
 to install the required dependencies:</p>
 <pre><code class="language-shell">% sudo apt-get update
-% sudo apt-get install -y build-essential clang libclang-dev llvm-dev libudev-dev pkg-config
+% sudo apt-get install -y build-essential clang libclang-dev llvm-dev \
+    libudev-dev pkg-config wget
 </code></pre>
 <p>To build the necessary binaries, we can just clone the repo, and use the 
 provided Makefile to build the project. This will download the trusted 
@@ -173,6 +174,10 @@ setup params, and compile the source code.</p>
 <pre><code class="language-shell">% git clone https://github.com/darkrenaissance/darkfi
 % make
 </code></pre>
+<h2 id="development"><a class="header" href="#development">Development</a></h2>
+<p>If you want to hack on the source code, make sure to read some
+introductory advice in the
+<a href="https://darkrenaissance.github.io/darkfi/development.html">DarkFi book</a>.</p>
 <h2 id="install"><a class="header" href="#install">Install</a></h2>
 <p>This will install the binaries and configurations in the configured
 namespace (<code>/usr/local</code> by default). The configurations are installed
@@ -186,7 +191,7 @@ the testnet if you're following this document.</p>
 </code></pre>
 <h2 id="bash-completion"><a class="header" href="#bash-completion">Bash Completion</a></h2>
 <p>This will add the options auto completion of <code>drk</code> and <code>darkfid</code>.</p>
-<pre><code class="language-shell">echo source ./auto-complete &gt;&gt; ~/.bashrc
+<pre><code class="language-shell">% echo source ./auto-complete &gt;&gt; ~/.bashrc
 </code></pre>
 <h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
 <p>After the installation, you should have <code>drk</code> and <code>darkfid</code>
@@ -199,7 +204,6 @@ communicate with the DarkFi network:</p>
 <p>And in the other terminal, we can use the CLI interface to <code>darkfid</code>
 called <code>drk</code>:</p>
 <pre><code class="language-shell">% drk -h
-drk
 
 USAGE:
     drk [FLAGS] [OPTIONS] [SUBCOMMAND]
@@ -224,11 +228,6 @@ SUBCOMMANDS:
 </code></pre>
 <h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
 <p>See the <a href="https://darkrenaissance.github.io/darkfi">DarkFi book</a></p>
-<h2 id="code-formatting"><a class="header" href="#code-formatting">Code Formatting</a></h2>
-<pre><code class="language-shell">cargo +nightly fmt
-cargo clippy
-</code></pre>
-<p>Try <code>cargo +nightly clippy --fix --all-features -Z unstable-options</code> to let clippy autofix some lints.</p>
 <h2 id="go-dark"><a class="header" href="#go-dark">Go Dark</a></h2>
 <p>Let's liberate people from the claws of big tech and create the
 democratic paradigm of technology.</p>
