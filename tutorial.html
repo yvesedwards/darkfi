@@ -1,0 +1,401 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Tutorial - The DarkFi Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="development.html"><strong aria-hidden="true">1.</strong> Development</a></li><li class="chapter-item expanded "><a href="tutorial.html" class="active"><strong aria-hidden="true">2.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="zkas/zkas.html"><strong aria-hidden="true">3.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/examples.html"><strong aria-hidden="true">3.1.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/examples/sapling.html"><strong aria-hidden="true">3.1.1.</strong> Sapling payment scheme</a></li></ol></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The DarkFi Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="darkfi-user-tutorial"><a class="header" href="#darkfi-user-tutorial">DarkFi User Tutorial</a></h1>
+<p>Welcome to the dark renaissance. This tutorial will teach you how to
+install darkfi on your system, and how to use the testnet to send and
+receive anonymous tokens.</p>
+<h2 id="download"><a class="header" href="#download">Download</a></h2>
+<p>To run darkfi, we must first install the software. Do this by cloning
+the darkfi repo:</p>
+<pre><code>% git clone https://github.com/darkrenaissance/darkfi
+</code></pre>
+<h2 id="build"><a class="header" href="#build">Build</a></h2>
+<p>In the project root directory, run provided Makefile. This will download
+the trusted setup params and compile the source code. This might take
+a while.</p>
+<pre><code>% make
+</code></pre>
+<h2 id="install"><a class="header" href="#install">Install</a></h2>
+<p>We will now install the project. This will install the binaries
+and configurations in the configured namespace (<code>/usr/local</code>
+by default). The configurations are installed as TOML files in
+<code>/usr/local/share/doc/darkfi</code>. They have to be copied in your user's
+<code>HOME/.config/darkfi</code> directory.</p>
+<p>Feel free to review the installed config files, but you don't need to
+change anything to run the testnet. The defaults will work fine.</p>
+<pre><code>% sudo make install
+% mkdir -p ~/.config/darkfi
+% cp -f /usr/local/share/doc/darkfi/*.toml ~/.config/darkfi
+</code></pre>
+<h2 id="run"><a class="header" href="#run">Run</a></h2>
+<p>Darkfi consists of several software daemons or processes. These daemons
+have seperate, isolated concerns.</p>
+<p>As a user, your interest is in the <code>darkfid</code> daemon. This is a user
+node that interacts with your wallet and communicates with services on
+the darkfi network. It is operated using the <code>drk</code> command-line tool.</p>
+<p>After the installation, you should have <code>drk</code> and <code>darkfid</code> binaries in
+<code>/usr/local</code>. Also, the params and configuration files should be in
+<code>~/.config/darkfi</code>.</p>
+<p>We're now ready to use the testnet.</p>
+<p>Open two terminal windows. In one terminal, start <code>darkfid</code>:</p>
+<pre><code>% darkfid -v
+</code></pre>
+<p>And another terminal, run <code>drk</code>. This is the command-line interface to
+interact with <code>darkfid</code>.</p>
+<pre><code>% drk -h
+drk
+
+USAGE:
+    drk [FLAGS] [OPTIONS] [SUBCOMMAND]
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+    -v, --verbose    Increase verbosity
+
+OPTIONS:
+    -c, --config &lt;CONFIG&gt;    Sets a custom config file
+
+SUBCOMMANDS:
+    deposit     Deposit clear tokens for Dark tokens
+    features    Show what features the cashier supports
+    hello       Say hello to the RPC
+    help        Prints this message or the help of the given subcommand(s)
+    id          Get hexidecimal ID for token symbol
+    transfer    Transfer Dark tokens to address
+    wallet      Wallet operations
+    withdraw    Withdraw Dark tokens for clear tokens
+</code></pre>
+<h2 id="deposit"><a class="header" href="#deposit">Deposit</a></h2>
+<p>We'll go through the main features one by one. Let's start by depositing
+some coins into darkfi.</p>
+<p>First, we need testnet coins on either Bitcoin or Solana. For
+Bitcoin these can be acquired from a faucet like <a href="https://testnet-faucet.mempool.co/">this
+one</a>. You will need to switch your
+Bitcoin wallet to testnet mode.</p>
+<p>If you don't have a Bitcoin wallet, <a href="https://electrum.org/">Electrum</a>
+is an excellent option. Configuring Electrum
+for testnet depends on the operating system: see <a href="https://bitzuma.com/posts/a-beginners-guide-to-the-electrum-bitcoin-wallet/#testnet-on-ubuntu">this
+tutorial</a>
+for more details.</p>
+<p>For Solana, you can either install the Solana command-line suite or use
+<a href="sollet.io">sollet</a>.</p>
+<p>Follow <a href="https://docs.solana.com/cli">this tutorial</a> for the Solana
+command-line. For sollet.io, switch the network to testnet and click
+'Request Airdrop' to airdrop yourself some testnet coins.</p>
+<p>Now that we have testnet coins we can deposit into darkfi.</p>
+<p>We'll do this by sending testnet coins to the darki cashier, which will
+issue darkened versions of the deposted coin. This process of darkening
+involves the cashier minting new anonymous tokens that are 1:1 redeemable
+for deposits. For example, if you deposit 1 BTC, you will receive 1 dBTC,
+or darkened SOL.</p>
+<p>To deposit testnet BTC:</p>
+<pre><code>% drk deposit btc --network bitcoin
+</code></pre>
+<p>To deposit testnet SOL:</p>
+<pre><code>% drk deposit sol --network solana
+</code></pre>
+<p>To deposit any other asset:</p>
+<pre><code>% drk deposit [ASSET] --network solana
+</code></pre>
+<p>This command will send a deposit request to the cashier. After running
+it, you should get an address printed to your terminal, like this:</p>
+<pre><code>Deposit your coins to the following address: &quot;734JBp3FRPoDs6ibSMyq3CV9zyMiDeynxMQRbSxVvozN&quot;
+</code></pre>
+<p>Using Bitcoin or Solana, deposit the desired tokens to the specified
+address. Wait a moment- it should take about 30 seconds to receive your
+deposit. You can follow the progress on the terminal window where you ran
+<code>darkfid</code>. Then check your updated balance, like so:</p>
+<pre><code>% drk wallet --balances
+
++-------+--------+---------+
+| token | amount | network |
++-------+--------+---------+
+| SOL   | 1      | solana  |
++-------+--------+---------+
+
+</code></pre>
+<h2 id="send"><a class="header" href="#send">Send</a></h2>
+<p>Now that you have darkened tokens inside darkfi, you can send them
+around anonymously.</p>
+<p>Find a friend with an account on darkfi and ask them for their darkfi
+address. Then run the transfer command:</p>
+<pre><code>% drk transfer &lt;TOKEN&gt; &lt;ADDRESS&gt; &lt;AMOUNT&gt;
+</code></pre>
+<p>For example, to transfer 1 SOL to a user at
+9GmLk7kkbxhsbLTYFMeg6FyuQJV9Na2GcJYFNrs3VLkv address, you would run the
+following command:</p>
+<pre><code>% drk transfer sol 9GmLk7kkbxhsbLTYFMeg6FyuQJV9Na2GcJYFNrs3VLkv 1
+</code></pre>
+<h2 id="receive"><a class="header" href="#receive">Receive</a></h2>
+<p>To receive anonymous tokens your darkfid account, you must retrieve your
+darkfi address. Send this address to others so they can send you tokens.</p>
+<pre><code>% drk wallet --address
+Wallet address: &quot;9GmLk7kkbxhsbLTYFMeg6FyuQJV9Na2GcJYFNrs3VLkv&quot;
+</code></pre>
+<h2 id="withdraw"><a class="header" href="#withdraw">Withdraw</a></h2>
+<p>Withdrawing your testnet funds can be done at any time. This will exchange
+your anonymous darkened tokens for their underlying collaterol, i.e. if
+you have 1 dBTC you will receive 1 BTC.</p>
+<p>To do so, simply send the following request to the cashier:</p>
+<pre><code>% drk withdraw &lt;TOKENSYM&gt; &lt;ADDRESS&gt; &lt;AMOUNT&gt; --network &lt;network&gt;
+</code></pre>
+<p>For example, if you want to withdraw 0.5 SOL to the Solana address
+4q7rkNvH5BVs6VLz6nyhKLvqXmwDyjGnUsE5sZzRNgp4, you would write:</p>
+<pre><code>% drk withdraw sol 4q7rkNvH5BVs6VLz6nyhKLvqXmwDyjGnUsE5sZzRNgp4 0.5 --network solana
+</code></pre>
+<p>For Bitcoin, the command would look like this:</p>
+<pre><code>% drk withdraw btc bc1qw7nt2yca0zykh8a5sc6nmy3r3clx4ha206wepn 0.5 --network bitcoin
+</code></pre>
+<h2 id="configure"><a class="header" href="#configure">Configure</a></h2>
+<p>DarkFi is highly configurable by design. Key system parameters can be
+changed inside the config files.</p>
+<p>This is the darkfid config file. Your local copy can be found in
+<code>~/.config/darkfi</code>.</p>
+<pre><code class="language-toml">## darkfid configuration file
+##
+## Please make sure you go through all the settings so you can configure
+## your daemon properly.
+
+# The address where darkfid should bind its RPC socket
+rpc_listen_address = &quot;127.0.0.1:8000&quot;
+
+# Whether to listen with TLS or plain TCP
+serve_tls = false
+
+# Path to DER-formatted PKCS#12 archive. (Unused if serve_tls=false)
+# This can be created using openssl:
+# openssl pkcs12 -export -out identity.pfx -inkey key.pem -in cert.pem -certfile chain_certs.pem
+tls_identity_path = &quot;~/.config/darkfi/darkfid_identity.pfx&quot;
+
+# Password for the created TLS identity. (Unused if serve_tls=false)
+tls_identity_password = &quot;FOOBAR&quot;
+
+# The endpoint to a gatewayd protocol API
+gateway_protocol_url = &quot;tcp://185.165.171.77:3333&quot;
+
+# The endpoint to a gatewayd publisher API
+gateway_publisher_url = &quot;tcp://185.165.171.77:4444&quot;
+
+# Path to mint.params
+mint_params_path = &quot;~/.config/darkfi/mint.params&quot;
+
+# Path to spend.params
+spend_params_path = &quot;~/.config/darkfi/spend.params&quot;
+
+# Path to the client database
+database_path = &quot;~/.config/darkfi/darkfid_client.db&quot;
+
+# Path to the wallet database
+wallet_path = &quot;~/.config/darkfi/darkfid_wallet.db&quot;
+
+# The wallet password
+wallet_password = &quot;TEST_PASSWORD&quot;
+
+# The configured cashiers to use.
+[[cashiers]]
+
+# Cashier name
+name = &quot;testnet.cashier.dark.fi&quot;
+
+# The RPC endpoint for a selected cashier
+#rpc_url = &quot;tcp://127.0.0.1:9000&quot;
+rpc_url = &quot;tcp://185.165.171.77:9000&quot;
+
+# The selected cashier public key
+public_key = &quot;2MezH7FrtzGwtEEeTU8anM2b67Nzfv8XsojggGUavCUd&quot;
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="development.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="zkas/zkas.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="development.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="zkas/zkas.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

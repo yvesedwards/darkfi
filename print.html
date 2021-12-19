@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="development.html"><strong aria-hidden="true">1.</strong> Development</a></li><li class="chapter-item expanded "><a href="zkas/zkas.html"><strong aria-hidden="true">2.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/examples.html"><strong aria-hidden="true">2.1.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/examples/sapling.html"><strong aria-hidden="true">2.1.1.</strong> Sapling payment scheme</a></li></ol></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="development.html"><strong aria-hidden="true">1.</strong> Development</a></li><li class="chapter-item expanded "><a href="tutorial.html"><strong aria-hidden="true">2.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="zkas/zkas.html"><strong aria-hidden="true">3.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/examples.html"><strong aria-hidden="true">3.1.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/examples/sapling.html"><strong aria-hidden="true">3.1.1.</strong> Sapling payment scheme</a></li></ol></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -245,6 +245,212 @@ this by creating a git <code>pre-commit</code> hook like the following:</p>
 diff=&quot;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.02778em;&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.03588em;&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.10764em;&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mbin&quot;&gt;−&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.66666em;vertical-align:-0.08333em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;−&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mbin&quot;&gt;−&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;−&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ec&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.03148em;&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;lt&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;=&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;?
 
 if [[ &quot;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.77777em;vertical-align:-0.08333em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;lt&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mbin&quot;&gt;−&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1.001892em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;mpunct&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.16666666666666666em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ec&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.13889em;&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ere&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;reso&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;eco&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;es&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.03588em;&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.01968em;&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ss&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;es&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.00773em;&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.751892em;&quot;&gt;&lt;span style=&quot;top:-3.063em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;′&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.02778em;&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.03588em;&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.10764em;&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.751892em;&quot;&gt;&lt;span style=&quot;top:-3.063em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;′&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.10764em;&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;.&amp;quot;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.10764em;&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;0‘‘‘&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.01968em;&quot;&gt;Pl&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ce&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;hi&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.02778em;&quot;&gt;sscr&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;pt&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;‘.&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.03588em;&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;oo&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.03148em;&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mbin&quot;&gt;−&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.946332em;vertical-align:-0.19444em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;co&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;mmi&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;an&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.03148em;&quot;&gt;mak&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;es&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.751892em;&quot;&gt;&lt;span style=&quot;top:-3.063em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;′&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;se&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ec&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ab&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.01968em;&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.02778em;&quot;&gt;yr&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;nnin&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.03588em;&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;hm&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mbin&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.03588em;&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;oo&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.03148em;&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mbin&quot;&gt;−&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.69444em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;co&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;mmi&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;‘.&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="darkfi-user-tutorial"><a class="header" href="#darkfi-user-tutorial">DarkFi User Tutorial</a></h1>
+<p>Welcome to the dark renaissance. This tutorial will teach you how to
+install darkfi on your system, and how to use the testnet to send and
+receive anonymous tokens.</p>
+<h2 id="download"><a class="header" href="#download">Download</a></h2>
+<p>To run darkfi, we must first install the software. Do this by cloning
+the darkfi repo:</p>
+<pre><code>% git clone https://github.com/darkrenaissance/darkfi
+</code></pre>
+<h2 id="build-1"><a class="header" href="#build-1">Build</a></h2>
+<p>In the project root directory, run provided Makefile. This will download
+the trusted setup params and compile the source code. This might take
+a while.</p>
+<pre><code>% make
+</code></pre>
+<h2 id="install-1"><a class="header" href="#install-1">Install</a></h2>
+<p>We will now install the project. This will install the binaries
+and configurations in the configured namespace (<code>/usr/local</code>
+by default). The configurations are installed as TOML files in
+<code>/usr/local/share/doc/darkfi</code>. They have to be copied in your user's
+<code>HOME/.config/darkfi</code> directory.</p>
+<p>Feel free to review the installed config files, but you don't need to
+change anything to run the testnet. The defaults will work fine.</p>
+<pre><code>% sudo make install
+% mkdir -p ~/.config/darkfi
+% cp -f /usr/local/share/doc/darkfi/*.toml ~/.config/darkfi
+</code></pre>
+<h2 id="run"><a class="header" href="#run">Run</a></h2>
+<p>Darkfi consists of several software daemons or processes. These daemons
+have seperate, isolated concerns.</p>
+<p>As a user, your interest is in the <code>darkfid</code> daemon. This is a user
+node that interacts with your wallet and communicates with services on
+the darkfi network. It is operated using the <code>drk</code> command-line tool.</p>
+<p>After the installation, you should have <code>drk</code> and <code>darkfid</code> binaries in
+<code>/usr/local</code>. Also, the params and configuration files should be in
+<code>~/.config/darkfi</code>.</p>
+<p>We're now ready to use the testnet.</p>
+<p>Open two terminal windows. In one terminal, start <code>darkfid</code>:</p>
+<pre><code>% darkfid -v
+</code></pre>
+<p>And another terminal, run <code>drk</code>. This is the command-line interface to
+interact with <code>darkfid</code>.</p>
+<pre><code>% drk -h
+drk
+
+USAGE:
+    drk [FLAGS] [OPTIONS] [SUBCOMMAND]
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+    -v, --verbose    Increase verbosity
+
+OPTIONS:
+    -c, --config &lt;CONFIG&gt;    Sets a custom config file
+
+SUBCOMMANDS:
+    deposit     Deposit clear tokens for Dark tokens
+    features    Show what features the cashier supports
+    hello       Say hello to the RPC
+    help        Prints this message or the help of the given subcommand(s)
+    id          Get hexidecimal ID for token symbol
+    transfer    Transfer Dark tokens to address
+    wallet      Wallet operations
+    withdraw    Withdraw Dark tokens for clear tokens
+</code></pre>
+<h2 id="deposit"><a class="header" href="#deposit">Deposit</a></h2>
+<p>We'll go through the main features one by one. Let's start by depositing
+some coins into darkfi.</p>
+<p>First, we need testnet coins on either Bitcoin or Solana. For
+Bitcoin these can be acquired from a faucet like <a href="https://testnet-faucet.mempool.co/">this
+one</a>. You will need to switch your
+Bitcoin wallet to testnet mode.</p>
+<p>If you don't have a Bitcoin wallet, <a href="https://electrum.org/">Electrum</a>
+is an excellent option. Configuring Electrum
+for testnet depends on the operating system: see <a href="https://bitzuma.com/posts/a-beginners-guide-to-the-electrum-bitcoin-wallet/#testnet-on-ubuntu">this
+tutorial</a>
+for more details.</p>
+<p>For Solana, you can either install the Solana command-line suite or use
+<a href="sollet.io">sollet</a>.</p>
+<p>Follow <a href="https://docs.solana.com/cli">this tutorial</a> for the Solana
+command-line. For sollet.io, switch the network to testnet and click
+'Request Airdrop' to airdrop yourself some testnet coins.</p>
+<p>Now that we have testnet coins we can deposit into darkfi.</p>
+<p>We'll do this by sending testnet coins to the darki cashier, which will
+issue darkened versions of the deposted coin. This process of darkening
+involves the cashier minting new anonymous tokens that are 1:1 redeemable
+for deposits. For example, if you deposit 1 BTC, you will receive 1 dBTC,
+or darkened SOL.</p>
+<p>To deposit testnet BTC:</p>
+<pre><code>% drk deposit btc --network bitcoin
+</code></pre>
+<p>To deposit testnet SOL:</p>
+<pre><code>% drk deposit sol --network solana
+</code></pre>
+<p>To deposit any other asset:</p>
+<pre><code>% drk deposit [ASSET] --network solana
+</code></pre>
+<p>This command will send a deposit request to the cashier. After running
+it, you should get an address printed to your terminal, like this:</p>
+<pre><code>Deposit your coins to the following address: &quot;734JBp3FRPoDs6ibSMyq3CV9zyMiDeynxMQRbSxVvozN&quot;
+</code></pre>
+<p>Using Bitcoin or Solana, deposit the desired tokens to the specified
+address. Wait a moment- it should take about 30 seconds to receive your
+deposit. You can follow the progress on the terminal window where you ran
+<code>darkfid</code>. Then check your updated balance, like so:</p>
+<pre><code>% drk wallet --balances
+
++-------+--------+---------+
+| token | amount | network |
++-------+--------+---------+
+| SOL   | 1      | solana  |
++-------+--------+---------+
+
+</code></pre>
+<h2 id="send"><a class="header" href="#send">Send</a></h2>
+<p>Now that you have darkened tokens inside darkfi, you can send them
+around anonymously.</p>
+<p>Find a friend with an account on darkfi and ask them for their darkfi
+address. Then run the transfer command:</p>
+<pre><code>% drk transfer &lt;TOKEN&gt; &lt;ADDRESS&gt; &lt;AMOUNT&gt;
+</code></pre>
+<p>For example, to transfer 1 SOL to a user at
+9GmLk7kkbxhsbLTYFMeg6FyuQJV9Na2GcJYFNrs3VLkv address, you would run the
+following command:</p>
+<pre><code>% drk transfer sol 9GmLk7kkbxhsbLTYFMeg6FyuQJV9Na2GcJYFNrs3VLkv 1
+</code></pre>
+<h2 id="receive"><a class="header" href="#receive">Receive</a></h2>
+<p>To receive anonymous tokens your darkfid account, you must retrieve your
+darkfi address. Send this address to others so they can send you tokens.</p>
+<pre><code>% drk wallet --address
+Wallet address: &quot;9GmLk7kkbxhsbLTYFMeg6FyuQJV9Na2GcJYFNrs3VLkv&quot;
+</code></pre>
+<h2 id="withdraw"><a class="header" href="#withdraw">Withdraw</a></h2>
+<p>Withdrawing your testnet funds can be done at any time. This will exchange
+your anonymous darkened tokens for their underlying collaterol, i.e. if
+you have 1 dBTC you will receive 1 BTC.</p>
+<p>To do so, simply send the following request to the cashier:</p>
+<pre><code>% drk withdraw &lt;TOKENSYM&gt; &lt;ADDRESS&gt; &lt;AMOUNT&gt; --network &lt;network&gt;
+</code></pre>
+<p>For example, if you want to withdraw 0.5 SOL to the Solana address
+4q7rkNvH5BVs6VLz6nyhKLvqXmwDyjGnUsE5sZzRNgp4, you would write:</p>
+<pre><code>% drk withdraw sol 4q7rkNvH5BVs6VLz6nyhKLvqXmwDyjGnUsE5sZzRNgp4 0.5 --network solana
+</code></pre>
+<p>For Bitcoin, the command would look like this:</p>
+<pre><code>% drk withdraw btc bc1qw7nt2yca0zykh8a5sc6nmy3r3clx4ha206wepn 0.5 --network bitcoin
+</code></pre>
+<h2 id="configure"><a class="header" href="#configure">Configure</a></h2>
+<p>DarkFi is highly configurable by design. Key system parameters can be
+changed inside the config files.</p>
+<p>This is the darkfid config file. Your local copy can be found in
+<code>~/.config/darkfi</code>.</p>
+<pre><code class="language-toml">## darkfid configuration file
+##
+## Please make sure you go through all the settings so you can configure
+## your daemon properly.
+
+# The address where darkfid should bind its RPC socket
+rpc_listen_address = &quot;127.0.0.1:8000&quot;
+
+# Whether to listen with TLS or plain TCP
+serve_tls = false
+
+# Path to DER-formatted PKCS#12 archive. (Unused if serve_tls=false)
+# This can be created using openssl:
+# openssl pkcs12 -export -out identity.pfx -inkey key.pem -in cert.pem -certfile chain_certs.pem
+tls_identity_path = &quot;~/.config/darkfi/darkfid_identity.pfx&quot;
+
+# Password for the created TLS identity. (Unused if serve_tls=false)
+tls_identity_password = &quot;FOOBAR&quot;
+
+# The endpoint to a gatewayd protocol API
+gateway_protocol_url = &quot;tcp://185.165.171.77:3333&quot;
+
+# The endpoint to a gatewayd publisher API
+gateway_publisher_url = &quot;tcp://185.165.171.77:4444&quot;
+
+# Path to mint.params
+mint_params_path = &quot;~/.config/darkfi/mint.params&quot;
+
+# Path to spend.params
+spend_params_path = &quot;~/.config/darkfi/spend.params&quot;
+
+# Path to the client database
+database_path = &quot;~/.config/darkfi/darkfid_client.db&quot;
+
+# Path to the wallet database
+wallet_path = &quot;~/.config/darkfi/darkfid_wallet.db&quot;
+
+# The wallet password
+wallet_password = &quot;TEST_PASSWORD&quot;
+
+# The configured cashiers to use.
+[[cashiers]]
+
+# Cashier name
+name = &quot;testnet.cashier.dark.fi&quot;
+
+# The RPC endpoint for a selected cashier
+#rpc_url = &quot;tcp://127.0.0.1:9000&quot;
+rpc_url = &quot;tcp://185.165.171.77:9000&quot;
+
+# The selected cashier public key
+public_key = &quot;2MezH7FrtzGwtEEeTU8anM2b67Nzfv8XsojggGUavCUd&quot;
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="zkas"><a class="header" href="#zkas">zkas</a></h1>
 <p>zkas is a compiler for the Halo2 zkVM langage used in
