@@ -241,7 +241,7 @@ democratic paradigm of technology.</p>
 you run <code>cargo fmt</code> before committing. You can force yourself to do
 this by creating a git <code>pre-commit</code> hook like the following:</p>
 <pre><code class="language-shell">#!/bin/sh
-if ! cargo fmt -- --check &gt;/dev/null; then
+if ! cargo +nightly fmt -- --check &gt;/dev/null; then
     echo &quot;There are some code style issues. Run 'cargo fmt' to fix it.&quot;
     exit 1
 fi
