@@ -476,7 +476,7 @@ zkas.</p>
 <pre><code class="language-python">constant &quot;Mint&quot; {
     EcFixedPoint VALUE_COMMIT_VALUE,
     EcFixedPoint VALUE_COMMIT_RANDOM,
-};
+}
 
 contract &quot;Mint&quot; {
     Base pub_x,
@@ -487,7 +487,7 @@ contract &quot;Mint&quot; {
     Base coin_blind,
     Scalar value_blind,
     Scalar asset_blind,
-};
+}
 
 circuit &quot;Mint&quot; {
     # Poseidon hash of the coin
@@ -517,7 +517,7 @@ circuit &quot;Mint&quot; {
     constrain_instance(token_commit_y);
 
     # At this point we've enforced all of our public inputs.
-};
+}
 </code></pre>
 <p>As you can see, the <code>Mint</code> contract/circuit basically consists of
 three operations. First one is hashing the <em>coin</em> <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span></span></span></span>, and after
@@ -607,7 +607,7 @@ let public_inputs = vec![
     EcFixedPoint VALUE_COMMIT_VALUE,
     EcFixedPoint VALUE_COMMIT_RANDOM,
     EcFixedPoint NULLIFIER_K,
-};
+}
 
 contract &quot;Burn&quot; {
     Base secret,
@@ -619,7 +619,7 @@ contract &quot;Burn&quot; {
     Scalar value_blind,
     Scalar token_blind,
     Base signature_secret,
-};
+}
 
 circuit &quot;Burn&quot; {
     # Poseidon hash of the Nullifier
@@ -661,7 +661,7 @@ circuit &quot;Burn&quot; {
     constrain_instance(signature_y);
 
     # At this point we've enforced all of our public inputs.
-};
+}
 </code></pre>
 <p>The <code>Burn</code> contract/circuit consists of operations similar to the
 <code>Mint</code> circuit, with the addition of <em>Merkle root</em> calculation. In
