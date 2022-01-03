@@ -382,6 +382,53 @@ with a generator <span class="katex"><span class="katex-html" aria-hidden="true"
 Merkle tree <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span>:</p>
 <p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">ρ</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">C</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
 <span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span></span></p>
+<p>Knowing this, we can extend our code example and build the
+before-mentioned public inputs for the circuit:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let secret_key = pallas::Base::random(&amp;mut OsRng);
+let serial = pallas::Base::random(&amp;mut OsRng);
+
+let nullifier = poseidon::Hash(secret_key, serial);
+
+let value = 42;
+let token = 1;
+let value_blind = pallas::Scalar::random(&amp;mut OsRng);
+let token_blind = pallas::Scalar::random(&amp;mut OsRng);
+
+let value_commit = pedersen_commitment_u64(value, valie_blind);
+let value_coords = value_commit.to_affine().coordinates().unwrap();
+
+let token_commit = pedersen_commitment_u64(token, token_blind);
+let token_coords = token_commit.to_affine().coordinates().unwrap();
+
+let tree = BridgeTree::&lt;MerkleNode, 32&gt;::new(100);
+let some_coin_0 = pallas::Base::random(&amp;mut OsRng);
+let some_coin_1 = pallas::Base::random(&amp;mut OsRng);
+tree.append(some_coin_0);
+tree.witness();
+tree.append(some_coin_1);
+tree.witness();
+
+let merkle_root = tree.root();
+
+let sig_secret = pallas::Base::random(&amp;mut OsRng);
+let sig_public = OrchardFixedBases::NullifierK.generator() * mod_r_p(sig_secret);
+let sig_coords = sig_public.to_affine().coordinates().unwrap();
+
+let public_inputs = vec![
+    nullifier,
+    *value_commit_coords.x(),
+    *value_commit_coords.y(),
+    *token_commit_coords.x(),
+    *token_commit_coords.y(),
+    merkle_root,
+    *sig_coords.x(),
+    *sig_coords.y(),
+];
+<span class="boring">}
+</span></code></pre></pre>
 
                     </main>
 
