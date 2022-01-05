@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>zkas - The DarkFi Book</title>
+        <title>JSONRPC API - The DarkFi Book</title>
 
 
         <!-- Custom HTML head -->
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="../development.html"><strong aria-hidden="true">1.</strong> Development</a></li><li class="chapter-item expanded "><a href="../tutorial.html"><strong aria-hidden="true">2.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="../clients/clients.html"><strong aria-hidden="true">3.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../clients/jsonrpc.html"><strong aria-hidden="true">3.1.</strong> JSONRPC API</a></li></ol></li><li class="chapter-item expanded "><a href="../zkas/zkas.html" class="active"><strong aria-hidden="true">4.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples.html"><strong aria-hidden="true">4.1.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples/sapling.html"><strong aria-hidden="true">4.1.1.</strong> Sapling payment scheme</a></li></ol></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="../development.html"><strong aria-hidden="true">1.</strong> Development</a></li><li class="chapter-item expanded "><a href="../tutorial.html"><strong aria-hidden="true">2.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="../clients/clients.html"><strong aria-hidden="true">3.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../clients/jsonrpc.html" class="active"><strong aria-hidden="true">3.1.</strong> JSONRPC API</a></li></ol></li><li class="chapter-item expanded "><a href="../zkas/zkas.html"><strong aria-hidden="true">4.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples.html"><strong aria-hidden="true">4.1.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples/sapling.html"><strong aria-hidden="true">4.1.1.</strong> Sapling payment scheme</a></li></ol></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -143,19 +143,74 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<h1 id="zkas"><a class="header" href="#zkas">zkas</a></h1>
-<p>zkas is a compiler for the Halo2 zkVM langage used in
-<a href="https://github.com/darkrenaissance/darkfi">DarkFi</a>.</p>
+<h1 id="jsonrpc-api"><a class="header" href="#jsonrpc-api">JSONRPC API</a></h1>
+<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
+<h3 id="say_hello"><a class="header" href="#say_hello">say_hello:</a></h3>
+<p><code>params</code>: []</p>
+<p><code>result</code>: &quot;helloworld&quot;</p>
+<h3 id="create_wallet"><a class="header" href="#create_wallet">create_wallet:</a></h3>
+<p><code>params</code>: []</p>
+<p><code>result</code>: true</p>
+<h3 id="key_gen"><a class="header" href="#key_gen">key_gen:</a></h3>
+<p><code>params</code>: []</p>
+<p><code>result</code>: true</p>
+<h3 id="get_key"><a class="header" href="#get_key">get_key:</a></h3>
+<p><code>params</code>: []</p>
+<p><code>result</code>: &quot;vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC&quot;</p>
+<h3 id="get_keys"><a class="header" href="#get_keys">get_keys:</a></h3>
+<p><code>params</code>: []</p>
+<p><code>result</code>: &quot;[vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC, ...]&quot;</p>
+<blockquote>
+<p><code>note</code>:  the first address in the returned vector is the default address</p>
+</blockquote>
+<h3 id="import_keypair"><a class="header" href="#import_keypair">import_keypair:</a></h3>
+<p><code>params</code>: [path]</p>
+<p><code>result</code>: true</p>
+<h3 id="export_keypair"><a class="header" href="#export_keypair">export_keypair:</a></h3>
+<p><code>params</code>: [path]</p>
+<p><code>result</code>: true</p>
+<h3 id="set_default_address"><a class="header" href="#set_default_address">set_default_address:</a></h3>
+<p><code>params</code>: [vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC]</p>
+<p><code>result</code>: true</p>
+<h3 id="get_balances"><a class="header" href="#get_balances">get_balances:</a></h3>
+<p><code>params</code>: []</p>
+<p><code>result</code>: &quot;[{&quot;btc&quot;:(value, network)}, ...]&quot;</p>
+<h3 id="get_token_id"><a class="header" href="#get_token_id">get_token_id:</a></h3>
+<p><code>params</code>: [network, token]</p>
+<p><code>result</code>: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;</p>
+<h3 id="features"><a class="header" href="#features">features:</a></h3>
+<p><code>params</code>: []</p>
+<p><code>result</code>: {&quot;network&quot;:[&quot;btc&quot;, &quot;sol&quot;]}</p>
+<h3 id="deposit"><a class="header" href="#deposit">deposit:</a></h3>
+<p><code>params</code>: [network, token, publickey]</p>
+<p><code>result</code>: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;</p>
+<blockquote>
+<p><code>note</code>:  The publickey sent here is used so the cashier can know where to send
+tokens once the deposit is received.</p>
+</blockquote>
+<h3 id="withdraw"><a class="header" href="#withdraw">withdraw:</a></h3>
+<p><code>params</code>: [network, token, publickey, amount]</p>
+<p><code>result</code>: &quot;txID&quot;</p>
+<blockquote>
+<p><code>note</code>:  The publickey sent here is the address where the caller wants to receive
+the tokens they plan to withdraw.
+On request, send request to cashier to get deposit address, and then transfer
+dark tokens to the cashier's wallet. Following that, the cashier should return
+a transaction ID of them sending the funds that are requested for withdrawal.</p>
+</blockquote>
+<h3 id="transfer"><a class="header" href="#transfer">transfer:</a></h3>
+<p><code>params</code>: [network, dToken, address, amount]</p>
+<p><code>result</code>: &quot;txID&quot;</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../clients/jsonrpc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../clients/clients.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../zkas/examples.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../zkas/zkas.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -165,11 +220,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../clients/jsonrpc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../clients/clients.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../zkas/examples.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../zkas/zkas.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
