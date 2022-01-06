@@ -156,8 +156,8 @@ proper parse and analysis of the source code, so we are sure that in
 the VM, when referenced, the types shall be correct.</p>
 <p>The compiled binary blob has the following layout:</p>
 <pre><code>.constant
-CONSTANT_NAME CONSTANT_TYPE STACK_INDEX
-CONSTANT_NAME CONSTANT_TYPE STACK_INDEX
+CONSTANT_TYPE STACK_INDEX CONSTANT_NAME 
+CONSTANT_TYPE STACK_INDEX CONSTANT_NAME 
 ...
 .contract
 WITNESS_TYPE STACK_INDEX
@@ -171,9 +171,9 @@ STATEMENT_TYPE OPCODE ARG_NUM STACK_INDEX ... STACK_INDEX
 TBD
 </code></pre>
 <h2 id="constant"><a class="header" href="#constant"><code>.constant</code></a></h2>
-<p>The constants in the <code>.constant</code> section are declared with their name
-and type, so that the VM knows how to search for the builtin constant
-and add it to the stack.</p>
+<p>The constants in the <code>.constant</code> section are declared with their type
+stack index, and name, so that the VM knows how to search for the
+builtin constant and add it to the stack.</p>
 <h2 id="contract"><a class="header" href="#contract"><code>.contract</code></a></h2>
 <p>The <code>.contract</code> section holds the circuit witness values in the form
 of <code>WITNESS_TYPE</code> and <code>STACK_INDEX</code>. The witnesses that are of the same
