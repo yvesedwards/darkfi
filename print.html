@@ -571,7 +571,7 @@ TBD
 <p>The constants in the <code>.constant</code> section are declared with their name
 and type, so that the VM knows how to search for the builtin constant
 and add it to the stack.</p>
-<h2 id="contract"><a class="header" href="#contract">`.contract</a></h2>
+<h2 id="contract"><a class="header" href="#contract"><code>.contract</code></a></h2>
 <p>The <code>.contract</code> section holds the circuit witness values in the form
 of <code>WITNESS_TYPE</code> and <code>STACK_INDEX</code>. The witnesses that are of the same
 type as the circuit itself (typically <code>Base</code>) will be loaded into the
@@ -580,6 +580,9 @@ circuit as <em>private values</em> using the Halo2 <code>load_private</code> API
 <p>The <code>.circuit</code> section holds the procedural logic of the ZK proof.
 In here we have statements with opcodes that are executed as
 understood by the VM. The statements are in the form of:</p>
+<pre><code>STATEMENT_TYPE OPCODE ARG_NUM STACK_INDEX ... STACK_INDEX
+</code></pre>
+<p>where:</p>
 <ul>
 <li><code>STATEMENT_TYPE</code> - Where we currently support an assignment, and a
 call without an assignment.</li>
