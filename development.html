@@ -144,10 +144,29 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="notes-for-developers"><a class="header" href="#notes-for-developers">Notes for developers</a></h1>
+<h2 id="making-life-easy-for-others"><a class="header" href="#making-life-easy-for-others">Making life easy for others</a></h2>
+<blockquote>
+<p><strong>Write useful commit messages.</strong></p>
+</blockquote>
+<p>If your commit is changing a specific module in the code and not
+touching other parts of the codebase (as should be the case 99% of the
+time), consider writing a useful commit message that also mentions
+which module was changed.</p>
+<p>For example, a message like:</p>
+<blockquote>
+<p><code>added foo</code></p>
+</blockquote>
+<p>is not as clear as</p>
+<blockquote>
+<p><code>crypto/keypair: Added foo method for Bar struct.</code></p>
+</blockquote>
+<p>Also keep in mind that commit messages can be longer than a single
+line, so use it to your advantage to explain your commit and
+intentions.</p>
 <h2 id="cargo-fmt-pre-commit-hook"><a class="header" href="#cargo-fmt-pre-commit-hook">cargo fmt pre-commit hook</a></h2>
 <p>To ensure every contributor uses the same code style, make sure
-you run <code>cargo fmt</code> before committing. You can force yourself to do
-this by creating a git <code>pre-commit</code> hook like the following:</p>
+you run <code>cargo +nightly fmt</code> before committing. You can force yourself
+to do this by creating a git <code>pre-commit</code> hook like the following:</p>
 <pre><code class="language-shell">#!/bin/sh
 if ! cargo +nightly fmt -- --check &gt;/dev/null; then
     echo &quot;There are some code style issues. Run 'cargo fmt' to fix it.&quot;
