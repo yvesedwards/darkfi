@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="clients/clients.html"><strong aria-hidden="true">4.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="clients/jsonrpc.html"><strong aria-hidden="true">4.1.</strong> JSONRPC API</a></li></ol></li><li class="chapter-item expanded "><a href="zkas/zkas.html"><strong aria-hidden="true">5.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/bincode.html"><strong aria-hidden="true">5.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="zkas/examples.html"><strong aria-hidden="true">5.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/examples/sapling.html"><strong aria-hidden="true">5.2.1.</strong> Sapling scheme</a></li></ol></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="clients/clients.html"><strong aria-hidden="true">4.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="clients/jsonrpc.html"><strong aria-hidden="true">4.1.</strong> JSONRPC API</a></li></ol></li><li class="chapter-item expanded "><a href="zkas/zkas.html"><strong aria-hidden="true">5.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/bincode.html"><strong aria-hidden="true">5.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="zkas/examples.html"><strong aria-hidden="true">5.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/examples/sapling.html"><strong aria-hidden="true">5.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="zkas/examples/voting.html"><strong aria-hidden="true">5.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -1328,6 +1328,89 @@ Sharing</a></p>
 </div>
 <div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
 <p><a href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle tree on Wikipedia</a></p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="anonymous-voting"><a class="header" href="#anonymous-voting">Anonymous voting</a></h1>
+<p>Anonymous voting<sup class="footnote-reference"><a href="#1">1</a></sup> is a type of voting process where users can
+vote without revealing their identity, by proving they are accepted
+as valid voters.</p>
+<p>The proof enables user privacy and allows for fully anonymous voting.</p>
+<p>The starting point is a Merkle proof<sup class="footnote-reference"><a href="#2">2</a></sup>, which efficiently proves that
+a voter's key belongs to a Merkle tree. However, using this proof alone
+would allow the organizer of a process to correlate each vote envelope
+with its voter's key on the database, so votes wouldn't be secret.</p>
+<h2 id="vote-proof"><a class="header" href="#vote-proof">Vote proof</a></h2>
+<pre><code>constant &quot;Vote&quot; {
+	EcFixedPoint VALUE_COMMIT_VALUE,
+	EcFixedPoint VALUE_COMMIT_RANDOM,
+	EcFixedPoint NULLIFIER_K,
+}
+
+contract &quot;Vote&quot; {
+	Base process_id_0,
+	Base process_id_1,
+	Base secret_key,
+	Base vote,
+	Scalar vote_blind,
+	Uint32 leaf_pos,
+	MerklePath path,
+}
+
+circuit &quot;Vote&quot; {
+	# Nullifier hash
+	process_id = poseidon_hash(process_id_0, process_id_1);
+	nullifier = poseidon_hash(secret_key, process_id);
+	constrain_instance(nullifier);
+
+	# Public key derivation and hashing
+	public_key = ec_mul_base(secret_key, NULLIFIER_K);
+	public_x = ec_get_x(public_key);
+	public_y = ec_get_y(public_key);
+	pk_hash = poseidon_hash(public_x, public_y);
+
+	# Merkle root
+	root = calculate_merkle_root(leaf_pos, path, pk_hash);
+	constrain_instance(root);
+
+	# Pedersen commitment for vote
+	vcv = ec_mul_short(vote, VALUE_COMMIT_VALUE);
+	vcr = ec_mul(vote_blind, VALUE_COMMIT_RANDOM);
+	vote_commit = ec_add(vcv, vcr);
+	# Since vote_commit is a curve point, we fetch its coordinates
+	# and constrain_them:
+	vote_commit_x = ec_get_x(vote_commit);
+	vote_commit_y = ec_get_y(vote_commit);
+	constrain_instance(vote_commit_x);
+	constrain_instance(vote_commit_y);
+}
+</code></pre>
+<p>Our proof consists of four main operation. First we are hashing the
+<em>nullifier</em> using our secret key and the hashed process ID. Next,
+we derive our public key and hash it. Following, we take this hash
+and create a Merkle proof that it is indeed contained in the given
+Merkle tree. And finally, we create a <em>Pedersen commitment</em><sup class="footnote-reference"><a href="#3">3</a></sup>
+for the vote choice itself.</p>
+<p>Our vector of public inputs can look like this:</p>
+<pre><code>let public_inputs = vec![
+    nullifier,
+    merkle_root,
+    *vote_coords.x(),
+    *vote_coords.y(),
+]
+</code></pre>
+<p>And then the Verifier uses these public inputs to verify the given
+zero-knowledge proof.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Specification taken from <a href="https://docs.vocdoni.io/architecture/protocol/anonymous-voting/zk-census-proof.html">vocdoni franchise proof</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle tree on Wikipedia</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>See section 3: <em>The Commitment Scheme</em> of Torben Pryds Pedersen's
+<a href="https://link.springer.com/content/pdf/10.1007%2F3-540-46766-1_9.pdf">paper on Non-Interactive and
+Information-Theoretic Secure Verifiable Secret
+Sharing</a></p>
 </div>
 
                     </main>
