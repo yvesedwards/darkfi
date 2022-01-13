@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="development.html" class="active"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="clients/clients.html"><strong aria-hidden="true">4.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="clients/jsonrpc.html"><strong aria-hidden="true">4.1.</strong> JSONRPC API</a></li></ol></li><li class="chapter-item expanded "><a href="zkas/zkas.html"><strong aria-hidden="true">5.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/bincode.html"><strong aria-hidden="true">5.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="zkas/examples.html"><strong aria-hidden="true">5.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/examples/sapling.html"><strong aria-hidden="true">5.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="zkas/examples/voting.html"><strong aria-hidden="true">5.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="development.html" class="active"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="clients/clients.html"><strong aria-hidden="true">4.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="clients/darkfid_jsonrpc.html"><strong aria-hidden="true">4.1.</strong> darkfid JSON-RPC API</a></li></ol></li><li class="chapter-item expanded "><a href="zkas/zkas.html"><strong aria-hidden="true">5.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/bincode.html"><strong aria-hidden="true">5.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="zkas/examples.html"><strong aria-hidden="true">5.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/examples/sapling.html"><strong aria-hidden="true">5.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="zkas/examples/voting.html"><strong aria-hidden="true">5.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -177,6 +177,14 @@ exit 0
 </code></pre>
 <p>Place this script in <code>.git/hooks/pre-commit</code> and make sure it's
 executable by running <code>chmod +x .git/hooks/pre-commit</code>.</p>
+<h2 id="testing-crate-features"><a class="header" href="#testing-crate-features">Testing crate features</a></h2>
+<p>Our library heavily depends on cargo <em>features</em>. Currently
+there are more than 650 possible combinations of features to
+build the library.  To ensure everything can always compile
+and works, we can use a helper for <code>cargo</code> called
+<a href="https://github.com/taiki-e/cargo-hack"><code>cargo hack</code></a>.</p>
+<p>The <code>Makefile</code> provided in the repository is already set up to use it,
+so it's enough to install <code>cargo hack</code> and run <code>make check</code>.</p>
 
                     </main>
 

@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="clients/clients.html"><strong aria-hidden="true">4.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="clients/jsonrpc.html"><strong aria-hidden="true">4.1.</strong> JSONRPC API</a></li></ol></li><li class="chapter-item expanded "><a href="zkas/zkas.html"><strong aria-hidden="true">5.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/bincode.html"><strong aria-hidden="true">5.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="zkas/examples.html"><strong aria-hidden="true">5.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/examples/sapling.html"><strong aria-hidden="true">5.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="zkas/examples/voting.html"><strong aria-hidden="true">5.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="clients/clients.html"><strong aria-hidden="true">4.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="clients/darkfid_jsonrpc.html"><strong aria-hidden="true">4.1.</strong> darkfid JSON-RPC API</a></li></ol></li><li class="chapter-item expanded "><a href="zkas/zkas.html"><strong aria-hidden="true">5.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/bincode.html"><strong aria-hidden="true">5.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="zkas/examples.html"><strong aria-hidden="true">5.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zkas/examples/sapling.html"><strong aria-hidden="true">5.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="zkas/examples/voting.html"><strong aria-hidden="true">5.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -649,6 +649,14 @@ exit 0
 </code></pre>
 <p>Place this script in <code>.git/hooks/pre-commit</code> and make sure it's
 executable by running <code>chmod +x .git/hooks/pre-commit</code>.</p>
+<h2 id="testing-crate-features"><a class="header" href="#testing-crate-features">Testing crate features</a></h2>
+<p>Our library heavily depends on cargo <em>features</em>. Currently
+there are more than 650 possible combinations of features to
+build the library.  To ensure everything can always compile
+and works, we can use a helper for <code>cargo</code> called
+<a href="https://github.com/taiki-e/cargo-hack"><code>cargo hack</code></a>.</p>
+<p>The <code>Makefile</code> provided in the repository is already set up to use it,
+so it's enough to install <code>cargo hack</code> and run <code>make check</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="darkfi-user-tutorial"><a class="header" href="#darkfi-user-tutorial">DarkFi User Tutorial</a></h1>
 <p>Welcome to the dark renaissance. This tutorial will teach you how to
@@ -858,80 +866,115 @@ public_key = &quot;2MezH7FrtzGwtEEeTU8anM2b67Nzfv8XsojggGUavCUd&quot;
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="clients"><a class="header" href="#clients">Clients</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<h1 id="jsonrpc-api"><a class="header" href="#jsonrpc-api">JSONRPC API</a></h1>
+<h1 id="darkfid-json-rpc-api"><a class="header" href="#darkfid-json-rpc-api">darkfid JSON-RPC API</a></h1>
 <h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
 <ul>
-<li><a href="clients/jsonrpc.html#say_hello">say_hello</a></li>
-<li><a href="clients/jsonrpc.html#create_wallet">create_wallet</a></li>
-<li><a href="clients/jsonrpc.html#key_gen">key_gen</a></li>
-<li><a href="clients/jsonrpc.html#get_key">get_key</a></li>
-<li><a href="clients/jsonrpc.html#get_keys">get_keys</a></li>
-<li><a href="clients/jsonrpc.html#import_keypair">import_keypair</a></li>
-<li><a href="clients/jsonrpc.html#export_keypair">export_keypair</a></li>
-<li><a href="clients/jsonrpc.html#set_default_address">set_default_address</a></li>
-<li><a href="clients/jsonrpc.html#get_balances">get_balances</a></li>
-<li><a href="clients/jsonrpc.html#get_token_id">get_token_id</a></li>
-<li><a href="clients/jsonrpc.html#features">features</a></li>
-<li><a href="clients/jsonrpc.html#deposit">deposit</a></li>
-<li><a href="clients/jsonrpc.html#withdraw">withdraw</a></li>
-<li><a href="clients/jsonrpc.html#transfer">transfer</a></li>
+<li><a href="clients/darkfid_jsonrpc.html#say_hello"><code>say_hello</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#create_wallet"><code>create_wallet</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#key_gen"><code>key_gen</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#get_key"><code>get_key</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#get_keys"><code>get_keys</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#import_keypair"><code>import_keypair</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#export_keypair"><code>export_keypair</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#set_default_address"><code>set_default_address</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#get_balances"><code>get_balances</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#get_token_id"><code>get_token_id</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#features"><code>features</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#deposit"><code>deposit</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#withdraw"><code>withdraw</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#transfer"><code>transfer</code></a></li>
 </ul>
-<h3 id="say_hello"><a class="header" href="#say_hello">say_hello:</a></h3>
-<p><code>params</code>: []</p>
-<p><code>result</code>: &quot;helloworld&quot;</p>
-<h3 id="create_wallet"><a class="header" href="#create_wallet">create_wallet:</a></h3>
-<p><code>params</code>: []</p>
-<p><code>result</code>: true</p>
-<h3 id="key_gen"><a class="header" href="#key_gen">key_gen:</a></h3>
-<p><code>params</code>: []</p>
-<p><code>result</code>: true</p>
-<h3 id="get_key"><a class="header" href="#get_key">get_key:</a></h3>
-<p><code>params</code>: []</p>
-<p><code>result</code>: &quot;vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC&quot;</p>
-<h3 id="get_keys"><a class="header" href="#get_keys">get_keys:</a></h3>
-<p><code>params</code>: []</p>
-<p><code>result</code>: &quot;[vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC, ...]&quot;</p>
-<blockquote>
-<p><code>note</code>:  the first address in the returned vector is the default address</p>
-</blockquote>
-<h3 id="import_keypair"><a class="header" href="#import_keypair">import_keypair:</a></h3>
-<p><code>params</code>: [path]</p>
-<p><code>result</code>: true</p>
-<h3 id="export_keypair"><a class="header" href="#export_keypair">export_keypair:</a></h3>
-<p><code>params</code>: [path]</p>
-<p><code>result</code>: true</p>
-<h3 id="set_default_address"><a class="header" href="#set_default_address">set_default_address:</a></h3>
-<p><code>params</code>: [vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC]</p>
-<p><code>result</code>: true</p>
-<h3 id="get_balances"><a class="header" href="#get_balances">get_balances:</a></h3>
-<p><code>params</code>: []</p>
-<p><code>result</code>: &quot;[{&quot;btc&quot;:(value, network)}, ...]&quot;</p>
-<h3 id="get_token_id"><a class="header" href="#get_token_id">get_token_id:</a></h3>
-<p><code>params</code>: [network, token]</p>
-<p><code>result</code>: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;</p>
-<h3 id="features"><a class="header" href="#features">features:</a></h3>
-<p><code>params</code>: []</p>
-<p><code>result</code>: {&quot;network&quot;:[&quot;btc&quot;, &quot;sol&quot;]}</p>
-<h3 id="deposit-1"><a class="header" href="#deposit-1">deposit:</a></h3>
-<p><code>params</code>: [network, token, publickey]</p>
-<p><code>result</code>: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;</p>
-<blockquote>
-<p><code>note</code>:  The publickey sent here is used so the cashier can know where to send
-tokens once the deposit is received.</p>
-</blockquote>
-<h3 id="withdraw-1"><a class="header" href="#withdraw-1">withdraw:</a></h3>
-<p><code>params</code>: [network, token, publickey, amount]</p>
-<p><code>result</code>: &quot;txID&quot;</p>
-<blockquote>
-<p><code>note</code>:  The publickey sent here is the address where the caller wants to receive
+<h3 id="say_hello"><a class="header" href="#say_hello"><code>say_hello</code></a></h3>
+<p>Returns a <code>helloworld</code> string.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;say_hello&quot;, &quot;params&quot;: []}
+&lt;-- {&quot;result&quot;: &quot;helloworld&quot;}
+</code></pre>
+<h3 id="create_wallet"><a class="header" href="#create_wallet"><code>create_wallet</code></a></h3>
+<p>Attempts to initialize a wallet, and returns <code>true</code> upon success.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;create_wallet&quot;, &quot;params&quot;: []}
+&lt;-- {&quot;result&quot;: true}
+</code></pre>
+<h3 id="key_gen"><a class="header" href="#key_gen"><code>key_gen</code></a></h3>
+<p>Attempts to generate a new keypair and returns <code>true</code> upon success.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;key_gen&quot;, &quot;params&quot;: []}
+&lt;-- {&quot;result&quot;: true}
+</code></pre>
+<h3 id="get_key"><a class="header" href="#get_key"><code>get_key</code></a></h3>
+<p>Fetches the main keypair from the wallet and returns it
+in an encoded format.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;get_key&quot;, &quot;params&quot;: []}
+&lt;-- {&quot;result&quot;: &quot;vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC&quot;}
+</code></pre>
+<h3 id="get_keys"><a class="header" href="#get_keys"><code>get_keys</code></a></h3>
+<p>Fetches all keypairs from the wallet and returns a list of them
+in an encoded format.
+The first one in the list is the default selected keypair.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;get_keys&quot;, &quot;params&quot;: []}
+&lt;-- {&quot;result&quot;: &quot;[vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC,...]&quot;}
+</code></pre>
+<h3 id="import_keypair"><a class="header" href="#import_keypair"><code>import_keypair</code></a></h3>
+<p>Imports a keypair into the wallet with a given path on the filesystem.
+Returns <code>true</code> upon success.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;import_keypair&quot;, &quot;params&quot;: [path]}
+&lt;-- {&quot;result&quot;: true}
+</code></pre>
+<h3 id="export_keypair"><a class="header" href="#export_keypair"><code>export_keypair</code></a></h3>
+<p>Exports the default selected keypair to a given path on the filesystem.
+Returns <code>true</code> upon success.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;export_keypair&quot;, &quot;params&quot;: [path]}
+&lt;-- {&quot;result&quot;: true}
+</code></pre>
+<h3 id="set_default_address"><a class="header" href="#set_default_address"><code>set_default_address</code></a></h3>
+<p>Sets the default wallet address to the given parameter.
+Returns true upon success.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;set_default_address&quot;, &quot;params&quot;: [vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC]}
+&lt;-- {&quot;result&quot;: true}
+</code></pre>
+<h3 id="get_balances"><a class="header" href="#get_balances"><code>get_balances</code></a></h3>
+<p>Fetches the known balances from the wallet.
+Returns a map of balances, indexed by <code>network</code>, and token ID.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;get_balances&quot;, &quot;params&quot;: []}
+&lt;-- {&quot;result&quot;: &quot;[{&quot;btc&quot;:(value,network)},...]&quot;}
+</code></pre>
+<h3 id="get_token_id"><a class="header" href="#get_token_id"><code>get_token_id</code></a></h3>
+<p>Generates the internal token ID for a given <code>network</code> and token ticker or address.
+Returns the internal representation of the token ID.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;get_token_id&quot;, &quot;params&quot;: [network,token]}
+&lt;-- {&quot;result&quot;: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;}
+</code></pre>
+<h3 id="features"><a class="header" href="#features"><code>features</code></a></h3>
+<p>Asks the configured cashier for their supported features.
+Returns a map of features received from the requested cashier.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;features&quot;, &quot;params&quot;: []}
+&lt;-- {&quot;result&quot;: {&quot;network&quot;:[&quot;btc&quot;,&quot;sol&quot;]}}
+</code></pre>
+<h3 id="deposit-1"><a class="header" href="#deposit-1"><code>deposit</code></a></h3>
+<p>Initializes a DarkFi deposit request for a given <code>network</code>, <code>token</code>,
+and <code>publickey</code>.
+The public key send here is used so the cashier can know where to send
+the newly minted tokens once the deposit is received.
+Returns an address to which the caller is supposed to deposit funds.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;deposit&quot;, &quot;params&quot;: [network,token,publickey]}
+&lt;-- {&quot;result&quot;: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;}
+</code></pre>
+<h3 id="withdraw-1"><a class="header" href="#withdraw-1"><code>withdraw</code></a></h3>
+<p>Initializes a withdraw request for a given <code>network</code>, <code>token</code>, <code>publickey</code>,
+and <code>amount</code>.
+The publickey send here is the address where the caller wants to receive
 the tokens they plan to withdraw.
-On request, send request to cashier to get deposit address, and then transfer
-dark tokens to the cashier's wallet. Following that, the cashier should return
-a transaction ID of them sending the funds that are requested for withdrawal.</p>
-</blockquote>
-<h3 id="transfer"><a class="header" href="#transfer">transfer:</a></h3>
-<p><code>params</code>: [network, dToken, address, amount]</p>
-<p><code>result</code>: &quot;txID&quot;</p>
+On request, sends a request to a cashier to get a deposit address, and
+then transfers wrapped DarkFitokens to the cashier's wallet. Following that,
+the cashier should return a transaction ID of them sending the funds that
+are requested for withdrawal.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;withdraw&quot;, &quot;params&quot;: [network,token,publickey,amount]}
+&lt;-- {&quot;result&quot;: &quot;txID&quot;}
+</code></pre>
+<h3 id="transfer"><a class="header" href="#transfer"><code>transfer</code></a></h3>
+<p>Transfer a given wrapped DarkFi token amount to the given address.
+Returns the transaction ID of the transfer.</p>
+<pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;transfer&quot;, &quot;params&quot;: [network,dToken,address,amount]}
+&lt;-- {&quot;result&quot;: &quot;txID&quot;}
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="zkas"><a class="header" href="#zkas">zkas</a></h1>
 <p>zkas is a compiler for the Halo2 zkVM langage used in
