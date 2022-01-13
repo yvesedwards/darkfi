@@ -172,6 +172,9 @@ OPCODE ARG_NUM STACK_INDEX ... STACK_INDEX
 .debug
 TBD
 </code></pre>
+<p>Integers in the binary are encoded using variable-integer encoding.
+See <a href="../../../src/util/serial.rs"><code>serial.rs</code></a> for our Rust
+implementation.</p>
 <h2 id="magic_bytes"><a class="header" href="#magic_bytes"><code>MAGIC_BYTES</code></a></h2>
 <p>The magic bytes are the file signature consisting of four bytes used
 to identify the zkas binary code. They consist of:</p>
