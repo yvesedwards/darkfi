@@ -205,7 +205,7 @@ two constant values that we are going to use for multiplication in
 the commitments.</p>
 <p>The <code>constrain_instance</code> call can take any of our assigned variables
 and enforce a <em>public input</em>. Public inputs are an array (or vector)
-of values used as public inputs by verifiers to verify a zero knowledge
+of revealed values used by verifiers to verify a zero knowledge
 proof. In the above case of the Mint proof, since we have five calls to
 <code>constrain_instance</code>, we would also have an array of five elements that
 represent these public inputs. The array's order <strong>must match</strong> the
