@@ -980,7 +980,7 @@ are requested for withdrawal.
 <h3 id="transfer"><a class="header" href="#transfer"><code>transfer</code></a></h3>
 <p>Transfer a given wrapped DarkFi token amount to the given address.
 Returns the transaction ID of the transfer.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L661">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L659">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;method&quot;: &quot;transfer&quot;, &quot;params&quot;: [network,dToken,address,amount]}
 &lt;-- {&quot;result&quot;: &quot;txID&quot;}
 </code></pre>
@@ -1043,8 +1043,8 @@ in the VM, when referenced, the types shall be correct.</p>
 <pre><code>MAGIC_BYTES
 BINARY_VERSION
 .constant
-CONSTANT_TYPE STACK_INDEX CONSTANT_NAME 
-CONSTANT_TYPE STACK_INDEX CONSTANT_NAME 
+CONSTANT_TYPE CONSTANT_NAME 
+CONSTANT_TYPE CONSTANT_NAME 
 ...
 .contract
 WITNESS_TYPE
@@ -1073,9 +1073,9 @@ potential different formats in the future.</p>
 <p><code>0x01</code></p>
 </blockquote>
 <h2 id="constant"><a class="header" href="#constant"><code>.constant</code></a></h2>
-<p>The constants in the <code>.constant</code> section are declared with their
-type stack index, and name, so that the VM knows how to search for
-the builtin constant and add it to the stack.</p>
+<p>The constants in the <code>.constant</code> section are declared with their type
+and name, so that the VM knows how to search for the builtin constant
+and add it to the stack.</p>
 <h2 id="contract"><a class="header" href="#contract"><code>.contract</code></a></h2>
 <p>The <code>.contract</code> section holds the circuit witness values in the form
 of <code>WITNESS_TYPE</code>. Their stack index is incremented for each witness
