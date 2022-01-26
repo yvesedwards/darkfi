@@ -214,10 +214,10 @@ by their index in the array (which is incremented for every call).</p>
 <p>In other words, the vector of public inputs could look like this:</p>
 <pre><code>let public_inputs = vec![
     coin,
-    *value_coords.x();
-    *value_coords.y();
-    *token_coords.x();
-    *token_coords.y();
+    *value_coords.x(),
+    *value_coords.y(),
+    *token_coords.x(),
+    *token_coords.y(),
 ];
 </code></pre>
 <p>And then the Verifier uses these public inputs to verify a given zero
@@ -251,38 +251,106 @@ is the blinding factor, and <span class="katex"><span class="katex-html" aria-hi
 <h2 id="pseudo-code"><a class="header" href="#pseudo-code">Pseudo-code</a></h2>
 <p>Knowing this we can extend our pseudo-code and build the
 before-mentioned public inputs for the circuit:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let public_key = pallas::Point::random(&amp;mut OsRng);
-let coords = public_key.to_affine().coordinates().unwrap();
-let pub_x = *coords.x();
-let pub_y = *coords.y();
+<pre><pre class="playground"><code class="language-rust">use darkfi::{
+    crypto::{
+        keypair::PublicKey,
+        proof::{ProvingKey, VerifyingKey},
+        util::{mod_r_p, pedersen_commitment_scalar, pedersen_commitment_u64},
+        Proof,
+    },
+    zk::vm::{Witness, ZkCircuit},
+    zkas::decoder::ZkBinary,
+    Result,
+};
+use halo2_gadgets::primitives::{
+    poseidon,
+    poseidon::{ConstantLength, P128Pow5T3},
+};
+use pasta_curves::{
+    arithmetic::{CurveAffine, Field},
+    group::Curve,
+    pallas,
+};
+use rand::rngs::OsRng;
+use simplelog::{ColorChoice::Auto, Config, LevelFilter::Debug, TermLogger, TerminalMode::Mixed};
 
-let value = pallas::Base::from(42);
-let token = pallas::Base::from(1);
-let serial = pallas::Base::random(&amp;mut OsRng);
-let coin_blind = pallas::Base::random(&amp;mut OsRng);
+fn main() -&gt; Result&lt;()&gt; {
+    TermLogger::init(Debug, Config::default(), Mixed, Auto)?;
 
-let coin = poseidon::Hash(pub_x, pub_y, value, token, serial, coin_blind);
+    let bincode = include_bytes!(&quot;mint.zk.bin&quot;);
+    let zkbin = ZkBinary::decode(bincode)?;
 
-let value_blind = pallas::Scalar::random(&amp;mut OsRng);
-let value_commit = pedersen_commitment(value, value_blind);
-let value_coords = value_commit.to_affine().coordinates().unwrap();
+    // ======
+    // Prover
+    // ======
 
-let token_blind = pallas::Scalar::random(&amp;mut OsRng);
-let token_commit = pedersen_commitment(token, token_blind);
-let token_coords = token_commit.to_affine().coordinates().unwrap();
+    // Witness values
+    let value = 42;
+    let token_id = pallas::Base::from(22);
+    let value_blind = pallas::Scalar::random(&amp;mut OsRng);
+    let token_blind = pallas::Scalar::random(&amp;mut OsRng);
+    let serial = pallas::Base::random(&amp;mut OsRng);
+    let coin_blind = pallas::Base::random(&amp;mut OsRng);
+    let public_key = PublicKey::random(&amp;mut OsRng);
+    let coords = public_key.0.to_affine().coordinates().unwrap();
 
-let public_inputs = vec![
-    coin,
-    *value_coords.x(),
-    *value_coords.y(),
-    *token_coords.x(),
-    *token_coords.y(),
-];
-<span class="boring">}
-</span></code></pre></pre>
+    let prover_witnesses = vec![
+        Witness::Base(Some(*coords.x())),
+        Witness::Base(Some(*coords.y())),
+        Witness::Base(Some(pallas::Base::from(value))),
+        Witness::Base(Some(token_id)),
+        Witness::Base(Some(serial)),
+        Witness::Base(Some(coin_blind)),
+        Witness::Scalar(Some(value_blind)),
+        Witness::Scalar(Some(token_blind)),
+    ];
+
+    // Create the public inputs
+    let msgs = [*coords.x(), *coords.y(), pallas::Base::from(value), token_id, serial, coin_blind];
+    let coin = poseidon::Hash::init(P128Pow5T3, ConstantLength::&lt;6&gt;).hash(msgs);
+
+    let value_commit = pedersen_commitment_u64(value, value_blind);
+    let value_coords = value_commit.to_affine().coordinates().unwrap();
+
+    let token_commit = pedersen_commitment_scalar(mod_r_p(token_id), token_blind);
+    let token_coords = token_commit.to_affine().coordinates().unwrap();
+
+    let public_inputs =
+        vec![coin, *value_coords.x(), *value_coords.y(), *token_coords.x(), *token_coords.y()];
+
+    // Create the circuit
+    let circuit = ZkCircuit::new(prover_witnesses, zkbin.clone());
+
+    // Build the proving key and create the zero-knowledge proof
+    let proving_key = ProvingKey::build(11, &amp;circuit);
+    let proof = Proof::create(&amp;proving_key, &amp;[circuit], &amp;public_inputs)?;
+
+    // ========
+    // Verifier
+    // ========
+
+    // Construct empty witnesses
+    let verifier_witnesses = vec![
+        Witness::Base(None),
+        Witness::Base(None),
+        Witness::Base(None),
+        Witness::Base(None),
+        Witness::Base(None),
+        Witness::Base(None),
+        Witness::Scalar(None),
+        Witness::Scalar(None),
+    ];
+
+    // Create the circuit
+    let circuit = ZkCircuit::new(verifier_witnesses, zkbin);
+
+    // Build the verifying key and verify the zero-knowledge proof
+    let verifying_key = VerifyingKey::build(11, &amp;circuit);
+    proof.verify(&amp;verifying_key, &amp;public_inputs)?;
+
+    Ok(())
+}
+</code></pre></pre>
 <h2 id="burn"><a class="header" href="#burn">Burn</a></h2>
 <pre><code>constant &quot;Burn&quot; {
 	EcFixedPoint VALUE_COMMIT_VALUE,
@@ -359,13 +427,13 @@ public key derivation.</p>
 <p>In this case, our vector of public inputs could look like:</p>
 <pre><code>let public_inputs = vec![
     nullifier,
-    merkle_root,
     *value_coords.x(),
     *value_coords.y(),
     *token_coords.x(),
     *token_coords.y(),
-    *signature_coords.x(),
-    *signature_coords.y(),
+    merkle_root,
+    *sig_coords.x(),
+    *sig_coords.y(),
 ];
 </code></pre>
 <h3 id="nullifier"><a class="header" href="#nullifier">Nullifier</a></h3>
@@ -394,49 +462,106 @@ with a genera tor <span class="katex"><span class="katex-html" aria-hidden="true
 <h2 id="pseudo-code-1"><a class="header" href="#pseudo-code-1">Pseudo-code</a></h2>
 <p>Knowing this we can extend our pseudo-code and build the
 before-mentioned public inputs for the circuit:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let secret_key = pallas::Base::random(&amp;mut OsRng);
-let serial = pallas::Base::random(&amp;mut OsRng);
+<pre><pre class="playground"><code class="language-rust">use darkfi::{
+    crypto::{
+        keypair::PublicKey,
+        proof::{ProvingKey, VerifyingKey},
+        util::{mod_r_p, pedersen_commitment_scalar, pedersen_commitment_u64},
+        Proof,
+    },
+    zk::vm::{Witness, ZkCircuit},
+    zkas::decoder::ZkBinary,
+    Result,
+};
+use halo2_gadgets::primitives::{
+    poseidon,
+    poseidon::{ConstantLength, P128Pow5T3},
+};
+use pasta_curves::{
+    arithmetic::{CurveAffine, Field},
+    group::Curve,
+    pallas,
+};
+use rand::rngs::OsRng;
+use simplelog::{ColorChoice::Auto, Config, LevelFilter::Debug, TermLogger, TerminalMode::Mixed};
 
-let nullifier = poseidon::Hash(secret_key, serial);
+fn main() -&gt; Result&lt;()&gt; {
+    TermLogger::init(Debug, Config::default(), Mixed, Auto)?;
 
-let tree = BridgeTree::&lt;MerkleNode, 32&gt;::new(100);
-tree.append(some_known_coin);
-tree.witness();
-tree.append(another_known_coin);
-tree.witness();
+    let bincode = include_bytes!(&quot;mint.zk.bin&quot;);
+    let zkbin = ZkBinary::decode(bincode)?;
 
-let merkle_root = tree.root();
+    // ======
+    // Prover
+    // ======
 
-let value = pallas::Base::from(42);
-let token = pallas::Base::from(1);
+    // Witness values
+    let value = 42;
+    let token_id = pallas::Base::from(22);
+    let value_blind = pallas::Scalar::random(&amp;mut OsRng);
+    let token_blind = pallas::Scalar::random(&amp;mut OsRng);
+    let serial = pallas::Base::random(&amp;mut OsRng);
+    let coin_blind = pallas::Base::random(&amp;mut OsRng);
+    let public_key = PublicKey::random(&amp;mut OsRng);
+    let coords = public_key.0.to_affine().coordinates().unwrap();
 
-let value_blind = pallas::Scalar::random(&amp;mut OsRng);
-let value_commit = pedersen_commitment(value, value_blind);
-let value_coords = value_commit.to_affine().coordinates().unwrap();
+    let prover_witnesses = vec![
+        Witness::Base(Some(*coords.x())),
+        Witness::Base(Some(*coords.y())),
+        Witness::Base(Some(pallas::Base::from(value))),
+        Witness::Base(Some(token_id)),
+        Witness::Base(Some(serial)),
+        Witness::Base(Some(coin_blind)),
+        Witness::Scalar(Some(value_blind)),
+        Witness::Scalar(Some(token_blind)),
+    ];
 
-let token_blind = pallas::Scalar::random(&amp;mut OsRng);
-let token_commit = pedersen_commitment(token, token_blind);
-let token_coords = token_commit.to_affine().coordinates().unwrap();
+    // Create the public inputs
+    let msgs = [*coords.x(), *coords.y(), pallas::Base::from(value), token_id, serial, coin_blind];
+    let coin = poseidon::Hash::init(P128Pow5T3, ConstantLength::&lt;6&gt;).hash(msgs);
 
-let sig_secret = pallas::Base::random(&amp;mut OsRng);
-let sig_public = NullifierK.generator() * mod_r_p(sig_secret);
-let signature_coords = sig_public.to_affine().coordinates().unwrap();
+    let value_commit = pedersen_commitment_u64(value, value_blind);
+    let value_coords = value_commit.to_affine().coordinates().unwrap();
 
-let public_inputs = vec![
-    nullifier,
-    merkle_root,
-    *value_coords.x(),
-    *value_coords.y(),
-    *token_coords.x(),
-    *token_coords.y(),
-    *signature_coords.x(),
-    *signature_coords.y(),
-];
-<span class="boring">}
-</span></code></pre></pre>
+    let token_commit = pedersen_commitment_scalar(mod_r_p(token_id), token_blind);
+    let token_coords = token_commit.to_affine().coordinates().unwrap();
+
+    let public_inputs =
+        vec![coin, *value_coords.x(), *value_coords.y(), *token_coords.x(), *token_coords.y()];
+
+    // Create the circuit
+    let circuit = ZkCircuit::new(prover_witnesses, zkbin.clone());
+
+    // Build the proving key and create the zero-knowledge proof
+    let proving_key = ProvingKey::build(11, &amp;circuit);
+    let proof = Proof::create(&amp;proving_key, &amp;[circuit], &amp;public_inputs)?;
+
+    // ========
+    // Verifier
+    // ========
+
+    // Construct empty witnesses
+    let verifier_witnesses = vec![
+        Witness::Base(None),
+        Witness::Base(None),
+        Witness::Base(None),
+        Witness::Base(None),
+        Witness::Base(None),
+        Witness::Base(None),
+        Witness::Scalar(None),
+        Witness::Scalar(None),
+    ];
+
+    // Create the circuit
+    let circuit = ZkCircuit::new(verifier_witnesses, zkbin);
+
+    // Build the verifying key and verify the zero-knowledge proof
+    let verifying_key = VerifyingKey::build(11, &amp;circuit);
+    proof.verify(&amp;verifying_key, &amp;public_inputs)?;
+
+    Ok(())
+}
+</code></pre></pre>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>See section 3: <em>The Commitment Scheme</em> of Torben Pryds Pedersen's
 <a href="https://link.springer.com/content/pdf/10.1007%2F3-540-46766-1_9.pdf">paper on Non-Interactive and
