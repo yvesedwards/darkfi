@@ -298,7 +298,7 @@ before-mentioned public inputs for the circuit:</p>
     // Create the circuit
     let circuit = ZkCircuit::new(prover_witnesses, zkbin.clone());
 
-    // Build the proving key and create the zero-knowledge proof
+    info!(target: &quot;PROVER&quot;, &quot;Building proving key and creating the zero-knowledge proof&quot;);
     let proving_key = ProvingKey::build(11, &amp;circuit);
     let proof = Proof::create(&amp;proving_key, &amp;[circuit], &amp;public_inputs)?;
 
@@ -321,7 +321,7 @@ before-mentioned public inputs for the circuit:</p>
     // Create the circuit
     let circuit = ZkCircuit::new(verifier_witnesses, zkbin);
 
-    // Build the verifying key and verify the zero-knowledge proof
+    info!(target: &quot;VERIFIER&quot;, &quot;Building verifying key and verifying the zero-knowledge proof&quot;);
     let verifying_key = VerifyingKey::build(11, &amp;circuit);
     proof.verify(&amp;verifying_key, &amp;public_inputs)?;
 <span class="boring">}
@@ -527,7 +527,7 @@ before-mentioned public inputs for the circuit:</p>
     // Create the circuit
     let circuit = ZkCircuit::new(prover_witnesses, zkbin.clone());
 
-    // Build the proving key and create the zero-knowledge proof
+    info!(target: &quot;PROVER&quot;, &quot;Building proving key and creating the zero-knowledge proof&quot;);
     let proving_key = ProvingKey::build(11, &amp;circuit);
     let proof = Proof::create(&amp;proving_key, &amp;[circuit], &amp;public_inputs)?;
 
@@ -552,7 +552,7 @@ before-mentioned public inputs for the circuit:</p>
     // Create the circuit
     let circuit = ZkCircuit::new(verifier_witnesses, zkbin);
 
-    // Build the verifying key and verify the zero-knowledge proof
+    info!(target: &quot;VERIFIER&quot;, &quot;Building verifying key and verifying the zero-knowledge proof&quot;);
     let verifying_key = VerifyingKey::build(11, &amp;circuit);
     proof.verify(&amp;verifying_key, &amp;public_inputs)?;
 <span class="boring">}
