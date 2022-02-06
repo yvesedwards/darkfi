@@ -887,26 +887,26 @@ public_key = &quot;2MezH7FrtzGwtEEeTU8anM2b67Nzfv8XsojggGUavCUd&quot;
 </ul>
 <h3 id="say_hello"><a class="header" href="#say_hello"><code>say_hello</code></a></h3>
 <p>Returns a <code>helloworld</code> string.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L151">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L154">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;say_hello&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;hello world&quot;, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="create_wallet"><a class="header" href="#create_wallet"><code>create_wallet</code></a></h3>
 <p>Attempts to initialize a wallet, and returns <code>true</code> upon success.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L159">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L162">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;create_wallet&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: true, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="key_gen"><a class="header" href="#key_gen"><code>key_gen</code></a></h3>
 <p>Attempts to generate a new keypair and returns <code>true</code> upon success.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L170">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L173">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;key_gen&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: true, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="get_key"><a class="header" href="#get_key"><code>get_key</code></a></h3>
 <p>Fetches the main keypair from the wallet and returns it
 in an encoded format.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L183">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L186">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_key&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC&quot;, &quot;id&quot;: 1}
 </code></pre>
@@ -914,49 +914,49 @@ in an encoded format.
 <p>Fetches all keypairs from the wallet and returns a list of them
 in an encoded format.
 The first one in the list is the default selected keypair.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L195">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L198">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_keys&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: [&quot;vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC&quot;, &quot;...&quot;], &quot;id&quot;: 1}
 </code></pre>
 <h3 id="import_keypair"><a class="header" href="#import_keypair"><code>import_keypair</code></a></h3>
 <p>Imports a keypair into the wallet with a given path on the filesystem.
 Returns <code>true</code> upon success.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L227">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L230">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;import_keypair&quot;, &quot;params&quot;: [&quot;/path&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc:&quot; &quot;2.0&quot;, &quot;result&quot;: true, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="export_keypair"><a class="header" href="#export_keypair"><code>export_keypair</code></a></h3>
 <p>Exports the default selected keypair to a given path on the filesystem.
 Returns <code>true</code> upon success.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L272">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L275">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;export_keypair&quot;, &quot;params&quot;: [&quot;/path&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: true, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="set_default_address"><a class="header" href="#set_default_address"><code>set_default_address</code></a></h3>
 <p>Sets the default wallet address to the given parameter.
 Returns true upon success.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L310">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L313">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;set_default_address&quot;, &quot;params&quot;: [&quot;vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: true, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="get_balances"><a class="header" href="#get_balances"><code>get_balances</code></a></h3>
 <p>Fetches the known balances from the wallet.
 Returns a map of balances, indexed by <code>network</code>, and token ID.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L337">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L340">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_balances&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: [{&quot;btc&quot;: [100, &quot;Bitcoin&quot;]}, {...}], &quot;id&quot;: 1}
 </code></pre>
 <h3 id="get_token_id"><a class="header" href="#get_token_id"><code>get_token_id</code></a></h3>
 <p>Generates the internal token ID for a given <code>network</code> and token ticker or address.
 Returns the internal representation of the token ID.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L382">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L385">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_token_id&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;token&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="features"><a class="header" href="#features"><code>features</code></a></h3>
 <p>Asks the configured cashier for their supported features.
 Returns a map of features received from the requested cashier.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L449">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L452">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;features&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: {&quot;network&quot;: [&quot;btc&quot;, &quot;sol&quot;]}, &quot;id&quot;: 1}
 </code></pre>
@@ -966,7 +966,7 @@ and <code>publickey</code>.
 The public key send here is used so the cashier can know where to send
 the newly minted tokens once the deposit is received.
 Returns an address to which the caller is supposed to deposit funds.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L473">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L476">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;deposit&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;token&quot;, &quot;publickey&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;, &quot;id&quot;: 1}
 </code></pre>
@@ -979,14 +979,14 @@ On request, sends a request to a cashier to get a deposit address, and
 then transfers wrapped DarkFitokens to the cashier's wallet. Following that,
 the cashier should return a transaction ID of them sending the funds that
 are requested for withdrawal.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L544">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L547">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;withdraw&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;token&quot;, &quot;publickey&quot;, &quot;amount&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;txID&quot;, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="transfer"><a class="header" href="#transfer"><code>transfer</code></a></h3>
 <p>Transfer a given wrapped DarkFi token amount to the given address.
 Returns the transaction ID of the transfer.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L659">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L662">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;transfer&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;dToken&quot;, &quot;address&quot;, &quot;amount&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;txID&quot;, &quot;id&quot;: 1}
 </code></pre>
@@ -1001,7 +1001,7 @@ Returns the transaction ID of the transfer.
 <h3 id="deposit-2"><a class="header" href="#deposit-2"><code>deposit</code></a></h3>
 <p>Executes a deposit request given <code>network</code> and <code>token_id</code>.
 Returns the address where the deposit shall be transferred to.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L331">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L334">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;deposit&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;token&quot;, &quot;publickey&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;, &quot;id&quot;: 1}
 </code></pre>
@@ -1009,13 +1009,13 @@ Returns the address where the deposit shall be transferred to.
 <p>Executes a withdraw request given <code>network</code>, <code>token_id</code>, <code>publickey</code>
 and <code>amount</code>. <code>publickey</code> is supposed to correspond to <code>network</code>.
 Returns the transaction ID of the processed withdraw.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L462">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L465">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;withdraw&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;token&quot;, &quot;publickey&quot;, &quot;amount&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;txID&quot;, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="features-1"><a class="header" href="#features-1"><code>features</code></a></h3>
 <p>Returns supported cashier features, like network, listening ports, etc.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L549">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L552">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;features&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: {&quot;network&quot;: [&quot;btc&quot;, &quot;sol&quot;]}, &quot;id&quot;: 1}
 </code></pre>
