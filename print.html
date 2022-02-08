@@ -1129,7 +1129,7 @@ a fully private transaction between two addresses.</p>
 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span></span></span></span>, and we use the burn proof to spend a previously minted <em>coin</em>.</p>
 <h2 id="mint-proof"><a class="header" href="#mint-proof">Mint proof</a></h2>
 <pre><code>constant &quot;Mint&quot; {
-	EcFixedPoint VALUE_COMMIT_VALUE,
+	EcFixedPointShort VALUE_COMMIT_VALUE,
 	EcFixedPoint VALUE_COMMIT_RANDOM,
 }
 
@@ -1305,9 +1305,9 @@ before-mentioned public inputs for the circuit:</p>
 </span></code></pre></pre>
 <h2 id="burn"><a class="header" href="#burn">Burn</a></h2>
 <pre><code>constant &quot;Burn&quot; {
-	EcFixedPoint VALUE_COMMIT_VALUE,
+	EcFixedPointShort VALUE_COMMIT_VALUE,
 	EcFixedPoint VALUE_COMMIT_RANDOM,
-	EcFixedPoint NULLIFIER_K,
+	EcFixedPointBase NULLIFIER_K,
 }
 
 contract &quot;Burn&quot; {
