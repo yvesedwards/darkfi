@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="../IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="../development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="../tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="../clients/clients.html"><strong aria-hidden="true">4.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../clients/darkfid_jsonrpc.html"><strong aria-hidden="true">4.1.</strong> darkfid JSON-RPC API</a></li><li class="chapter-item expanded "><a href="../clients/cashierd_jsonrpc.html" class="active"><strong aria-hidden="true">4.2.</strong> cashierd JSON-RPC API</a></li></ol></li><li class="chapter-item expanded "><a href="../zkas/zkas.html"><strong aria-hidden="true">5.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/bincode.html"><strong aria-hidden="true">5.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="../zkas/examples.html"><strong aria-hidden="true">5.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples/sapling.html"><strong aria-hidden="true">5.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="../zkas/examples/voting.html"><strong aria-hidden="true">5.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="../IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="../development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="../tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="../architecture/architecture.html"><strong aria-hidden="true">4.</strong> Architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/nodes.html"><strong aria-hidden="true">4.1.</strong> Node design</a></li></ol></li><li class="chapter-item expanded "><a href="../clients/clients.html"><strong aria-hidden="true">5.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../clients/darkfid_jsonrpc.html"><strong aria-hidden="true">5.1.</strong> darkfid JSON-RPC API</a></li><li class="chapter-item expanded "><a href="../clients/cashierd_jsonrpc.html" class="active"><strong aria-hidden="true">5.2.</strong> cashierd JSON-RPC API</a></li></ol></li><li class="chapter-item expanded "><a href="../zkas/zkas.html"><strong aria-hidden="true">6.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/bincode.html"><strong aria-hidden="true">6.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="../zkas/examples.html"><strong aria-hidden="true">6.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples/sapling.html"><strong aria-hidden="true">6.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="../zkas/examples/voting.html"><strong aria-hidden="true">6.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -153,7 +153,7 @@
 <h3 id="deposit"><a class="header" href="#deposit"><code>deposit</code></a></h3>
 <p>Executes a deposit request given <code>network</code> and <code>token_id</code>.
 Returns the address where the deposit shall be transferred to.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L334">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L352">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;deposit&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;token&quot;, &quot;publickey&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;, &quot;id&quot;: 1}
 </code></pre>
@@ -161,13 +161,13 @@ Returns the address where the deposit shall be transferred to.
 <p>Executes a withdraw request given <code>network</code>, <code>token_id</code>, <code>publickey</code>
 and <code>amount</code>. <code>publickey</code> is supposed to correspond to <code>network</code>.
 Returns the transaction ID of the processed withdraw.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L465">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L483">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;withdraw&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;token&quot;, &quot;publickey&quot;, &quot;amount&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;txID&quot;, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="features"><a class="header" href="#features"><code>features</code></a></h3>
 <p>Returns supported cashier features, like network, listening ports, etc.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L552">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L570">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;features&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: {&quot;network&quot;: [&quot;btc&quot;, &quot;sol&quot;]}, &quot;id&quot;: 1}
 </code></pre>
