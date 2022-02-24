@@ -1,65 +1,67 @@
 /*
-Based off of the Ayu theme
-Original by Dempfi (https://github.com/dempfi/ayu)
-*/
+ * An increased contrast highlighting scheme loosely based on the
+ * "Base16 Atelier Dune Light" theme by Bram de Haan
+ * (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/dune)
+ * Original Base16 color scheme by Chris Kempson
+ * (https://github.com/chriskempson/base16)
+ */
 
-.hljs {
-  display: block;
-  overflow-x: auto;
-  background: #191f26;
-  color: #e6e1cf;
-  padding: 0.5em;
-}
-
+/* Comment */
 .hljs-comment,
 .hljs-quote {
-  color: #5c6773;
-  font-style: italic;
+  color: #575757;
 }
 
+/* Red */
 .hljs-variable,
 .hljs-template-variable,
 .hljs-attribute,
-.hljs-attr,
+.hljs-tag,
+.hljs-name,
 .hljs-regexp,
 .hljs-link,
+.hljs-name,
 .hljs-selector-id,
 .hljs-selector-class {
-  color: #ff7733;
+  color: #d70025;
 }
 
+/* Orange */
 .hljs-number,
 .hljs-meta,
+.hljs-built_in,
 .hljs-builtin-name,
 .hljs-literal,
 .hljs-type,
 .hljs-params {
-  color: #ffee99;
+  color: #b21e00;
 }
 
+/* Green */
 .hljs-string,
+.hljs-symbol,
 .hljs-bullet {
-  color: #b8cc52;
+  color: #008200;
 }
 
+/* Blue */
 .hljs-title,
-.hljs-built_in,
 .hljs-section {
-  color: #ffb454;
+  color: #0030f2;
 }
 
+/* Purple */
 .hljs-keyword,
-.hljs-selector-tag,
-.hljs-symbol {
-  color: #ff7733;
+.hljs-selector-tag {
+  color: #9d00ec;
 }
 
-.hljs-name {
-    color: #36a3d9;
-}
-
-.hljs-tag {
-    color: #00568d;
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #f6f7f6;
+  color: #000;
+  padding: 0.5em;
 }
 
 .hljs-emphasis {
@@ -71,9 +73,11 @@ Original by Dempfi (https://github.com/dempfi/ayu)
 }
 
 .hljs-addition {
-  color: #91b362;
+  color: #22863a;
+  background-color: #f0fff4;
 }
 
 .hljs-deletion {
-  color: #d96c75;
+  color: #b31d28;
+  background-color: #ffeef0;
 }
