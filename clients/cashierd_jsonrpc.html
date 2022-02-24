@@ -162,7 +162,7 @@
 <h3 id="deposit"><a class="header" href="#deposit"><code>deposit</code></a></h3>
 <p>Executes a deposit request given <code>network</code> and <code>token_id</code>.
 Returns the address where the deposit shall be transferred to.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L397">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L399">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;deposit&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;token&quot;, &quot;publickey&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;, &quot;id&quot;: 1}
 </code></pre>
@@ -170,13 +170,13 @@ Returns the address where the deposit shall be transferred to.
 <p>Executes a withdraw request given <code>network</code>, <code>token_id</code>, <code>publickey</code>
 and <code>amount</code>. <code>publickey</code> is supposed to correspond to <code>network</code>.
 Returns the transaction ID of the processed withdraw.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L528">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L530">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;withdraw&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;token&quot;, &quot;publickey&quot;, &quot;amount&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;txID&quot;, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="features"><a class="header" href="#features"><code>features</code></a></h3>
 <p>Returns supported cashier features, like network, listening ports, etc.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L615">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/cashierd/src/main.rs#L617">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;features&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: {&quot;network&quot;: [&quot;btc&quot;, &quot;sol&quot;]}, &quot;id&quot;: 1}
 </code></pre>
