@@ -162,24 +162,22 @@
 Please visit https://rustup.rs/ for instructions.</p>
 <p>The following dependencies are also required:</p>
 <table><thead><tr><th>Dependency</th><th>Debian-based</th></tr></thead><tbody>
-<tr><td>gcc, gcc-c++, kernel headers</td><td><code>build-essential</code></td></tr>
-<tr><td>cmake</td><td><code>cmake</code></td></tr>
-<tr><td>wget</td><td><code>wget</code></td></tr>
-<tr><td>pkg-config</td><td><code>pkg-config</code></td></tr>
-<tr><td>clang</td><td><code>clang</code></td></tr>
-<tr><td>clang libs</td><td><code>libclang-dev</code></td></tr>
-<tr><td>llvm libs</td><td><code>llvm-dev</code></td></tr>
-<tr><td>udev libs</td><td><code>libudev-dev</code></td></tr>
-<tr><td>freetype2 libs</td><td><code>libfreetype6-dev</code></td></tr>
-<tr><td>expat xml lib</td><td><code>libexpat1-dev</code></td></tr>
-<tr><td><code>io_uring</code> library (linux)</td><td><code>liburing-dev</code></td></tr>
+<tr><td>gcc, gcc-c++, kernel headers</td><td>build-essential</td></tr>
+<tr><td>cmake</td><td>cmake</td></tr>
+<tr><td>wget</td><td>wget</td></tr>
+<tr><td>pkg-config</td><td>pkg-config</td></tr>
+<tr><td>clang</td><td>clang</td></tr>
+<tr><td>clang libs</td><td>libclang-dev</td></tr>
+<tr><td>llvm libs</td><td>llvm-dev</td></tr>
+<tr><td>udev libs</td><td>libudev-dev</td></tr>
+<tr><td>freetype2 libs</td><td>libfreetype6-dev</td></tr>
+<tr><td>expat xml lib</td><td>libexpat1-dev</td></tr>
 </tbody></table>
 <p>Users of Debian-based systems (e.g. Ubuntu) can simply run the following 
 to install the required dependencies:</p>
 <pre><code class="language-shell">% sudo apt-get update
 % sudo apt-get install -y build-essential cmake wget pkg-config clang \
-    libclang-dev llvm-dev libudev-dev libfreetype6-dev libexpat1-dev \
-    liburing-dev
+    libclang-dev llvm-dev libudev-dev libfreetype6-dev libexpat1-dev
 </code></pre>
 <p>To build the necessary binaries, we can just clone the repo, and use the 
 provided Makefile to build the project. This will download the trusted 
