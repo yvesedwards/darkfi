@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="../IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="../development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="../tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="../architecture/architecture.html"><strong aria-hidden="true">4.</strong> Architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/blockchain.html"><strong aria-hidden="true">4.1.</strong> Blockchain</a></li><li class="chapter-item expanded "><a href="../architecture/nodes.html"><strong aria-hidden="true">4.2.</strong> Node design</a></li></ol></li><li class="chapter-item expanded "><a href="../clients/clients.html"><strong aria-hidden="true">5.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../clients/darkfid_jsonrpc.html"><strong aria-hidden="true">5.1.</strong> darkfid JSON-RPC API</a></li><li class="chapter-item expanded "><a href="../clients/cashierd_jsonrpc.html"><strong aria-hidden="true">5.2.</strong> cashierd JSON-RPC API</a></li></ol></li><li class="chapter-item expanded "><a href="../zkas/zkas.html" class="active"><strong aria-hidden="true">6.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/bincode.html"><strong aria-hidden="true">6.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="../zkas/examples.html"><strong aria-hidden="true">6.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples/sapling.html"><strong aria-hidden="true">6.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="../zkas/examples/voting.html"><strong aria-hidden="true">6.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../misc/misc.html"><strong aria-hidden="true">7.</strong> Miscellaneous tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../misc/vanityaddr.html"><strong aria-hidden="true">7.1.</strong> vanityaddr</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="../IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="../development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="../tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="../architecture/architecture.html"><strong aria-hidden="true">4.</strong> Architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/blockchain.html"><strong aria-hidden="true">4.1.</strong> Blockchain</a></li><li class="chapter-item expanded "><a href="../architecture/nodes.html"><strong aria-hidden="true">4.2.</strong> Node design</a></li></ol></li><li class="chapter-item expanded "><a href="../clients/clients.html"><strong aria-hidden="true">5.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../clients/darkfid_jsonrpc.html"><strong aria-hidden="true">5.1.</strong> darkfid JSON-RPC API</a></li><li class="chapter-item expanded "><a href="../clients/cashierd_jsonrpc.html"><strong aria-hidden="true">5.2.</strong> cashierd JSON-RPC API</a></li></ol></li><li class="chapter-item expanded "><a href="../zkas/zkas.html"><strong aria-hidden="true">6.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/bincode.html"><strong aria-hidden="true">6.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="../zkas/examples.html"><strong aria-hidden="true">6.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples/sapling.html"><strong aria-hidden="true">6.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="../zkas/examples/voting.html"><strong aria-hidden="true">6.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../misc/misc.html"><strong aria-hidden="true">7.</strong> Miscellaneous tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../misc/vanityaddr.html" class="active"><strong aria-hidden="true">7.1.</strong> vanityaddr</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -115,7 +115,7 @@
                     <script type="text/javascript">
                         var bookTitleElement = document.getElementById('book-title')
                         var bookTitle = 'The DarkFi Book';
-                        var chapterTitle = 'zkas';
+                        var chapterTitle = 'vanityaddr';
                         if (bookTitle === chapterTitle) {
                             bookTitleElement.innerText = null;
                             document.title = bookTitle;
@@ -152,30 +152,44 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<h1 id="zkas"><a class="header" href="#zkas">zkas</a></h1>
-<p>zkas is a compiler for the Halo2 zkVM language used in
-<a href="https://github.com/darkrenaissance/darkfi">DarkFi</a>.</p>
-<p>The current implementation found in the DarkFi repository inside
-<a href="https://github.com/darkrenaissance/darkfi/tree/master/src/zkas"><code>src/zkas</code></a>
-is the reference compiler and language implementation. It is a
-toolchain consisting of a lexer, parser, static and semantic analyzers,
-and a binary code compiler.</p>
-<p>The
-<a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/zkas/src/main.rs"><code>main.rs</code></a>
-file shows how this toolchain is put together to produce binary code
-from source code.</p>
+<h1 id="vanityaddr"><a class="header" href="#vanityaddr">vanityaddr</a></h1>
+<p>A tool for Vanity address generation for DarkFi keypairs. Given some
+prefix, the tool will bruteforce secret keys to find one which, when
+derived into an address, starts with a given prefix.</p>
+<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
+<pre><code>vanityaddr 0.3.0
+Vanity address generation tool for DarkFi keypairs.
+
+USAGE:
+    vanityaddr [OPTIONS] &lt;PREFIX&gt;
+
+ARGS:
+    &lt;PREFIX&gt;    Prefix to search (must start with 1)
+
+OPTIONS:
+    -c                  Should the search be case-sensitive
+    -h, --help          Print help information
+    -t &lt;THREADS&gt;        Number of threads to use (defaults to number of available CPUs)
+    -V, --version       Print version information
+</code></pre>
+<p>We can use the tool in our command line:</p>
+<pre><code>% vanityaddr 1Foo
+[00:00:05] 53370 attempts
+</code></pre>
+<p>And the program will start crunching numbers. After a period of time,
+we will get JSON output containing an address, secret key, and the
+number of attempts it took to find the secret key.</p>
+<pre><code>{&quot;address&quot;:&quot;1FoomByzBBQywKaeBB5XPkAm5eCboh8K4CBhBe9uKbJm3kEiCS&quot;,&quot;attempts&quot;:78418,&quot;secret&quot;:&quot;0x16545da4a401adcd035ef51c8040acf5f4f1c66c0dd290bb5ec9e95991ae3615&quot;}
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../clients/cashierd_jsonrpc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../misc/misc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../zkas/bincode.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -183,13 +197,10 @@ from source code.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../clients/cashierd_jsonrpc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../misc/misc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../zkas/bincode.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>
