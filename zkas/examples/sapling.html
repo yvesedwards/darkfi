@@ -315,16 +315,7 @@ before-mentioned public inputs for the circuit:</p>
     // ========
 
     // Construct empty witnesses
-    let verifier_witnesses = vec![
-        Witness::Base(None),
-        Witness::Base(None),
-        Witness::Base(None),
-        Witness::Base(None),
-        Witness::Base(None),
-        Witness::Base(None),
-        Witness::Scalar(None),
-        Witness::Scalar(None),
-    ];
+    let verifier_witnesses = empty_witnesses(&amp;zkbin);
 
     // Create the circuit
     let circuit = ZkCircuit::new(verifier_witnesses, zkbin);
@@ -543,18 +534,7 @@ before-mentioned public inputs for the circuit:</p>
     // ========
 
     // Construct empty witnesses
-    let verifier_witnesses = vec![
-        Witness::Base(None),
-        Witness::Base(None),
-        Witness::Base(None),
-        Witness::Base(None),
-        Witness::Base(None),
-        Witness::Scalar(None),
-        Witness::Scalar(None),
-        Witness::Uint32(None),
-        Witness::MerklePath(None),
-        Witness::Base(None),
-    ];
+    let verifier_witnesses = empty_witnesses(&amp;zkbin);
 
     // Create the circuit
     let circuit = ZkCircuit::new(verifier_witnesses, zkbin);
