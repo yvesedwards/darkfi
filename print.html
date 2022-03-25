@@ -1389,7 +1389,7 @@ before-mentioned public inputs for the circuit:</p>
     // Create the circuit
     let circuit = ZkCircuit::new(prover_witnesses, zkbin.clone());
 
-    let proving_key = ProvingKey::build(11, &amp;circuit);
+    let proving_key = ProvingKey::build(13, &amp;circuit);
     let proof = Proof::create(&amp;proving_key, &amp;[circuit], &amp;public_inputs, &amp;mut OsRng)?;
 
     // ========
@@ -1402,7 +1402,7 @@ before-mentioned public inputs for the circuit:</p>
     // Create the circuit
     let circuit = ZkCircuit::new(verifier_witnesses, zkbin);
 
-    let verifying_key = VerifyingKey::build(11, &amp;circuit);
+    let verifying_key = VerifyingKey::build(13, &amp;circuit);
     proof.verify(&amp;verifying_key, &amp;public_inputs)?;
 <span class="boring">}
 </span></code></pre></pre>
@@ -1608,7 +1608,7 @@ before-mentioned public inputs for the circuit:</p>
     // Create the circuit
     let circuit = ZkCircuit::new(prover_witnesses, zkbin.clone());
 
-    let proving_key = ProvingKey::build(11, &amp;circuit);
+    let proving_key = ProvingKey::build(13, &amp;circuit);
     let proof = Proof::create(&amp;proving_key, &amp;[circuit], &amp;public_inputs, &amp;mut OsRng)?;
 
     // ========
@@ -1621,7 +1621,7 @@ before-mentioned public inputs for the circuit:</p>
     // Create the circuit
     let circuit = ZkCircuit::new(verifier_witnesses, zkbin);
 
-    let verifying_key = VerifyingKey::build(11, &amp;circuit);
+    let verifying_key = VerifyingKey::build(13, &amp;circuit);
     proof.verify(&amp;verifying_key, &amp;public_inputs)?;
 <span class="boring">}
 </span></code></pre></pre>
