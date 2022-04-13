@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="../IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="../development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="../tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="../architecture/architecture.html"><strong aria-hidden="true">4.</strong> Architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/blockchain.html"><strong aria-hidden="true">4.1.</strong> Blockchain</a></li><li class="chapter-item expanded "><a href="../architecture/nodes.html" class="active"><strong aria-hidden="true">4.2.</strong> Node design</a></li></ol></li><li class="chapter-item expanded "><a href="../clients/clients.html"><strong aria-hidden="true">5.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../clients/darkfid_jsonrpc.html"><strong aria-hidden="true">5.1.</strong> darkfid JSON-RPC API</a></li><li class="chapter-item expanded "><a href="../clients/cashierd_jsonrpc.html"><strong aria-hidden="true">5.2.</strong> cashierd JSON-RPC API</a></li></ol></li><li class="chapter-item expanded "><a href="../zkas/zkas.html"><strong aria-hidden="true">6.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/bincode.html"><strong aria-hidden="true">6.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="../zkas/examples.html"><strong aria-hidden="true">6.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples/sapling.html"><strong aria-hidden="true">6.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="../zkas/examples/voting.html"><strong aria-hidden="true">6.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../misc/misc.html"><strong aria-hidden="true">7.</strong> Miscellaneous tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../misc/vanityaddr.html"><strong aria-hidden="true">7.1.</strong> vanityaddr</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="../IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="../development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="../tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="../architecture/architecture.html"><strong aria-hidden="true">4.</strong> Architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/blockchain.html"><strong aria-hidden="true">4.1.</strong> Blockchain</a></li><li class="chapter-item expanded "><a href="../architecture/dna.html" class="active"><strong aria-hidden="true">4.2.</strong> DNA</a></li></ol></li><li class="chapter-item expanded "><a href="../clients/clients.html"><strong aria-hidden="true">5.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../clients/darkfid_jsonrpc.html"><strong aria-hidden="true">5.1.</strong> darkfid JSON-RPC API</a></li><li class="chapter-item expanded "><a href="../clients/cashierd_jsonrpc.html"><strong aria-hidden="true">5.2.</strong> cashierd JSON-RPC API</a></li></ol></li><li class="chapter-item expanded "><a href="../zkas/zkas.html"><strong aria-hidden="true">6.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/bincode.html"><strong aria-hidden="true">6.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="../zkas/examples.html"><strong aria-hidden="true">6.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples/sapling.html"><strong aria-hidden="true">6.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="../zkas/examples/voting.html"><strong aria-hidden="true">6.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../misc/misc.html"><strong aria-hidden="true">7.</strong> Miscellaneous tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../misc/vanityaddr.html"><strong aria-hidden="true">7.1.</strong> vanityaddr</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -115,7 +115,7 @@
                     <script type="text/javascript">
                         var bookTitleElement = document.getElementById('book-title')
                         var bookTitle = 'The DarkFi Book';
-                        var chapterTitle = 'Node design';
+                        var chapterTitle = 'DNA';
                         if (bookTitle === chapterTitle) {
                             bookTitleElement.innerText = null;
                             document.title = bookTitle;
@@ -152,9 +152,89 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<h1 id="darkfi-nodes"><a class="header" href="#darkfi-nodes">DarkFi nodes</a></h1>
-<p>The core daemon used for wallet management, transaction building, and
-general operations is called <code>darkfid</code>.</p>
+<h1 id="darkfi-node-architecture-dna"><a class="header" href="#darkfi-node-architecture-dna">DarkFi Node Architecture (DNA)</a></h1>
+<p>The DarkFi ecosystem runs as a network of P2P nodes, where these
+nodes interact with each other over specific protocols. Below in
+this document, we'll explain how each of the programs fit together
+and when combined create a functioning network that becomes DarkFi.</p>
+<p>The layers are organized as a bottom-up pyramid, much like the
+DarkFi logo:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∖</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">or</span><span class="mord mathnormal">d</span><span class="mord">/</span></span></span></span></span>
+<span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∖</span><span class="mord mathnormal">d</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord">/</span></span></span></span></span>
+<span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∖</span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mord">/</span></span></span></span></span></p>
+<p>We will start with the top-level daemon - <code>validatord</code> - which
+serves as the consensus and data storage layer, then we will explain
+<code>darkfid</code> and its communication with the layer above (<code>validatord</code>),
+and the layer below (<code>drk</code>).</p>
+<p>An abstract view of the network looks like the following:</p>
+<pre><code>[drk] &lt;--&gt; [darkfid] &lt;--&gt; [validatord] &lt;-+
+                                         |
+[drk] &lt;--&gt; [darkfid] &lt;--&gt; [validatord] &lt;-+
+</code></pre>
+<h2 id="validatord"><a class="header" href="#validatord">validatord</a></h2>
+<p><code>validatord</code> is the DarkFi consensus and data storage layer. Everyone
+that runs a validator participates in the network as a data archive,
+and is able to store incoming transactions, and relay them to
+other validators over the P2P network and protocol. Additionally,
+storing this data allows others to replicate it and participate in
+the same way.</p>
+<p>Provided there is a locked stake on a running validator, the node
+can also participate in the Proof-of-Stake consensus, enabling the
+ability to vote on incoming transactions rather than just relaying
+(and validating) them.</p>
+<p>In case the node is not participating in the consensus, it should still
+relay incoming transactions to other (ideally consensus-participating)
+validators in the network.</p>
+<h3 id="inner-workings"><a class="header" href="#inner-workings">Inner workings</a></h3>
+<p>In its database, <code>validatord</code> stores transactions and blocks that
+have reached consensus. This is commonly known as a <em>&quot;blockchain&quot;</em>.
+The blockchain is a shared state that is replicated between all
+validators in the network.</p>
+<p>Additionally, validators keep a pool of incoming transactions
+and proposed blocks, which get validated and voted on by the
+consensus-participating validators.</p>
+<p>The lifetime of an incoming transaction (and block) is as follows:</p>
+<ol>
+<li>Wait for a transaction</li>
+<li>Validate incoming transaction (and go back to 1. if invalid)</li>
+<li>Broadcast transaction to other validators in the network</li>
+<li>Other validators validate transaction (and go back to 1. if invalid)</li>
+<li>Leader validates the state transition and proposes a block</li>
+<li>Consensus-participating nodes validate the state transition and
+vote on the proposed block if the state transition is valid.</li>
+<li>If the block is confirmed, it is appended to the <em>blockchain</em> and
+is replicated between all validators in the network.</li>
+</ol>
+<h2 id="darkfid"><a class="header" href="#darkfid">darkfid</a></h2>
+<p><code>TODO: Initial sync and retrieving wallet state?</code></p>
+<p><code>darkfid</code> is the client layer of DarkFi used for wallet management
+and transaction broadcasting. The wallet keeps a history of balances,
+<em>coins</em>, <em>nullifiers</em>, and <em>merkle roots</em> that are necessary in order
+to create new transactions.</p>
+<p>By design, <code>darkfid</code> is a light client, since <code>validatord</code> stores all
+the blockchain data, and <code>darkfid</code> can simply query for anything it
+is interested in. This allows us to avoid data duplication and simply
+utilize our modular architecture. This also means that <code>darkfid</code> can
+easily be replaced with more specific tooling, if need be.</p>
+<h3 id="inner-workings-1"><a class="header" href="#inner-workings-1">Inner workings</a></h3>
+<p>Using the P2P network and protocol, <code>darkfid</code> can subscribe to
+<code>validatord</code> in order to receive new <em>nullifiers</em> and <em>merkle roots</em>
+whenever a new block is confirmed. This allows <code>darkfid</code> to update
+its local state and enables it to create new valid transactions.</p>
+<p><code>darkfid</code> exposes a JSON-RPC endpoint for clients to interact with it.
+This allows a number of things, such as: listing balances, creating
+and submitting transactions, key management, and more.</p>
+<p>When creating a new transactions, <code>darkfid</code> uses the local synced state
+in order to create new <em>coins</em> and combine them in a transaction. This
+transaction is then submitted to the above validator layer where the
+transaction will get validated and voted on in order to be included
+into a block.</p>
+<h2 id="drk"><a class="header" href="#drk">drk</a></h2>
+<p><code>drk</code> is a client tool that interacts with <code>darkfid</code> in a user-friendly
+way and provides a command-line interface to the DarkFi network and
+its functionality.</p>
+<p>The interaction with <code>darkfid</code> is done over the JSON-RPC protocol
+and communicates with the endpoint exposed by <code>darkfid</code>.</p>
 
                     </main>
 
