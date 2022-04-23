@@ -153,127 +153,76 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="darkfid-json-rpc-api"><a class="header" href="#darkfid-json-rpc-api">darkfid JSON-RPC API</a></h1>
-<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
+<h2 id="blockchain-methods"><a class="header" href="#blockchain-methods">blockchain methods</a></h2>
 <ul>
-<li><a href="#say_hello"><code>say_hello</code></a></li>
-<li><a href="#create_wallet"><code>create_wallet</code></a></li>
-<li><a href="#key_gen"><code>key_gen</code></a></li>
-<li><a href="#get_key"><code>get_key</code></a></li>
-<li><a href="#get_keys"><code>get_keys</code></a></li>
-<li><a href="#import_keypair"><code>import_keypair</code></a></li>
-<li><a href="#export_keypair"><code>export_keypair</code></a></li>
-<li><a href="#set_default_address"><code>set_default_address</code></a></li>
-<li><a href="#get_balances"><code>get_balances</code></a></li>
-<li><a href="#get_token_id"><code>get_token_id</code></a></li>
-<li><a href="#features"><code>features</code></a></li>
-<li><a href="#deposit"><code>deposit</code></a></li>
-<li><a href="#withdraw"><code>withdraw</code></a></li>
-<li><a href="#transfer"><code>transfer</code></a></li>
+<li><a href="#blockchainget_slot"><code>blockchain.get_slot</code></a></li>
 </ul>
-<h3 id="say_hello"><a class="header" href="#say_hello"><code>say_hello</code></a></h3>
-<p>Returns a <code>helloworld</code> string.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L209">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;say_hello&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
-&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;hello world&quot;, &quot;id&quot;: 1}
+<h3 id="blockchainget_slot"><a class="header" href="#blockchainget_slot"><code>blockchain.get_slot</code></a></h3>
+<p>Queries the blockchain database for a block in the given slot.
+Returns a readable block upon success.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid2/src/rpc_blockchain.rs#L21">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.get_slot&quot;, &quot;params&quot;: [0], &quot;id&quot;: 1}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: {...}, &quot;id&quot;: 1}
 </code></pre>
-<h3 id="create_wallet"><a class="header" href="#create_wallet"><code>create_wallet</code></a></h3>
-<p>Attempts to initialize a wallet, and returns <code>true</code> upon success.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L217">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;create_wallet&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
-&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: true, &quot;id&quot;: 1}
+<h2 id="wallet-methods"><a class="header" href="#wallet-methods">wallet methods</a></h2>
+<ul>
+<li><a href="#walletkeygen"><code>wallet.keygen</code></a></li>
+<li><a href="#walletget_key"><code>wallet.get_key</code></a></li>
+<li><a href="#walletexport_keypair"><code>wallet.export_keypair</code></a></li>
+<li><a href="#walletimport_keypair"><code>wallet.import_keypair</code></a></li>
+<li><a href="#walletset_default_address"><code>wallet.set_default_address</code></a></li>
+<li><a href="#walletget_balances"><code>wallet.get_balances</code></a></li>
+</ul>
+<h3 id="walletkeygen"><a class="header" href="#walletkeygen"><code>wallet.keygen</code></a></h3>
+<p>Attempts to generate a new keypair and returns its address upon success.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid2/src/rpc_wallet.rs#L30">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;wallet.keygen&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;1DarkFi...&quot;, &quot;id&quot;: 1}
 </code></pre>
-<h3 id="key_gen"><a class="header" href="#key_gen"><code>key_gen</code></a></h3>
-<p>Attempts to generate a new keypair and returns <code>true</code> upon success.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L228">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;key_gen&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
-&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: true, &quot;id&quot;: 1}
+<h3 id="walletget_key"><a class="header" href="#walletget_key"><code>wallet.get_key</code></a></h3>
+<p>Fetches public keys by given indexes from the wallet and returns it in an
+encoded format. <code>-1</code> is supported to fetch all available keys.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid2/src/rpc_wallet.rs#L45">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;wallet.get_key&quot;, &quot;params&quot;: [1, 2], &quot;id&quot;: 1}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: [&quot;foo&quot;, &quot;bar&quot;], &quot;id&quot;: 1}
 </code></pre>
-<h3 id="get_key"><a class="header" href="#get_key"><code>get_key</code></a></h3>
-<p>Fetches the main keypair from the wallet and returns it
-in an encoded format.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L241">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_key&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
-&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC&quot;, &quot;id&quot;: 1}
+<h3 id="walletexport_keypair"><a class="header" href="#walletexport_keypair"><code>wallet.export_keypair</code></a></h3>
+<p>Exports the given keypair index.
+Returns the encoded secret key upon success.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid2/src/rpc_wallet.rs#L99">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;wallet.export_keypair&quot;, &quot;params&quot;: [0], &quot;id&quot;: 1}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;foobar&quot;, &quot;id&quot;: 1}
 </code></pre>
-<h3 id="get_keys"><a class="header" href="#get_keys"><code>get_keys</code></a></h3>
-<p>Fetches all keypairs from the wallet and returns a list of them
-in an encoded format.
-The first one in the list is the default selected keypair.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L253">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_keys&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
-&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: [&quot;vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC&quot;, &quot;...&quot;], &quot;id&quot;: 1}
+<h3 id="walletimport_keypair"><a class="header" href="#walletimport_keypair"><code>wallet.import_keypair</code></a></h3>
+<p>Imports a given secret key into the wallet as a keypair.
+Returns the public counterpart as the result upon success.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid2/src/rpc_wallet.rs#L124">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;wallet.import_keypair&quot;, &quot;params&quot;: [&quot;foobar&quot;], &quot;id&quot;: 1}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;pubfoobar&quot;, &quot;id&quot;: 1}
 </code></pre>
-<h3 id="import_keypair"><a class="header" href="#import_keypair"><code>import_keypair</code></a></h3>
-<p>Imports a keypair into the wallet with a given path on the filesystem.
+<h3 id="walletset_default_address"><a class="header" href="#walletset_default_address"><code>wallet.set_default_address</code></a></h3>
+<p>Sets the default wallet address to the given index.
 Returns <code>true</code> upon success.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L285">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;import_keypair&quot;, &quot;params&quot;: [&quot;/path&quot;], &quot;id&quot;: 1}
-&lt;-- {&quot;jsonrpc:&quot; &quot;2.0&quot;, &quot;result&quot;: true, &quot;id&quot;: 1}
-</code></pre>
-<h3 id="export_keypair"><a class="header" href="#export_keypair"><code>export_keypair</code></a></h3>
-<p>Exports the default selected keypair to a given path on the filesystem.
-Returns <code>true</code> upon success.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L330">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;export_keypair&quot;, &quot;params&quot;: [&quot;/path&quot;], &quot;id&quot;: 1}
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid2/src/rpc_wallet.rs#L165">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;wallet.set_default_address&quot;, &quot;params&quot;: [2], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: true, &quot;id&quot;: 1}
 </code></pre>
-<h3 id="set_default_address"><a class="header" href="#set_default_address"><code>set_default_address</code></a></h3>
-<p>Sets the default wallet address to the given parameter.
-Returns true upon success.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L368">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;set_default_address&quot;, &quot;params&quot;: [&quot;vdNS7oBj7KvsMWWmo9r96SV4SqATLrGsH2a3PGpCfJC&quot;], &quot;id&quot;: 1}
-&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: true, &quot;id&quot;: 1}
-</code></pre>
-<h3 id="get_balances"><a class="header" href="#get_balances"><code>get_balances</code></a></h3>
-<p>Fetches the known balances from the wallet.
+<h3 id="walletget_balances"><a class="header" href="#walletget_balances"><code>wallet.get_balances</code></a></h3>
+<p>Queries the wallet for known balances.
 Returns a map of balances, indexed by <code>network</code>, and token ID.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L395">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_balances&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid2/src/rpc_wallet.rs#L201">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;wallet.get_balances&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: [{&quot;btc&quot;: [100, &quot;Bitcoin&quot;]}, {...}], &quot;id&quot;: 1}
 </code></pre>
-<h3 id="get_token_id"><a class="header" href="#get_token_id"><code>get_token_id</code></a></h3>
-<p>Generates the internal token ID for a given <code>network</code> and token ticker or address.
-Returns the internal representation of the token ID.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L440">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_token_id&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;token&quot;], &quot;id&quot;: 1}
-&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;, &quot;id&quot;: 1}
-</code></pre>
-<h3 id="features"><a class="header" href="#features"><code>features</code></a></h3>
-<p>Asks the configured cashier for their supported features.
-Returns a map of features received from the requested cashier.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L507">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;features&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
-&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: {&quot;network&quot;: [&quot;btc&quot;, &quot;sol&quot;]}, &quot;id&quot;: 1}
-</code></pre>
-<h3 id="deposit"><a class="header" href="#deposit"><code>deposit</code></a></h3>
-<p>Initializes a DarkFi deposit request for a given <code>network</code>, <code>token</code>,
-and <code>publickey</code>.
-The public key send here is used so the cashier can know where to send
-the newly minted tokens once the deposit is received.
-Returns an address to which the caller is supposed to deposit funds.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L531">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;deposit&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;token&quot;, &quot;publickey&quot;], &quot;id&quot;: 1}
-&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;Ht5G1RhkcKnpLVLMhqJc5aqZ4wYUEbxbtZwGCVbgU7DL&quot;, &quot;id&quot;: 1}
-</code></pre>
-<h3 id="withdraw"><a class="header" href="#withdraw"><code>withdraw</code></a></h3>
-<p>Initializes a withdraw request for a given <code>network</code>, <code>token</code>, <code>publickey</code>,
-and <code>amount</code>.
-The publickey send here is the address where the caller wants to receive
-the tokens they plan to withdraw.
-On request, sends a request to a cashier to get a deposit address, and
-then transfers wrapped DarkFitokens to the cashier's wallet. Following that,
-the cashier should return a transaction ID of them sending the funds that
-are requested for withdrawal.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L605">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;withdraw&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;token&quot;, &quot;publickey&quot;, &quot;amount&quot;], &quot;id&quot;: 1}
-&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;txID&quot;, &quot;id&quot;: 1}
-</code></pre>
-<h3 id="transfer"><a class="header" href="#transfer"><code>transfer</code></a></h3>
-<p>Transfer a given wrapped DarkFi token amount to the given address.
-Returns the transaction ID of the transfer.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/main.rs#L725">[src]</a></sup></p>
-<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;transfer&quot;, &quot;params&quot;: [&quot;network&quot;, &quot;dToken&quot;, &quot;address&quot;, &quot;amount&quot;], &quot;id&quot;: 1}
-&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;txID&quot;, &quot;id&quot;: 1}
+<h2 id="miscellaneous-methods"><a class="header" href="#miscellaneous-methods">miscellaneous methods</a></h2>
+<ul>
+<li><a href="#ping"><code>ping</code></a></li>
+</ul>
+<h3 id="ping"><a class="header" href="#ping"><code>ping</code></a></h3>
+<p>Returns a <code>pong</code> to the <code>ping</code> request.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid2/src/rpc_misc.rs#L12">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;ping&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;pong&quot;, &quot;id&quot;: 1}
 </code></pre>
 
                     </main>

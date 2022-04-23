@@ -164,6 +164,7 @@ Please visit https://rustup.rs/ for instructions.</p>
 <table><thead><tr><th>Dependency</th><th>Debian-based</th></tr></thead><tbody>
 <tr><td>gcc, gcc-c++, kernel headers</td><td>build-essential</td></tr>
 <tr><td>cmake</td><td>cmake</td></tr>
+<tr><td>jq</td><td>jq</td></tr>
 <tr><td>wget</td><td>wget</td></tr>
 <tr><td>pkg-config</td><td>pkg-config</td></tr>
 <tr><td>clang</td><td>clang</td></tr>
@@ -175,9 +176,10 @@ Please visit https://rustup.rs/ for instructions.</p>
 </tbody></table>
 <p>Users of Debian-based systems (e.g. Ubuntu) can simply run the following 
 to install the required dependencies:</p>
-<pre><code class="language-shell">% sudo apt-get update
-% sudo apt-get install -y build-essential cmake wget pkg-config clang \
-    libclang-dev llvm-dev libudev-dev libfreetype6-dev libexpat1-dev
+<pre><code class="language-shell"># apt-get update
+# apt-get install -y build-essential cmake jq wget pkg-config \
+    clang libclang-dev llvm-dev libudev-dev libfreetype6-dev \
+    libexpat1-dev
 </code></pre>
 <p>To build the necessary binaries, we can just clone the repo, and use the 
 provided Makefile to build the project. This will download the trusted 
@@ -195,7 +197,7 @@ introductory advice in the
 default). The configuration files for the binaries are bundled with the
 binaries and contain sane defaults. You'll have to run each daemon once
 in order for them to spawn a config file, which you can then review.</p>
-<pre><code class="language-shell">% sudo make install
+<pre><code class="language-shell"># make install
 </code></pre>
 <h2 id="bash-completion"><a class="header" href="#bash-completion">Bash Completion</a></h2>
 <p>This will add the options auto completion of <code>drk</code> and <code>darkfid</code>.</p>
