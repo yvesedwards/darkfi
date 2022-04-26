@@ -164,6 +164,17 @@ Returns a readable block upon success.
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.get_slot&quot;, &quot;params&quot;: [0], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: {...}, &quot;id&quot;: 1}
 </code></pre>
+<h2 id="tx-methods"><a class="header" href="#tx-methods">tx methods</a></h2>
+<ul>
+<li><a href="#txtransfer"><code>tx.transfer</code></a></li>
+</ul>
+<h3 id="txtransfer"><a class="header" href="#txtransfer"><code>tx.transfer</code></a></h3>
+<p>Transfer a given amount of some token to the given address.
+Returns a transaction ID upon success.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid2/src/rpc_tx.rs#L31">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;tx.transfer&quot;, &quot;params&quot;: [&quot;darkfi&quot; &quot;gdrk&quot;, &quot;1DarkFi...&quot;, 12.0], &quot;id&quot;: 1}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;txID...&quot;, &quot;id&quot;: 1}
+</code></pre>
 <h2 id="wallet-methods"><a class="header" href="#wallet-methods">wallet methods</a></h2>
 <ul>
 <li><a href="#walletkeygen"><code>wallet.keygen</code></a></li>
@@ -214,7 +225,7 @@ Returns a map of balances, indexed by <code>network</code>, and token ID.
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;wallet.get_balances&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: [{&quot;btc&quot;: [100, &quot;Bitcoin&quot;]}, {...}], &quot;id&quot;: 1}
 </code></pre>
-<h2 id="miscellaneous-methods"><a class="header" href="#miscellaneous-methods">miscellaneous methods</a></h2>
+<h2 id="misc-methods"><a class="header" href="#misc-methods">misc methods</a></h2>
 <ul>
 <li><a href="#ping"><code>ping</code></a></li>
 </ul>
