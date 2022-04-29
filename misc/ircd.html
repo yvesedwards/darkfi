@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="../IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="../development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="../tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="../architecture/architecture.html"><strong aria-hidden="true">4.</strong> Architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/blockchain.html"><strong aria-hidden="true">4.1.</strong> Blockchain</a></li><li class="chapter-item expanded "><a href="../architecture/dna.html"><strong aria-hidden="true">4.2.</strong> DNA</a></li></ol></li><li class="chapter-item expanded "><a href="../clients/clients.html"><strong aria-hidden="true">5.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../clients/darkfid_jsonrpc.html"><strong aria-hidden="true">5.1.</strong> darkfid JSON-RPC API</a></li><li class="chapter-item expanded "><a href="../clients/cashierd_jsonrpc.html"><strong aria-hidden="true">5.2.</strong> cashierd JSON-RPC API</a></li></ol></li><li class="chapter-item expanded "><a href="../zkas/zkas.html"><strong aria-hidden="true">6.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/bincode.html"><strong aria-hidden="true">6.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="../zkas/examples.html" class="active"><strong aria-hidden="true">6.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples/sapling.html"><strong aria-hidden="true">6.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="../zkas/examples/voting.html"><strong aria-hidden="true">6.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../misc/misc.html"><strong aria-hidden="true">7.</strong> Miscellaneous tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../misc/vanityaddr.html"><strong aria-hidden="true">7.1.</strong> vanityaddr</a></li><li class="chapter-item expanded "><a href="../misc/ircd.html"><strong aria-hidden="true">7.2.</strong> ircd</a></li><li class="chapter-item expanded "><a href="../misc/tau.html"><strong aria-hidden="true">7.3.</strong> tau</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="../IDEOLOGY.html"><strong aria-hidden="true">1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="../development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="../tutorial.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li class="chapter-item expanded "><a href="../architecture/architecture.html"><strong aria-hidden="true">4.</strong> Architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/blockchain.html"><strong aria-hidden="true">4.1.</strong> Blockchain</a></li><li class="chapter-item expanded "><a href="../architecture/dna.html"><strong aria-hidden="true">4.2.</strong> DNA</a></li></ol></li><li class="chapter-item expanded "><a href="../clients/clients.html"><strong aria-hidden="true">5.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../clients/darkfid_jsonrpc.html"><strong aria-hidden="true">5.1.</strong> darkfid JSON-RPC API</a></li><li class="chapter-item expanded "><a href="../clients/cashierd_jsonrpc.html"><strong aria-hidden="true">5.2.</strong> cashierd JSON-RPC API</a></li></ol></li><li class="chapter-item expanded "><a href="../zkas/zkas.html"><strong aria-hidden="true">6.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/bincode.html"><strong aria-hidden="true">6.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="../zkas/examples.html"><strong aria-hidden="true">6.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples/sapling.html"><strong aria-hidden="true">6.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="../zkas/examples/voting.html"><strong aria-hidden="true">6.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../misc/misc.html"><strong aria-hidden="true">7.</strong> Miscellaneous tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../misc/vanityaddr.html"><strong aria-hidden="true">7.1.</strong> vanityaddr</a></li><li class="chapter-item expanded "><a href="../misc/ircd.html" class="active"><strong aria-hidden="true">7.2.</strong> ircd</a></li><li class="chapter-item expanded "><a href="../misc/tau.html"><strong aria-hidden="true">7.3.</strong> tau</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -115,7 +115,7 @@
                     <script type="text/javascript">
                         var bookTitleElement = document.getElementById('book-title')
                         var bookTitle = 'The DarkFi Book';
-                        var chapterTitle = 'Examples';
+                        var chapterTitle = 'ircd';
                         if (bookTitle === chapterTitle) {
                             bookTitleElement.innerText = null;
                             document.title = bookTitle;
@@ -152,23 +152,87 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
-<p>This section holds practical and real-world examples of the use for
-zkas.</p>
-<ul>
-<li><a href="examples/sapling.html">Sapling payment scheme</a></li>
-<li><a href="examples/voting.html">Anonymous voting</a></li>
-</ul>
+<h1 id="p2p-irc"><a class="header" href="#p2p-irc">p2p IRC</a></h1>
+<p>This is a local daemon which can be attached to with any IRC frontend.
+It uses the darkfi p2p engine to synchronize chats between hosts.</p>
+<h2 id="install"><a class="header" href="#install">Install</a></h2>
+<pre><code class="language-shell">% git clone https://github.com/darkrenaissance/darkfi 
+% cd darkfi
+% make BINS=ircd
+% make install BINS=ircd PREFIX=/home/XX/.local
+</code></pre>
+<h2 id="usage-local-deployment"><a class="header" href="#usage-local-deployment">Usage (Local Deployment)</a></h2>
+<h3 id="seed-node"><a class="header" href="#seed-node">Seed Node</a></h3>
+<p>First you must run a seed node. The seed node is a static host which nodes can
+connect to when they first connect to the network. The <code>seed_session</code> simply
+connects to a seed node and runs <code>protocol_seed</code>, which requests a list of
+addresses from the seed node and disconnects straight after receiving them.</p>
+<pre><code>in config file:
+
+	## P2P accept address
+	inbound=&quot;127.0.0.1:11001&quot; 
+</code></pre>
+<p>Note that the above config doesn't specify an external address since the
+seed node shouldn't be advertised in the list of connectable nodes. The seed
+node does not participate as a normal node in the p2p network. It simply allows
+new nodes to discover other nodes in the network during the bootstrapping phase.</p>
+<h3 id="inbound-node"><a class="header" href="#inbound-node">Inbound Node</a></h3>
+<p>This is a node accepting inbound connections on the network but which is not
+making any outbound connections.</p>
+<p>The external address is important and must be correct.</p>
+<pre><code>in config file:
+	
+	## P2P accept address
+	inbound=&quot;127.0.0.1:11002&quot; 
+	
+	## P2P external address
+	external_addr=&quot;127.0.0.1:11002&quot;
+
+	## Seed nodes to connect to 
+	seeds=[&quot;127.0.0.1:11001&quot;]
+</code></pre>
+<h3 id="outbound-node"><a class="header" href="#outbound-node">Outbound Node</a></h3>
+<p>This is a node which has 8 outbound connection slots and no inbound connections.
+This means the node has 8 slots which will actively search for unique nodes to
+connect to in the p2p network.</p>
+<pre><code>in config file:
+
+	## Connection slots
+	outbound_connections=5
+
+	## Seed nodes to connect to 
+	seeds=[&quot;127.0.0.1:11001&quot;]
+</code></pre>
+<h3 id="attaching-the-irc-frontend"><a class="header" href="#attaching-the-irc-frontend">Attaching the IRC Frontend</a></h3>
+<p>Assuming you have run the above 3 commands to create a small model testnet,
+and both inbound and outbound nodes above are connected, you can test them
+out using weechat.</p>
+<p>To create separate weechat instances, use the <code>--dir</code> command:</p>
+<pre><code>weechat --dir /tmp/a/
+weechat --dir /tmp/b/
+</code></pre>
+<p>Then in both clients, you must set the option to connect to temporary servers:</p>
+<pre><code>/set irc.look.temporary_servers on
+</code></pre>
+<p>Finally you can attach to the local IRCd instances:</p>
+<pre><code>/connect localhost/6667
+/connect localhost/6668
+</code></pre>
+<p>And send messages to yourself.</p>
+<h3 id="running-a-fullnode"><a class="header" href="#running-a-fullnode">Running a Fullnode</a></h3>
+<p>See the script <code>script/run_node.sh</code> for an example of how to deploy a full node which
+does seed session synchronization, and accepts both inbound and outbound
+connections.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../zkas/bincode.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../misc/vanityaddr.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../zkas/examples/sapling.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../misc/tau.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -178,11 +242,11 @@ zkas.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../zkas/bincode.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../misc/vanityaddr.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../zkas/examples/sapling.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../misc/tau.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
