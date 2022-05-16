@@ -293,7 +293,8 @@ before-mentioned public inputs for the circuit:</p>
 
     // Create the public inputs
     let msgs = [*coords.x(), *coords.y(), pallas::Base::from(value), token_id, serial, coin_blind];
-    let coin = poseidon::Hash::&lt;_, P128Pow5T3, ConstantLength&lt;6&gt;, 3, 2&gt;::init().hash(msgs);
+    let coin = poseidon::Hash::&lt;_, poseidon::P128Pow5T3, poseidon::ConstantLength&lt;6&gt;, 3, 2&gt;::init()
+        .hash(msgs);
 
     let value_commit = pedersen_commitment_u64(value, value_blind);
     let value_coords = value_commit.to_affine().coordinates().unwrap();
@@ -461,7 +462,8 @@ before-mentioned public inputs for the circuit:</p>
         let messages =
             [*coords.x(), *coords.y(), pallas::Base::from(value), token_id, serial, coin_blind];
 
-        poseidon::Hash::&lt;_, P128Pow5T3, ConstantLength&lt;6&gt;, 3, 2&gt;::init().hash(messages)
+        poseidon::Hash::&lt;_, poseidon::P128Pow5T3, poseidon::ConstantLength&lt;6&gt;, 3, 2&gt;::init()
+            .hash(messages)
     };
 
     // Fill the merkle tree with some random coins that we want to witness,
@@ -479,7 +481,8 @@ before-mentioned public inputs for the circuit:</p>
     tree.append(&amp;MerkleNode(coin3));
     tree.witness();
 
-    let merkle_path = tree.authentication_path(leaf_pos).unwrap();
+    let root = tree.root(0).unwrap();
+    let merkle_path = tree.authentication_path(leaf_pos, &amp;root).unwrap();
     let leaf_pos: u64 = leaf_pos.into();
 
     let prover_witnesses = vec![
@@ -498,7 +501,8 @@ before-mentioned public inputs for the circuit:</p>
     // Create the public inputs
     let nullifier = [secret.0, serial];
     let nullifier =
-        poseidon::Hash::&lt;_, P128Pow5T3, ConstantLength&lt;2&gt;, 3, 2&gt;::init().hash(nullifier);
+        poseidon::Hash::&lt;_, poseidon::P128Pow5T3, poseidon::ConstantLength&lt;2&gt;, 3, 2&gt;::init()
+            .hash(nullifier);
 
     let value_commit = pedersen_commitment_u64(value, value_blind);
     let value_coords = value_commit.to_affine().coordinates().unwrap();
@@ -509,7 +513,7 @@ before-mentioned public inputs for the circuit:</p>
     let sig_pubkey = PublicKey::from_secret(sig_secret);
     let sig_coords = sig_pubkey.0.to_affine().coordinates().unwrap();
 
-    let merkle_root = tree.root();
+    let merkle_root = tree.root(0).unwrap();
 
     let public_inputs = vec![
         nullifier,
