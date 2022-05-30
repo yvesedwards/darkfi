@@ -161,16 +161,27 @@ It uses the darkfi p2p engine to synchronize chats between hosts.</p>
 % make BINS=ircd
 % make install BINS=ircd PREFIX=/home/XX/.local
 </code></pre>
+<h2 id="usage-darkfi-network"><a class="header" href="#usage-darkfi-network">Usage (Darkfi Network)</a></h2>
+<p>After ircd get installed, run:</p>
+<pre><code class="language-shell">% ircd 
+</code></pre>
+<p>Make sure <strong><a href="https://github.com/weechat/weechat">weechat</a></strong> is installed, then run:</p>
+<pre><code class="language-shell">% weechat
+</code></pre>
+<p>Inside weechat run the following commands to connect to ircd:
+/server add dark localhost/11066
+/connect dark</p>
 <h2 id="usage-local-deployment"><a class="header" href="#usage-local-deployment">Usage (Local Deployment)</a></h2>
 <h3 id="seed-node"><a class="header" href="#seed-node">Seed Node</a></h3>
 <p>First you must run a seed node. The seed node is a static host which nodes can
 connect to when they first connect to the network. The <code>seed_session</code> simply
 connects to a seed node and runs <code>protocol_seed</code>, which requests a list of
 addresses from the seed node and disconnects straight after receiving them.</p>
-<pre><code>in config file:
-
-	## P2P accept address
-	inbound=&quot;127.0.0.1:11001&quot; 
+<p>The first time you run the program, a config file will be created in
+.config/darkfi. You must specify an inbound accept address in your config
+file to configure a seed node:</p>
+<pre><code class="language-toml">## P2P accept address
+inbound=&quot;127.0.0.1:11001&quot; 
 </code></pre>
 <p>Note that the above config doesn't specify an external address since the
 seed node shouldn't be advertised in the list of connectable nodes. The seed
@@ -180,28 +191,26 @@ new nodes to discover other nodes in the network during the bootstrapping phase.
 <p>This is a node accepting inbound connections on the network but which is not
 making any outbound connections.</p>
 <p>The external address is important and must be correct.</p>
-<pre><code>in config file:
-	
-	## P2P accept address
-	inbound=&quot;127.0.0.1:11002&quot; 
-	
-	## P2P external address
-	external_addr=&quot;127.0.0.1:11002&quot;
+<p>To run an inbound node, your config file must contain the following info:</p>
+<pre><code class="language-toml">## P2P accept address
+inbound=&quot;127.0.0.1:11002&quot; 
 
-	## Seed nodes to connect to 
-	seeds=[&quot;127.0.0.1:11001&quot;]
+## P2P external address
+external_addr=&quot;127.0.0.1:11002&quot;
+
+## Seed nodes to connect to 
+seeds=[&quot;127.0.0.1:11001&quot;]
 </code></pre>
 <h3 id="outbound-node"><a class="header" href="#outbound-node">Outbound Node</a></h3>
 <p>This is a node which has 8 outbound connection slots and no inbound connections.
 This means the node has 8 slots which will actively search for unique nodes to
 connect to in the p2p network.</p>
-<pre><code>in config file:
+<p>In your config file:</p>
+<pre><code class="language-toml">## Connection slots
+outbound_connections=5
 
-	## Connection slots
-	outbound_connections=5
-
-	## Seed nodes to connect to 
-	seeds=[&quot;127.0.0.1:11001&quot;]
+## Seed nodes to connect to 
+seeds=[&quot;127.0.0.1:11001&quot;]
 </code></pre>
 <h3 id="attaching-the-irc-frontend"><a class="header" href="#attaching-the-irc-frontend">Attaching the IRC Frontend</a></h3>
 <p>Assuming you have run the above 3 commands to create a small model testnet,
