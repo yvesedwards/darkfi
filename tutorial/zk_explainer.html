@@ -152,6 +152,7 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="zero-knowledge-explainer"><a class="header" href="#zero-knowledge-explainer">Zero-knowledge explainer</a></h1>
 <p>We start with this algorithm as an example:</p>
 <pre><code class="language-python">    def foo(w, a, b):
         if w:
@@ -161,7 +162,7 @@
 </code></pre>
 <p>ZK code consists of lines of constraints. It has no concept of branching conditionals or loops.</p>
 <p>So our first task is to flatten (convert) the above code to a linear equation that can be evaluated in ZK.</p>
-<p>Consider an interesting fact. For any value $x$, then $(1 - w) = 0$ if and only if $x = 1$.</p>
+<p>Consider an interesting fact. For any value $\mathbb{x}$, then $(1 - w) = 0$ if and only if $x = 1$.</p>
 <p>In our code above $w$ is a binary value. It's value is either $1$ or $0$. We make use of this fact by the following:</p>
 <ol>
 <li>$w = 1$ when $w = 1$</li>
