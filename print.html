@@ -673,7 +673,7 @@ called Streamlet. The blockchain is currently in devnet phase. This is a
 local testnet ran by the DarkFi community. Currently, the blockchain has
 no consensus token. DarkFi is working to upgrade to a privacy-enhanced
 proof-of-stake algorithm called OuroborusCrypsinous.</p>
-<p><strong>Wallets:</strong> A wallet is a portal to the DarkFi network. It provides
+<p><strong>Wallet:</strong> A wallet is a portal to the DarkFi network. It provides
 the user with the ability to send and receive anonymous <em>darkened</em>
 tokens. Each wallet is a full node and stores a copy of the
 blockchain. All contract execution is done locally on the DarkFi wallet.</p>
@@ -682,17 +682,21 @@ where these nodes interact with each other over specific protocols (see
 <a href="architecture/dna.html">node overview</a>). Nodes communicate on a peer-to-peer network,
 which is also home to tools such as our P2P <a href="architecture/../misc/ircd.html">irc</a>
 and P2P task manager <a href="architecture/../misc/tau.html">tau</a>.</p>
-<p><strong>zkas:</strong> zkas is the compiler used to compile zk smart contracts in
-its respective assembly-like language. The &quot;assembly&quot; part was chosen as
-it's the bare primitives needed for zk proofs, so later on the language
-can be expanded with higher-level syntax. Its underlying zero-knowledge
-proof system is Halo2.</p>
-<p><strong>ZK contracts:</strong> Anonymous applications on DarkFi run on proofs
-that enforce an order of operations. We call these zero-knowledge
+<p><strong>ZK smart contracts:</strong> Anonymous applications on DarkFi run on proofs
+that enforce an order of operations. We call these zero-knowledge smart
 contracts. Anonymous transactions on DarkFi is possible due to the
 interplay of two contracts, mint and burn (see the <a href="architecture/../zkas/examples/sapling.html">sapling payment
 scheme</a>). Using the same method, we can
 define advanced applications.</p>
+<p><strong>zkas:</strong> zkas is the compiler used to compile zk smart contracts in
+its respective assembly-like language. The &quot;assembly&quot; part was chosen as
+it's the bare primitives needed for zk proofs, so later on the language
+can be expanded with higher-level syntax. Zkas enables developers to
+compile and inspect contracts.</p>
+<p><strong>zkVM:</strong> DarkFi's zkVM executes the binaries produced by zkas. The
+zkVM aims to be a general-purpose zkSNARK virtual machine that empowers
+developers to quickly prototype and debug zk contracts. It uses a
+trustless zero-knowledge proof system called Halo2 with no trusted setup.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="anonymous-assets"><a class="header" href="#anonymous-assets">Anonymous assets</a></h1>
 <p>DarkFi network allows for the issuance and transfer of anonymous assets with an arbitrary number of parameters. These tokens are anonymous, relying on zero-knowledge proofs to ensure validity without revealing any other information.</p>
