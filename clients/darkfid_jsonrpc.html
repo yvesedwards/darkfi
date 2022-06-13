@@ -235,12 +235,19 @@ Returns a map of balances, indexed by <code>network</code>, and token ID.
 <h2 id="misc-methods"><a class="header" href="#misc-methods">misc methods</a></h2>
 <ul>
 <li><a href="#ping"><code>ping</code></a></li>
+<li><a href="#clock"><code>clock</code></a></li>
 </ul>
 <h3 id="ping"><a class="header" href="#ping"><code>ping</code></a></h3>
 <p>Returns a <code>pong</code> to the <code>ping</code> request.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_misc.rs#L12">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_misc.rs#L15">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;ping&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;pong&quot;, &quot;id&quot;: 1}
+</code></pre>
+<h3 id="clock"><a class="header" href="#clock"><code>clock</code></a></h3>
+<p>Returns current system clock in <code>Timestamp</code> format.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_misc.rs#L23">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;clock&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: {...}, &quot;id&quot;: 1}
 </code></pre>
 
                     </main>
