@@ -162,7 +162,7 @@
 <p>This project requires the Rust compiler to be installed. 
 Please visit <a href="https://rustup.rs/">Rustup</a> for instructions.</p>
 <p>The following dependencies are also required:</p>
-<table><thead><tr><th>Dependency</th><th>Debian-based</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Dependency</th><th>Debian-based</th></tr></thead><tbody>
 <tr><td>gcc, gcc-c++, kernel headers</td><td>build-essential</td></tr>
 <tr><td>cmake</td><td>cmake</td></tr>
 <tr><td>jq</td><td>jq</td></tr>
@@ -175,6 +175,7 @@ Please visit <a href="https://rustup.rs/">Rustup</a> for instructions.</p>
 <tr><td>freetype2 libs</td><td>libfreetype6-dev</td></tr>
 <tr><td>expat xml lib</td><td>libexpat1-dev</td></tr>
 </tbody></table>
+</div>
 <p>Users of Debian-based systems (e.g. Ubuntu) can simply run the following 
 to install the required dependencies:</p>
 <pre><code class="language-shell"># apt-get update
@@ -919,11 +920,12 @@ be used at early stages of development, we created hybrid structures
 to enable seamless transition from Stremlet to Ouroboros Crypsinous,
 without the need of forking the blockchain.</p>
 <h2 id="blockchain-1"><a class="header" href="#blockchain-1">Blockchain</a></h2>
-<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>blocks</code></td><td><code>Vec&lt;Block&gt;</code></td><td>Series of blocks consisting the Blockchain</td></tr>
 </tbody></table>
+</div>
 <h2 id="header"><a class="header" href="#header">Header</a></h2>
-<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>v</code></td><td><code>u8</code></td><td>Version</td></tr>
 <tr><td><code>st</code></td><td><code>blake3Hash</code></td><td>Previous block hash</td></tr>
 <tr><td><code>e</code></td><td><code>u64</code></td><td>Epoch</td></tr>
@@ -931,34 +933,38 @@ without the need of forking the blockchain.</p>
 <tr><td><code>time</code></td><td><code>Timestamp</code></td><td>Block creation timestamp</td></tr>
 <tr><td><code>root</code></td><td><code>MerkleRoot</code></td><td>Root of the transaction hashes merkle tree</td></tr>
 </tbody></table>
+</div>
 <h2 id="block-1"><a class="header" href="#block-1">Block</a></h2>
-<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>magic</code></td><td><code>u8</code></td><td>Magic bytes</td></tr>
 <tr><td><code>header</code></td><td><code>blake3Hash</code></td><td>Header hash</td></tr>
 <tr><td><code>txs</code></td><td><code>Vec&lt;blake3Hash&gt;</code></td><td>Transaction hashes</td></tr>
 <tr><td><code>metadata</code></td><td><code>Metadata</code></td><td>Additional block information</td></tr>
 </tbody></table>
+</div>
 <h2 id="blockinfo"><a class="header" href="#blockinfo">BlockInfo</a></h2>
-<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>magic</code></td><td><code>u8</code></td><td>Magic bytes</td></tr>
 <tr><td><code>header</code></td><td><code>Header</code></td><td>Header data</td></tr>
 <tr><td><code>txs</code></td><td><code>Vec&lt;Transaction&gt;</code></td><td>Transaction payload</td></tr>
 <tr><td><code>metadata</code></td><td><code>Metadata</code></td><td>Additional block information</td></tr>
 <tr><td><code>sm</code></td><td><code>StreamletMetadata</code></td><td>Proposal information used by Streamlet consensus</td></tr>
 </tbody></table>
+</div>
 <h2 id="metadata"><a class="header" href="#metadata">Metadata</a></h2>
-<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>proof</code></td><td><code>VRFOutput</code></td><td>Proof the stakeholder is the block owner</td></tr>
 <tr><td><code>r</code></td><td><code>Seed</code></td><td>Random seed for the VRF</td></tr>
 <tr><td><code>s</code></td><td><code>Signature</code></td><td>Block owner signature</td></tr>
 </tbody></table>
+</div>
 <h2 id="streamlet-metadata"><a class="header" href="#streamlet-metadata">Streamlet Metadata</a></h2>
-<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>votes</code></td><td><code>Vec&lt;Vote&gt;</code></td><td>Epoch votes for the block</td></tr>
 <tr><td><code>notarized</code></td><td><code>bool</code></td><td>Block notarization flag</td></tr>
 <tr><td><code>finalized</code></td><td><code>bool</code></td><td>Block finalization flag</td></tr>
 </tbody></table>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+</div><div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="darkfi-node-architecture-dna"><a class="header" href="#darkfi-node-architecture-dna">DarkFi Node Architecture (DNA)</a></h1>
 <p>The DarkFi ecosystem runs as a network of P2P nodes, where these nodes
 interact with each other over specific programs (or layers). In this
@@ -1250,13 +1256,14 @@ understood by the VM. The statements are in the form of:</p>
 <p><code>OPCODE ARG_NUM STACK_INDEX ... STACK_INDEX</code></p>
 </blockquote>
 <p>where:</p>
-<table><thead><tr><th>Element</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Element</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>OPCODE</code></td><td>The opcode we wish to execute</td></tr>
 <tr><td><code>ARG_NUM</code></td><td>The number of arguments given to this opcode</td></tr>
 <tr><td></td><td>(Note the VM should be checking the correctness of this as well)</td></tr>
 <tr><td><code>STACK_INDEX</code></td><td>The location of the argument on the stack.</td></tr>
 <tr><td></td><td>(This is supposed to be repeated <code>ARG_NUM</code> times)</td></tr>
 </tbody></table>
+</div>
 <p>In case an opcode has a return value, the value shall be pushed to
 the stack and become available for later references.</p>
 <h2 id="debug"><a class="header" href="#debug"><code>.debug</code></a></h2>
@@ -1382,8 +1389,7 @@ is the blinding factor, and <span class="katex"><span class="katex-html" aria-hi
 <h2 id="pseudo-code"><a class="header" href="#pseudo-code">Pseudo-code</a></h2>
 <p>Knowing this we can extend our pseudo-code and build the
 before-mentioned public inputs for the circuit:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>    let bincode = include_bytes!(&quot;../proof/mint.zk.bin&quot;);
     let zkbin = ZkBinary::decode(bincode)?;
@@ -1558,8 +1564,7 @@ with a genera tor <span class="katex"><span class="katex-html" aria-hidden="true
 <h2 id="pseudo-code-1"><a class="header" href="#pseudo-code-1">Pseudo-code</a></h2>
 <p>Knowing this we can extend our pseudo-code and build the
 before-mentioned public inputs for the circuit:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>    let bincode = include_bytes!(&quot;../proof/burn.zk.bin&quot;);
     let zkbin = ZkBinary::decode(bincode)?;
@@ -2146,11 +2151,12 @@ to constraints.</p>
 <span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span></span></p>
 <p>The last line is a boolean constraint that <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span> is either <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> or <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> by
 enforcing that <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> (re-arranged this is <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span>).</p>
-<table><thead><tr><th>Line</th><th>L(x)</th><th>R(x)</th><th>O(x)</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Line</th><th>L(x)</th><th>R(x)</th><th>O(x)</th></tr></thead><tbody>
 <tr><td>1</td><td><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">a</span><span class="mclose">)</span></span></span></span></td><td><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">b</span><span class="mclose">)</span></span></span></span></td><td><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span></td></tr>
 <tr><td>2</td><td><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mclose">)</span></span></span></span></td><td><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">b</span><span class="mclose">)</span></span></span></span></td><td><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">b</span><span class="mclose">)</span></span></span></span></td></tr>
 <tr><td>3</td><td><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mclose">)</span></span></span></span></td><td><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mclose">)</span></span></span></span></td><td><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mclose">)</span></span></span></span></td></tr>
 </tbody></table>
+</div>
 <p>Because of how the polynomials are created during the setup phase, you
 must supply them with the correct variables that satisfy these
 constraints, so that <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> (line 1),
@@ -2168,8 +2174,7 @@ and <span class="katex"><span class="katex-html" aria-hidden="true"><span class=
 the verifier does know the coefficients (which are of the <code>Scalar</code>
 type) shown in the table above. In our example they only either <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>
 or <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">1</span></span></span></span>, but can also be other constant values.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub struct LinearCombination&lt;Scalar: PrimeField&gt;(Vec&lt;(Variable, Scalar)&gt;);
 <span class="boring">}

@@ -215,13 +215,14 @@ understood by the VM. The statements are in the form of:</p>
 <p><code>OPCODE ARG_NUM STACK_INDEX ... STACK_INDEX</code></p>
 </blockquote>
 <p>where:</p>
-<table><thead><tr><th>Element</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Element</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>OPCODE</code></td><td>The opcode we wish to execute</td></tr>
 <tr><td><code>ARG_NUM</code></td><td>The number of arguments given to this opcode</td></tr>
 <tr><td></td><td>(Note the VM should be checking the correctness of this as well)</td></tr>
 <tr><td><code>STACK_INDEX</code></td><td>The location of the argument on the stack.</td></tr>
 <tr><td></td><td>(This is supposed to be repeated <code>ARG_NUM</code> times)</td></tr>
 </tbody></table>
+</div>
 <p>In case an opcode has a return value, the value shall be pushed to
 the stack and become available for later references.</p>
 <h2 id="debug"><a class="header" href="#debug"><code>.debug</code></a></h2>

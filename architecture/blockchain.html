@@ -300,11 +300,12 @@ be used at early stages of development, we created hybrid structures
 to enable seamless transition from Stremlet to Ouroboros Crypsinous,
 without the need of forking the blockchain.</p>
 <h2 id="blockchain-1"><a class="header" href="#blockchain-1">Blockchain</a></h2>
-<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>blocks</code></td><td><code>Vec&lt;Block&gt;</code></td><td>Series of blocks consisting the Blockchain</td></tr>
 </tbody></table>
+</div>
 <h2 id="header"><a class="header" href="#header">Header</a></h2>
-<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>v</code></td><td><code>u8</code></td><td>Version</td></tr>
 <tr><td><code>st</code></td><td><code>blake3Hash</code></td><td>Previous block hash</td></tr>
 <tr><td><code>e</code></td><td><code>u64</code></td><td>Epoch</td></tr>
@@ -312,34 +313,38 @@ without the need of forking the blockchain.</p>
 <tr><td><code>time</code></td><td><code>Timestamp</code></td><td>Block creation timestamp</td></tr>
 <tr><td><code>root</code></td><td><code>MerkleRoot</code></td><td>Root of the transaction hashes merkle tree</td></tr>
 </tbody></table>
+</div>
 <h2 id="block-1"><a class="header" href="#block-1">Block</a></h2>
-<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>magic</code></td><td><code>u8</code></td><td>Magic bytes</td></tr>
 <tr><td><code>header</code></td><td><code>blake3Hash</code></td><td>Header hash</td></tr>
 <tr><td><code>txs</code></td><td><code>Vec&lt;blake3Hash&gt;</code></td><td>Transaction hashes</td></tr>
 <tr><td><code>metadata</code></td><td><code>Metadata</code></td><td>Additional block information</td></tr>
 </tbody></table>
+</div>
 <h2 id="blockinfo"><a class="header" href="#blockinfo">BlockInfo</a></h2>
-<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>magic</code></td><td><code>u8</code></td><td>Magic bytes</td></tr>
 <tr><td><code>header</code></td><td><code>Header</code></td><td>Header data</td></tr>
 <tr><td><code>txs</code></td><td><code>Vec&lt;Transaction&gt;</code></td><td>Transaction payload</td></tr>
 <tr><td><code>metadata</code></td><td><code>Metadata</code></td><td>Additional block information</td></tr>
 <tr><td><code>sm</code></td><td><code>StreamletMetadata</code></td><td>Proposal information used by Streamlet consensus</td></tr>
 </tbody></table>
+</div>
 <h2 id="metadata"><a class="header" href="#metadata">Metadata</a></h2>
-<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>proof</code></td><td><code>VRFOutput</code></td><td>Proof the stakeholder is the block owner</td></tr>
 <tr><td><code>r</code></td><td><code>Seed</code></td><td>Random seed for the VRF</td></tr>
 <tr><td><code>s</code></td><td><code>Signature</code></td><td>Block owner signature</td></tr>
 </tbody></table>
+</div>
 <h2 id="streamlet-metadata"><a class="header" href="#streamlet-metadata">Streamlet Metadata</a></h2>
-<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>votes</code></td><td><code>Vec&lt;Vote&gt;</code></td><td>Epoch votes for the block</td></tr>
 <tr><td><code>notarized</code></td><td><code>bool</code></td><td>Block notarization flag</td></tr>
 <tr><td><code>finalized</code></td><td><code>bool</code></td><td>Block finalization flag</td></tr>
 </tbody></table>
-
+</div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
