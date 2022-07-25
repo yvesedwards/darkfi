@@ -928,11 +928,11 @@ without the need of forking the blockchain.</p>
 </div>
 <h2 id="header"><a class="header" href="#header">Header</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>v</code></td><td><code>u8</code></td><td>Version</td></tr>
-<tr><td><code>st</code></td><td><code>blake3Hash</code></td><td>Previous block hash</td></tr>
-<tr><td><code>e</code></td><td><code>u64</code></td><td>Epoch</td></tr>
-<tr><td><code>sl</code></td><td><code>u64</code></td><td>Slot UID</td></tr>
-<tr><td><code>time</code></td><td><code>Timestamp</code></td><td>Block creation timestamp</td></tr>
+<tr><td><code>version</code></td><td><code>u8</code></td><td>Version</td></tr>
+<tr><td><code>state</code></td><td><code>blake3Hash</code></td><td>Previous block hash</td></tr>
+<tr><td><code>epoch</code></td><td><code>u64</code></td><td>Epoch</td></tr>
+<tr><td><code>slot</code></td><td><code>u64</code></td><td>Slot UID</td></tr>
+<tr><td><code>timestamp</code></td><td><code>Timestamp</code></td><td>Block creation timestamp</td></tr>
 <tr><td><code>root</code></td><td><code>MerkleRoot</code></td><td>Root of the transaction hashes merkle tree</td></tr>
 </tbody></table>
 </div>
@@ -956,8 +956,9 @@ without the need of forking the blockchain.</p>
 <h2 id="metadata"><a class="header" href="#metadata">Metadata</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>proof</code></td><td><code>VRFOutput</code></td><td>Proof the stakeholder is the block owner</td></tr>
-<tr><td><code>r</code></td><td><code>Seed</code></td><td>Random seed for the VRF</td></tr>
-<tr><td><code>s</code></td><td><code>Signature</code></td><td>Block owner signature</td></tr>
+<tr><td><code>rand_seed</code></td><td><code>Seed</code></td><td>Random seed for the VRF</td></tr>
+<tr><td><code>signature</code></td><td><code>Signature</code></td><td>Block owner signature</td></tr>
+<tr><td><code>address</code></td><td><code>Address</code></td><td>Block owner address</td></tr>
 </tbody></table>
 </div>
 <h2 id="streamlet-metadata"><a class="header" href="#streamlet-metadata">Streamlet Metadata</a></h2>
@@ -965,6 +966,15 @@ without the need of forking the blockchain.</p>
 <tr><td><code>votes</code></td><td><code>Vec&lt;Vote&gt;</code></td><td>Epoch votes for the block</td></tr>
 <tr><td><code>notarized</code></td><td><code>bool</code></td><td>Block notarization flag</td></tr>
 <tr><td><code>finalized</code></td><td><code>bool</code></td><td>Block finalization flag</td></tr>
+</tbody></table>
+</div>
+<h2 id="participant"><a class="header" href="#participant">Participant</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>public_key</code></td><td><code>PublicKey</code></td><td>Node public key</td></tr>
+<tr><td><code>address</code></td><td><code>Address</code></td><td>Node wallet address</td></tr>
+<tr><td><code>joined</code></td><td><code>u64</code></td><td>Slot node joined the network</td></tr>
+<tr><td><code>voted</code></td><td><code>Option&lt;u64&gt;</code></td><td>Last slot node voted</td></tr>
+<tr><td><code>quarantined</code></td><td><code>Option&lt;u64&gt;</code></td><td>Slot participant was quarantined by the node</td></tr>
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="darkfi-node-architecture-dna"><a class="header" href="#darkfi-node-architecture-dna">DarkFi Node Architecture (DNA)</a></h1>
