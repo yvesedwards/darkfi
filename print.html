@@ -2228,7 +2228,7 @@ the p2p network, in particular:</p>
 <li>Creating and subscribing to a custom message type.</li>
 </ul>
 <p>The source code for this tutorial can be found at
-<a href="learn/dchat/../../../example/dchat">example/dchat</a>.</p>
+<a href="https://github.com/darkrenaissance/darkfi/tree/master/example/dchat">example/dchat</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="part-1-deploying-the-network"><a class="header" href="#part-1-deploying-the-network">Part 1: Deploying the network</a></h1>
 <p>We'll start by deploying a local version of the p2p network. This will
@@ -2319,7 +2319,7 @@ but soon we'll run dchat inside this block.</p>
 <p>Note: DarkFi includes a macro called async_daemonize that is used by
 DarkFi binaries to minimize boilerplate in the repo.  To keep things
 simple we will ignore this macro for the purpose of this tutorial.  But
-check it out if you are curious: <a href="learn/dchat/local-deployment/../../../src/util/cli.rs">util/cli.rs</a>.</p>
+check it out if you are curious: <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/util/cli.rs#L154">util/cli.rs</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="inbound-and-outbound-nodes"><a class="header" href="#inbound-and-outbound-nodes">Inbound and Outbound nodes</a></h1>
 <p>To create an instance of the p2p network, we must configure our p2p
@@ -2331,12 +2331,13 @@ network. An inbound node receives connections. An outbound node makes
 connections. A seed node is used when connecting to the network: it is
 a special kind of inbound node that gets connected to, sends over a list
 of addresses and disconnects again.</p>
-<p>The behavior of the different kinds of nodes is defined in what is
-called a <a href="learn/dchat/local-deployment/../../../src/net/session/mod.rs">Session</a>. Session is a trait
-that outbound, inbound, manual and seed nodes all implement. Session
-implementations expose methods such as stopping and starting a channel,
-accepting connections (inbound nodes) or making connections (outbound
-nodes).</p>
+<p>The behavior of the different
+kinds of nodes is defined in what is called a
+<a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/session/mod.rs#L93">Session</a>.
+Session is a trait that outbound, inbound, manual and seed nodes all
+implement. Session implementations expose methods such as stopping and
+starting a channel, accepting connections (inbound nodes) or making
+connections (outbound nodes).</p>
 <p>On production-ready software, you would usually configure your node
 using a config file or command line inputs. On dchat we are keeping
 things ultra simple. We pass a command line flag that is either <code>a</code> or
@@ -2491,7 +2492,7 @@ takes an executor and runs two p2p methods, p2p::start() and p2p::run().</p>
 }
 </code></pre>
 <p>Let's take a quick look at the underlying p2p methods we're using here.</p>
-<p>This is <a href="learn/dchat/local-deployment/../../../src/net/p2p.rs">start()</a>:</p>
+<p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L129">start()</a>:</p>
 <pre><code>pub async fn start(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
     debug!(target: &quot;net&quot;, &quot;P2p::start() [BEGIN]&quot;);
 
@@ -2508,7 +2509,7 @@ takes an executor and runs two p2p methods, p2p::start() and p2p::run().</p>
     Ok(())
 }
 </code></pre>
-<p>start() changes the P2pState to P2pState::Start and runs a <a href="learn/dchat/local-deployment/../../../src/net/session/seed_session.rs">seed
+<p>start() changes the P2pState to P2pState::Start and runs a <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/session/seed_session.rs">seed
 session</a>.</p>
 <p>This loops through the seed addresses specified in our Settings and
 tries to connect to them. The seed session either connects successfully,
@@ -2516,7 +2517,7 @@ fails with an error or times out.</p>
 <p>If a seed node connects successfully, it runs a version exchange protocol,
 stores the channel in the p2p list of channels, and disconnects, removing
 the channel from the channel list.</p>
-<p>This is <a href="learn/dchat/local-deployment/../../../src/net/p2p.rs">run()</a>:</p>
+<p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L157">run()</a>:</p>
 <pre><code>pub async fn run(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
     debug!(target: &quot;net&quot;, &quot;P2p::run() [BEGIN]&quot;);
 
@@ -2667,6 +2668,14 @@ across by tracking their debug output.</p>
 <p>Now that we've deployed a local version of the p2p network, we can start
 creating a custom protocol and message types that dchat will use to
 send and receive messages across the network.</p>
+<p>This section will cover:</p>
+<ul>
+<li>The Message type</li>
+<li>Protocols and the protocol registry</li>
+<li>The message subsystem</li>
+<li>Message subscriptions</li>
+<li>Channels</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="creating-a-message-type"><a class="header" href="#creating-a-message-type">Creating a Message type</a></h1>
 <p>We'll start by creating a custom Message type called Dchatmsg. This is the
@@ -2710,19 +2719,19 @@ program interacts with the p2p network.</p>
 are automatically activated when nodes connect to eachother on the
 p2p network. Here are examples of two protocols that every node runs
 continuously in the background:</p>
-<p><a href="learn/dchat/creating-dchat/../../../src/net/protocol/protocol_ping.rs">ProtocolPing</a>: sends ping,
-receives pong
-<a href="learn/dchat/creating-dchat/../../../src/net/protocol/protocol_address.rs">ProtocolAddress</a>: receives
-a get_address message, sends an address message</p>
+<p><a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/protocol/protocol_ping.rs">ProtocolPing</a>:
+sends ping, receives pong
+<a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/protocol/protocol_address.rs">ProtocolAddress</a>:
+receives a get_address message, sends an address message</p>
 <p>Under the hood, these protocols have a few similarities:</p>
 <ol>
 <li>They create a subscription to a message type, such as Ping and Pong.</li>
-<li>They implement <a href="learn/dchat/creating-dchat/../../../src/net/protocol/protocol_base.rs">ProtocolBase</a>,
+<li>They implement <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/protocol/protocol_base.rs">ProtocolBase</a>,
 DarkFi's generic protocol trait.</li>
 <li>They run asynchronously using the
-<a href="learn/dchat/creating-dchat/../../../src/net/protocol/protocol_jobs_manager.rs">ProtocolJobsManager</a>.</li>
-<li>They hold a pointer to <a href="learn/dchat/creating-dchat/../../../src/net/channel.rs">Channel</a> which
-invokes the <a href="learn/dchat/creating-dchat/../../../src/net/message_subscriber">MessageSubsystem</a>.</li>
+<a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/protocol/protocol_jobs_manager.rs">ProtocolJobsManager</a>.</li>
+<li>They hold a pointer to <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/channel.rs">Channel</a> which
+invokes the <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/message_subscriber.rs#L170">MessageSubsystem</a>.</li>
 </ol>
 <p>This introduces several generic interfaces that we must use to build
 our custom protocol. In particular:</p>
@@ -2737,23 +2746,116 @@ can send and receive custom messages on the p2p network.</p>
 </ol>
 <p>A subscription to a message type. </p>
 <ol start="3">
+<li>Channel</li>
+</ol>
+<p>A channel is an async connection for communication between nodes. It is
+also a powerful interface that exposes methods to the Message Subsystem
+and implements message subscriptions.  Channel also contains a weak
+pointer to its parent, Session.</p>
+<ol start="4">
 <li>The Protocol Registry </li>
 </ol>
 <p>ProtocolRegistry takes any kind of generic protocol and initializes it. We
 use it through the method register() which passes a protocol constructor
 and a session bitflag which determines which sessions (outbound, inbound,
 or seed) will run our protocol.</p>
-<ol start="4">
+<ol start="5">
 <li>ProtocolJobsManager</li>
 </ol>
 <p>An asynchronous job manager that spawns and stops tasks created by
 protocols across the network.</p>
-<ol start="5">
+<ol start="6">
 <li>ProtocolBase</li>
 </ol>
 <p>A generic protocol trait that all protocols must implement.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="protocoldchat"><a class="header" href="#protocoldchat">ProtocolDchat</a></h1>
+<p>Let's start tying these concepts together. We'll define a struct called
+ProtocolDchat that contains a MessageSubscription to Dchatmsg and a
+pointer to the ProtocolJobsManager. We'll also include the DchatmsgsBuffer
+in the struct as it will come in handy later on.</p>
+<pre><code>use darkfi::net;
+
+use crate::dchatmsg::{Dchatmsg, DchatmsgsBuffer};
+
+pub struct ProtocolDchat {
+    jobsman: net::ProtocolJobsManagerPtr,
+    msg_sub: net::MessageSubscription&lt;Dchatmsg&gt;,
+    msgs: DchatmsgsBuffer,
+}
+</code></pre>
+<p>Next we'll implement the trait ProtocolBase. ProtocolBase requires two
+functions, start() and name(). In start() we will start up the Protocol
+Jobs Manager. name() will return a str of the protocol name.</p>
+<pre><code>use async_executor::Executor;
+use async_std::sync::Arc;
+use async_trait::async_trait;
+use darkfi::{net, Result};
+
+use crate::dchatmsg::{Dchatmsg, DchatmsgsBuffer};
+
+#[async_trait]
+impl net::ProtocolBase for ProtocolDchat {
+    async fn start(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
+        self.jobsman.clone().start(executor.clone());
+        Ok(())
+    }
+
+    fn name(&amp;self) -&gt; &amp;'static str {
+        &quot;ProtocolDchat&quot;
+    }
+}
+</code></pre>
+<p>Once that's done, we'll need to create a ProtocolDchat constructor that
+we will pass to the ProtocolRegistry to register our protocol. The
+constructor takes a pointer to channel which it uses to invoke the
+Message Subsystem and add Dchatmsg as to the list of dispatchers. Next,
+we'll create a message subscription to Dchatmsg using the method
+subscribe_msg().</p>
+<p>We'll also initialize the Protocol Jobs Manager and finally return a
+pointer to the protocol.</p>
+<pre><code>impl ProtocolDchat {
+    pub async fn init(channel: net::ChannelPtr, msgs: DchatmsgsBuffer) -&gt; net::ProtocolBasePtr {
+        let message_subsytem = channel.get_message_subsystem();
+        message_subsytem.add_dispatch::&lt;Dchatmsg&gt;().await;
+
+        let msg_sub = channel
+            .subscribe_msg::&lt;Dchatmsg&gt;()
+            .await
+            .expect(&quot;Missing DchatMsg dispatcher!&quot;);
+
+        Arc::new(Self {
+            jobsman: net::ProtocolJobsManager::new(&quot;ProtocolDchat&quot;, channel.clone()),
+            msg_sub,
+            msgs,
+        })
+    }
+}
+</code></pre>
+<p>We're nearly there. But right now the protocol doesn't actually do
+anything. Let's write a method called handle_receive_msg() which receives
+a message on our message subscription and adds it to DchatmsgsBuffer.</p>
+<p>Put this inside the ProtocolDchat implementation:</p>
+<pre><code>async fn handle_receive_msg(self: Arc&lt;Self&gt;) -&gt; Result&lt;()&gt; {
+    while let Ok(msg) = self.msg_sub.receive().await {
+        let msg = (*msg).to_owned();
+        self.msgs.lock().await.push(msg);
+    }
+
+    Ok(())
+}
+</code></pre>
+<p>As a final step, let's add that task to the jobs manager that is invoked
+in start():</p>
+<pre><code>async fn start(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
+    self.jobsman.clone().start(executor.clone());
+    self.jobsman
+        .clone()
+        .spawn(self.clone().handle_receive_msg(), executor.clone())
+        .await;
+    Ok(())
+}
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="registering-a-protocol"><a class="header" href="#registering-a-protocol">Registering a protocol</a></h1>
 <p>We've now successfully created a custom protocol. The next step is the
