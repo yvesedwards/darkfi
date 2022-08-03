@@ -152,7 +152,55 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<h1 id="protocols"><a class="header" href="#protocols">Protocols</a></h1>
+<h1 id="understanding-protocols"><a class="header" href="#understanding-protocols">Understanding protocols</a></h1>
+<p>We now need to implement a custom protocol which defines how our chat
+program interacts with the p2p network.</p>
+<p>We've already interacted with several protocols already. Protocols
+are automatically activated when nodes connect to eachother on the
+p2p network. Here are examples of two protocols that every node runs
+continuously in the background:</p>
+<p><a href="../../../src/net/protocol/protocol_ping.rs">ProtocolPing</a>: sends ping,
+receives pong
+<a href="../../../src/net/protocol/protocol_address.rs">ProtocolAddress</a>: receives
+a get_address message, sends an address message</p>
+<p>Under the hood, these protocols have a few similarities:</p>
+<ol>
+<li>They create a subscription to a message type, such as Ping and Pong.</li>
+<li>They implement <a href="../../../src/net/protocol/protocol_base.rs">ProtocolBase</a>,
+DarkFi's generic protocol trait.</li>
+<li>They run asynchronously using the
+<a href="../../../src/net/protocol/protocol_jobs_manager.rs">ProtocolJobsManager</a>.</li>
+<li>They hold a pointer to <a href="../../../src/net/channel.rs">Channel</a> which
+invokes the <a href="../../../src/net/message_subscriber">MessageSubsystem</a>.</li>
+</ol>
+<p>This introduces several generic interfaces that we must use to build
+our custom protocol. In particular:</p>
+<ol>
+<li>The Message Subsystem</li>
+</ol>
+<p>MessageSubsystem is a generic publish/subscribe class that can
+dispatch any kind of message to a list of dispatchers. This is how we
+can send and receive custom messages on the p2p network.</p>
+<ol start="2">
+<li>Message Subscription</li>
+</ol>
+<p>A subscription to a message type. </p>
+<ol start="3">
+<li>The Protocol Registry </li>
+</ol>
+<p>ProtocolRegistry takes any kind of generic protocol and initializes it. We
+use it through the method register() which passes a protocol constructor
+and a session bitflag which determines which sessions (outbound, inbound,
+or seed) will run our protocol.</p>
+<ol start="4">
+<li>ProtocolJobsManager</li>
+</ol>
+<p>An asynchronous job manager that spawns and stops tasks created by
+protocols across the network.</p>
+<ol start="5">
+<li>ProtocolBase</li>
+</ol>
+<p>A generic protocol trait that all protocols must implement.</p>
 
                     </main>
 

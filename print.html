@@ -2230,7 +2230,15 @@ the p2p network, in particular:</p>
 <p>The source code for this tutorial can be found at
 <a href="learn/dchat/../../../example/dchat">example/dchat</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<h1 id="deployment"><a class="header" href="#deployment">Deployment</a></h1>
+<h1 id="part-1-deploying-the-network"><a class="header" href="#part-1-deploying-the-network">Part 1: Deploying the network</a></h1>
+<p>We'll start by deploying a local version of the p2p network. This will
+introduce a number of key concepts:</p>
+<ul>
+<li>p2p daemons</li>
+<li>Inbound, outbound, manual and seed nodes</li>
+<li>Understanding Sessions</li>
+<li>p2p.start() and p2p.run()</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="getting-started"><a class="header" href="#getting-started">Getting started</a></h1>
 <p>We'll create a new cargo directory and add DarkFi to our Cargo.toml,
@@ -2660,9 +2668,90 @@ across by tracking their debug output.</p>
 creating a custom protocol and message types that dchat will use to
 send and receive messages across the network.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<h1 id="message"><a class="header" href="#message">Message</a></h1>
+<h1 id="creating-a-message-type"><a class="header" href="#creating-a-message-type">Creating a Message type</a></h1>
+<p>We'll start by creating a custom Message type called Dchatmsg. This is the
+data structure that we'll use to send messages between dchat instances.</p>
+<p>Messages on the p2p network must implement the Message trait. Message is a
+generic type that standardizes all messages on DarkFi's p2p network.</p>
+<p>We define a custom type called Dchatmsg that implements the Message
+trait. We also add serde's SerialEncodable and SerialDecodable to our
+struct definition so our messages can be parsed by the network.</p>
+<p>The Message trait requires that we implement a method called name(),
+which returns a str of the struct's name.</p>
+<pre><code>use darkfi::{
+    net,
+    util::serial::{SerialDecodable, SerialEncodable},
+};
+
+impl net::Message for Dchatmsg {
+    fn name() -&gt; &amp;'static str {
+        &quot;Dchatmsg&quot;
+    }
+}
+
+#[derive(Debug, Clone, SerialEncodable, SerialDecodable)]
+pub struct Dchatmsg {
+    pub msg: String,
+}
+</code></pre>
+<p>For the purposes of our chat program, we will also define a buffer where
+we can write messages upon receiving them on the p2p network. We'll wrap
+this in a Mutex to ensure thread safety and an Arc pointer so we can
+pass it around.</p>
+<pre><code>use async_std::sync::{Arc, Mutex};
+
+pub type DchatmsgsBuffer = Arc&lt;Mutex&lt;Vec&lt;Dchatmsg&gt;&gt;&gt;;
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<h1 id="protocols"><a class="header" href="#protocols">Protocols</a></h1>
+<h1 id="understanding-protocols"><a class="header" href="#understanding-protocols">Understanding protocols</a></h1>
+<p>We now need to implement a custom protocol which defines how our chat
+program interacts with the p2p network.</p>
+<p>We've already interacted with several protocols already. Protocols
+are automatically activated when nodes connect to eachother on the
+p2p network. Here are examples of two protocols that every node runs
+continuously in the background:</p>
+<p><a href="learn/dchat/creating-dchat/../../../src/net/protocol/protocol_ping.rs">ProtocolPing</a>: sends ping,
+receives pong
+<a href="learn/dchat/creating-dchat/../../../src/net/protocol/protocol_address.rs">ProtocolAddress</a>: receives
+a get_address message, sends an address message</p>
+<p>Under the hood, these protocols have a few similarities:</p>
+<ol>
+<li>They create a subscription to a message type, such as Ping and Pong.</li>
+<li>They implement <a href="learn/dchat/creating-dchat/../../../src/net/protocol/protocol_base.rs">ProtocolBase</a>,
+DarkFi's generic protocol trait.</li>
+<li>They run asynchronously using the
+<a href="learn/dchat/creating-dchat/../../../src/net/protocol/protocol_jobs_manager.rs">ProtocolJobsManager</a>.</li>
+<li>They hold a pointer to <a href="learn/dchat/creating-dchat/../../../src/net/channel.rs">Channel</a> which
+invokes the <a href="learn/dchat/creating-dchat/../../../src/net/message_subscriber">MessageSubsystem</a>.</li>
+</ol>
+<p>This introduces several generic interfaces that we must use to build
+our custom protocol. In particular:</p>
+<ol>
+<li>The Message Subsystem</li>
+</ol>
+<p>MessageSubsystem is a generic publish/subscribe class that can
+dispatch any kind of message to a list of dispatchers. This is how we
+can send and receive custom messages on the p2p network.</p>
+<ol start="2">
+<li>Message Subscription</li>
+</ol>
+<p>A subscription to a message type. </p>
+<ol start="3">
+<li>The Protocol Registry </li>
+</ol>
+<p>ProtocolRegistry takes any kind of generic protocol and initializes it. We
+use it through the method register() which passes a protocol constructor
+and a session bitflag which determines which sessions (outbound, inbound,
+or seed) will run our protocol.</p>
+<ol start="4">
+<li>ProtocolJobsManager</li>
+</ol>
+<p>An asynchronous job manager that spawns and stops tasks created by
+protocols across the network.</p>
+<ol start="5">
+<li>ProtocolBase</li>
+</ol>
+<p>A generic protocol trait that all protocols must implement.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="protocoldchat"><a class="header" href="#protocoldchat">ProtocolDchat</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -2883,11 +2972,11 @@ to detach it in the background.</p>
 <p>Now use the UI to send messages between Alice and Bob. We have
 successfully implemented a p2p chat program.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<h1 id="net-tools"><a class="header" href="#net-tools">Net tools</a></h1>
+<h1 id="todo"><a class="header" href="#todo">TODO</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<!---TODO--->
+<h1 id="todo-1"><a class="header" href="#todo-1">TODO</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<!---TODO--->
+<h1 id="todo-2"><a class="header" href="#todo-2">TODO</a></h1>
 
                     </main>
 

@@ -152,7 +152,40 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<h1 id="message"><a class="header" href="#message">Message</a></h1>
+<h1 id="creating-a-message-type"><a class="header" href="#creating-a-message-type">Creating a Message type</a></h1>
+<p>We'll start by creating a custom Message type called Dchatmsg. This is the
+data structure that we'll use to send messages between dchat instances.</p>
+<p>Messages on the p2p network must implement the Message trait. Message is a
+generic type that standardizes all messages on DarkFi's p2p network.</p>
+<p>We define a custom type called Dchatmsg that implements the Message
+trait. We also add serde's SerialEncodable and SerialDecodable to our
+struct definition so our messages can be parsed by the network.</p>
+<p>The Message trait requires that we implement a method called name(),
+which returns a str of the struct's name.</p>
+<pre><code>use darkfi::{
+    net,
+    util::serial::{SerialDecodable, SerialEncodable},
+};
+
+impl net::Message for Dchatmsg {
+    fn name() -&gt; &amp;'static str {
+        &quot;Dchatmsg&quot;
+    }
+}
+
+#[derive(Debug, Clone, SerialEncodable, SerialDecodable)]
+pub struct Dchatmsg {
+    pub msg: String,
+}
+</code></pre>
+<p>For the purposes of our chat program, we will also define a buffer where
+we can write messages upon receiving them on the p2p network. We'll wrap
+this in a Mutex to ensure thread safety and an Arc pointer so we can
+pass it around.</p>
+<pre><code>use async_std::sync::{Arc, Mutex};
+
+pub type DchatmsgsBuffer = Arc&lt;Mutex&lt;Vec&lt;Dchatmsg&gt;&gt;&gt;;
+</code></pre>
 
                     </main>
 
