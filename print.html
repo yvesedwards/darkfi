@@ -2435,7 +2435,18 @@ use the network defaults.</p>
 the case where a user forgets to add the command-line flag.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>{{#include ../../../../../example/dchat/src/dchat_error.rs:1:12}}
+</span>use std::{error, fmt};
+
+#[derive(Debug, Clone)]
+pub struct ErrorMissingSpecifier;
+
+impl fmt::Display for ErrorMissingSpecifier {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        write!(f, &quot;missing node specifier. you must specify either a or b&quot;)
+    }
+}
+
+impl error::Error for ErrorMissingSpecifier {}
 <span class="boring">}
 </span></code></pre></pre>
 <p>Finally we can read the flag from the command-line by adding the following lines to main():</p>
