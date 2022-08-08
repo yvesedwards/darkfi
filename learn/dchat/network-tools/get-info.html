@@ -164,15 +164,28 @@ method: <code>get_info()</code>.</p>
 method:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>{{#include ../../../../../example/dchat/src/rpc.rs:45:52}}
+</span>    // RPCAPI:
+    // Retrieves P2P network information.
+    // --&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_info&quot;, &quot;params&quot;: [], &quot;id&quot;: 42}
+    // &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, result&quot;: {&quot;nodeID&quot;: [], &quot;nodeinfo&quot;: [], &quot;id&quot;: 42}
+    async fn get_info(&amp;self, id: Value, _params: Value) -&gt; JsonResult {
+        let resp = self.p2p.get_info().await;
+        JsonResponse::new(resp, id).into()
+    }
 <span class="boring">}
 </span></code></pre></pre>
 <p>And add it to <code>handle_request()</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>{{#include ../../../../../example/dchat/src/rpc.rs:21}}
+</span>    async fn handle_request(&amp;self, req: JsonRequest) -&gt; JsonResult {
         //...
-{{#include ../../../../../example/dchat/src/rpc.rs:28:34}}
+        match req.method.as_str() {
+            Some(&quot;ping&quot;) =&gt; self.pong(req.id, req.params).await,
+            Some(&quot;get_info&quot;) =&gt; self.get_info(req.id, req.params).await,
+            Some(_) | None =&gt; JsonError::new(ErrorCode::MethodNotFound, None, req.id).into(),
+        }
+    }
+}
 <span class="boring">}
 </span></code></pre></pre>
 <p>This calls the p2p function <code>get_info()</code> and passes the returned data into a

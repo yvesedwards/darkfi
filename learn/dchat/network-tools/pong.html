@@ -159,17 +159,30 @@ let's implement some methods.</p>
 <p>We'll start with a simple <code>pong</code> method that replies to <code>ping</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>{{#include ../../../../../example/dchat/src/rpc.rs:36:43}}
-{{#include ../../../../../example/dchat/src/rpc.rs:53}}
+</span>impl JsonRpcInterface {
+    // RPCAPI:
+    // Replies to a ping method.
+    // --&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;ping&quot;, &quot;params&quot;: [], &quot;id&quot;: 42}
+    // &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;pong&quot;, &quot;id&quot;: 42}
+    async fn pong(&amp;self, id: Value, _params: Value) -&gt; JsonResult {
+        JsonResponse::new(json!(&quot;pong&quot;), id).into()
+    }
+}
 <span class="boring">}
 </span></code></pre></pre>
 <p>And add it to <code>handle_request()</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>{{#include ../../../../../example/dchat/src/rpc.rs:19:21}}
+</span>#[async_trait]
+impl RequestHandler for JsonRpcInterface {
+    async fn handle_request(&amp;self, req: JsonRequest) -&gt; JsonResult {
         //...
-{{#include ../../../../../example/dchat/src/rpc.rs:28:29}}
-{{#include ../../../../../example/dchat/src/rpc.rs:31:34}}
+        match req.method.as_str() {
+            Some(&quot;ping&quot;) =&gt; self.pong(req.id, req.params).await,
+            Some(_) | None =&gt; JsonError::new(ErrorCode::MethodNotFound, None, req.id).into(),
+        }
+    }
+}
 <span class="boring">}
 </span></code></pre></pre>
 

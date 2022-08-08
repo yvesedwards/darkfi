@@ -3214,7 +3214,23 @@ takes two values, an accept <code>Url</code> that will receive JSON-RPC requests
 and a pointer to the p2p network.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>{{#include ../../../../../example/dchat/src/rpc.rs:1:17}}
+</span>use async_trait::async_trait;
+use log::debug;
+use serde_json::{json, Value};
+use url::Url;
+
+use darkfi::{
+    net,
+    rpc::{
+        jsonrpc::{ErrorCode, JsonError, JsonRequest, JsonResponse, JsonResult},
+        server::RequestHandler,
+    },
+};
+
+pub struct JsonRpcInterface {
+    pub addr: Url,
+    pub p2p: net::P2pPtr,
+}
 <span class="boring">}
 </span></code></pre></pre>
 <p>We'll need to implement a trait called <code>RequestHandler</code> for
@@ -3259,8 +3275,20 @@ that respond to methods received over JSON-RPC.  We haven't implemented
 any methods yet, so for now let's just return a <code>JsonError</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>{{#include ../../../../../example/dchat/src/rpc.rs:19:28}}
-{{#include ../../../../../example/dchat/src/rpc.rs:31:34}}
+</span>#[async_trait]
+impl RequestHandler for JsonRpcInterface {
+    async fn handle_request(&amp;self, req: JsonRequest) -&gt; JsonResult {
+        if req.params.as_array().is_none() {
+            return JsonError::new(ErrorCode::InvalidRequest, None, req.id).into()
+        }
+
+        debug!(target: &quot;RPC&quot;, &quot;--&gt; {}&quot;, serde_json::to_string(&amp;req).unwrap());
+
+        match req.method.as_str() {
+            Some(_) | None =&gt; JsonError::new(ErrorCode::MethodNotFound, None, req.id).into(),
+        }
+    }
+}
 <span class="boring">}
 </span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -3355,17 +3383,30 @@ let's implement some methods.</p>
 <p>We'll start with a simple <code>pong</code> method that replies to <code>ping</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>{{#include ../../../../../example/dchat/src/rpc.rs:36:43}}
-{{#include ../../../../../example/dchat/src/rpc.rs:53}}
+</span>impl JsonRpcInterface {
+    // RPCAPI:
+    // Replies to a ping method.
+    // --&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;ping&quot;, &quot;params&quot;: [], &quot;id&quot;: 42}
+    // &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;pong&quot;, &quot;id&quot;: 42}
+    async fn pong(&amp;self, id: Value, _params: Value) -&gt; JsonResult {
+        JsonResponse::new(json!(&quot;pong&quot;), id).into()
+    }
+}
 <span class="boring">}
 </span></code></pre></pre>
 <p>And add it to <code>handle_request()</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>{{#include ../../../../../example/dchat/src/rpc.rs:19:21}}
+</span>#[async_trait]
+impl RequestHandler for JsonRpcInterface {
+    async fn handle_request(&amp;self, req: JsonRequest) -&gt; JsonResult {
         //...
-{{#include ../../../../../example/dchat/src/rpc.rs:28:29}}
-{{#include ../../../../../example/dchat/src/rpc.rs:31:34}}
+        match req.method.as_str() {
+            Some(&quot;ping&quot;) =&gt; self.pong(req.id, req.params).await,
+            Some(_) | None =&gt; JsonError::new(ErrorCode::MethodNotFound, None, req.id).into(),
+        }
+    }
+}
 <span class="boring">}
 </span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -3454,15 +3495,28 @@ method: <code>get_info()</code>.</p>
 method:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>{{#include ../../../../../example/dchat/src/rpc.rs:45:52}}
+</span>    // RPCAPI:
+    // Retrieves P2P network information.
+    // --&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_info&quot;, &quot;params&quot;: [], &quot;id&quot;: 42}
+    // &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, result&quot;: {&quot;nodeID&quot;: [], &quot;nodeinfo&quot;: [], &quot;id&quot;: 42}
+    async fn get_info(&amp;self, id: Value, _params: Value) -&gt; JsonResult {
+        let resp = self.p2p.get_info().await;
+        JsonResponse::new(resp, id).into()
+    }
 <span class="boring">}
 </span></code></pre></pre>
 <p>And add it to <code>handle_request()</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>{{#include ../../../../../example/dchat/src/rpc.rs:21}}
+</span>    async fn handle_request(&amp;self, req: JsonRequest) -&gt; JsonResult {
         //...
-{{#include ../../../../../example/dchat/src/rpc.rs:28:34}}
+        match req.method.as_str() {
+            Some(&quot;ping&quot;) =&gt; self.pong(req.id, req.params).await,
+            Some(&quot;get_info&quot;) =&gt; self.get_info(req.id, req.params).await,
+            Some(_) | None =&gt; JsonError::new(ErrorCode::MethodNotFound, None, req.id).into(),
+        }
+    }
+}
 <span class="boring">}
 </span></code></pre></pre>
 <p>This calls the p2p function <code>get_info()</code> and passes the returned data into a
