@@ -163,6 +163,7 @@ a fully private transaction between two addresses.</p>
 <pre><code>constant &quot;Mint&quot; {
 	EcFixedPointShort VALUE_COMMIT_VALUE,
 	EcFixedPoint VALUE_COMMIT_RANDOM,
+	EcFixedPointBase NULLIFIER_K,
 }
 
 contract &quot;Mint&quot; {
@@ -193,7 +194,7 @@ circuit &quot;Mint&quot; {
 	constrain_instance(value_commit_y);
 
 	# Pedersen commitment for coin's token ID
-	tcv = ec_mul_short(token, VALUE_COMMIT_VALUE);
+	tcv = ec_mul_base(token, NULLIFIER_K);
 	tcr = ec_mul(token_blind, VALUE_COMMIT_RANDOM);
 	token_commit = ec_add(tcv, tcr);
 	# Since token_commit is also a curve point, we'll do the same
@@ -271,7 +272,7 @@ before-mentioned public inputs for the circuit:</p>
 
     // Witness values
     let value = 42;
-    let token_id = pallas::Base::from(22);
+    let token_id = pallas::Base::random(&amp;mut OsRng);
     let value_blind = pallas::Scalar::random(&amp;mut OsRng);
     let token_blind = pallas::Scalar::random(&amp;mut OsRng);
     let serial = pallas::Base::random(&amp;mut OsRng);
@@ -298,7 +299,7 @@ before-mentioned public inputs for the circuit:</p>
     let value_commit = pedersen_commitment_u64(value, value_blind);
     let value_coords = value_commit.to_affine().coordinates().unwrap();
 
-    let token_commit = pedersen_commitment_scalar(mod_r_p(token_id), token_blind);
+    let token_commit = pedersen_commitment_base(token_id, token_blind);
     let token_coords = token_commit.to_affine().coordinates().unwrap();
 
     let public_inputs =
@@ -361,7 +362,7 @@ circuit &quot;Burn&quot; {
 	constrain_instance(value_commit_y);
 
 	# Pedersen commitment for coin's token ID
-	tcv = ec_mul_short(token, VALUE_COMMIT_VALUE);
+	tcv = ec_mul_base(token, NULLIFIER_K);
 	tcr = ec_mul(token_blind, VALUE_COMMIT_RANDOM);
 	token_commit = ec_add(tcv, tcr);
 	# Since token_commit is also a curve point, we'll do the same
@@ -446,7 +447,7 @@ before-mentioned public inputs for the circuit:</p>
 
     // Witness values
     let value = 42;
-    let token_id = pallas::Base::from(22);
+    let token_id = pallas::Base::random(&amp;mut OsRng);
     let value_blind = pallas::Scalar::random(&amp;mut OsRng);
     let token_blind = pallas::Scalar::random(&amp;mut OsRng);
     let serial = pallas::Base::random(&amp;mut OsRng);
@@ -505,7 +506,7 @@ before-mentioned public inputs for the circuit:</p>
     let value_commit = pedersen_commitment_u64(value, value_blind);
     let value_coords = value_commit.to_affine().coordinates().unwrap();
 
-    let token_commit = pedersen_commitment_scalar(mod_r_p(token_id), token_blind);
+    let token_commit = pedersen_commitment_base(token_id, token_blind);
     let token_coords = token_commit.to_affine().coordinates().unwrap();
 
     let sig_pubkey = PublicKey::from_secret(sig_secret);
