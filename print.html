@@ -1122,7 +1122,7 @@ They are also verifiers in our model.</p>
         }
 
         // Verifier code
-        struct FuncCall {
+        struct CallData {
             ...
             // contains the function call data
             ...
@@ -1131,34 +1131,41 @@ They are also verifiers in our model.</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>There is a pipeline where the prover runs <code>Builder::build()</code> to create the <code>FuncCall</code> object that
+<p>There is a pipeline where the prover runs <code>Builder::build()</code> to create the <code>CallData</code> object that
 is then broadcast to the verifiers through the p2p network.</p>
 <h2 id="atomic-transactions"><a class="header" href="#atomic-transactions">Atomic Transactions</a></h2>
 <p>Transactions represent several function call invocations that are atomic. If any function call fails,
-then the entire tx is rejected. Additionally some smart contracts might impose additional conditions
+the entire tx is rejected. Additionally some smart contracts might impose additional conditions
 on the transaction's structure or other function calls (such as their call data).</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct Transaction {
-    func_calls: Vec&lt;Box&lt;FuncCallBase&gt;&gt;
+    func_calls: Vec&lt;FuncCall&gt;
 }
 <span class="boring">}
 </span></code></pre></pre>
 <p>Function calls represent mutations of the current active state to a new state.</p>
-<p>The <code>ContractFuncId</code> of a function call corresponds to predefined objects in the module:</p>
-<ul>
-<li><code>Builder</code> creates the <code>FuncCall</code> invocation. Ran by the prover.</li>
-<li><code>FuncCall</code> is the function call invocation that verifiers have access to.</li>
-<li><code>state_transition()</code> that runs the function call on the current state.</li>
-<li><code>apply()</code> commits the update to the current state taking it to the next state.</li>
-</ul>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>trait FuncCallBase {
-    fn contract_func_id() -&gt; ContractFuncId;
+</span>struct FuncCall {
+    contract_id: ContractId,
+    func_id: FuncId,
+    call_data: Box&lt;dyn Any&gt;,
 }
 <span class="boring">}
 </span></code></pre></pre>
+<p>The <code>contract_id</code> corresponds to the top level module for the contract which
+includes the global <code>State</code>.</p>
+<p>The <code>func_id</code> of a function call corresponds to predefined objects in the submodules:</p>
+<ul>
+<li><code>Builder</code> creates the anonymized <code>CallData</code>. Ran by the prover.</li>
+<li><code>CallData</code> is the parameters used by the anonymized function call invocation.
+Verifiers have this.</li>
+<li><code>state_transition()</code> that runs the function call on the current state using the <code>CallData</code>.</li>
+<li><code>apply()</code> commits the update to the current state taking it to the next state.</li>
+</ul>
+<p>An example of a <code>contract_id</code> could represent <code>DAO</code> or <code>Money</code>. Examples of <code>func_id</code> could
+represent <code>DAO::mint()</code> or <code>Money::transfer()</code>.</p>
 <p>Each function call invocation is ran using its own <code>state_transition()</code> function.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1170,10 +1177,17 @@ on the transaction's structure or other function calls (such as their call data)
         ...
 
         fn state_transition(states: &amp;StateRegistry, func_call_index: usize, parent_tx: &amp;Transaction) -&gt; Result&lt;Update&gt; {
-            // we could pass the func_call, index and parent_tx also
-            let (_, func_call) = parent_tx.func_calls[func_call_index];
+            // we could also change the state_transition() function signature
+            // so we pass the func_call itself in
+            let func_call = parent_tx.func_calls[func_call_index];
+            let call_data = func_call.call_data;
+            // It's useful to have the func_call_index within parent_tx because
+            // we might want to enforce that it appears at a certain index exactly.
+            // So we know the tx is well formed.
+
             // we can elide this with macro magic
-            let func_call = func_call.as_any().downcast_ref::&lt;FuncCall&gt;();
+            assert_eq((&amp;*call_data).type_id(), TypeId::of::&lt;CallData&gt;());
+            let func_call = func_call.call_data.downcast_ref::&lt;CallData&gt;();
 
             ...
         }
@@ -1183,7 +1197,7 @@ on the transaction's structure or other function calls (such as their call data)
 </span></code></pre></pre>
 <p>The <code>state_transition()</code> has access to the entire atomic transaction to enforce correctness. For example
 chaining of function calls is used by the <code>DAO::exec()</code> smart contract function to execute moving money out
-of the treasury using <code>Money::pay()</code> within the same transaction.</p>
+of the treasury using <code>Money::transfer()</code> within the same transaction.</p>
 <p>Additionally <code>StateRegistry</code> gives smart contracts access to the global states of all smart contracts on the network,
 which is needed for some contracts.</p>
 <p>Note that during this step, the state is <em>not</em> modified. Modification happens after the <code>state_transition()</code> is run
@@ -1210,14 +1224,14 @@ applied at the end. This ensures atomicity property of transactions.</p>
 <ol>
 <li>Loop through all function call invocations within the transaction:
 <ol>
-<li>Lookup their respective <code>state_transition()</code> function based off their <code>contract_func_id</code>.
-The <code>contract_func_id</code> corresponds to the contract and specific function, such as <code>DAO::mint()</code>.</li>
+<li>Lookup their respective <code>state_transition()</code> function based off their <code>contract_id</code> and <code>func_id</code>.
+The <code>contract_id</code> and <code>func_id</code> corresponds to the contract and specific function, such as <code>DAO::mint()</code>.</li>
 <li>Call the <code>state_transition()</code> function and store the update. Halt if this function fails.</li>
 </ol>
 </li>
 <li>Loop through all updates
 <ol>
-<li>Lookup specific <code>apply()</code> function based off the <code>contract_func_id</code>.</li>
+<li>Lookup specific <code>apply()</code> function based off the <code>contract_id</code> and <code>func_id</code>.</li>
 <li>Call <code>apply(update)</code> to finalize the change.</li>
 </ol>
 </li>
