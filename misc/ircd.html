@@ -165,6 +165,9 @@ between hosts.</p>
 % make BINS=ircd
 % sudo make install BINS=ircd
 </code></pre>
+<p>Follow the instructions in the
+<a href="https://darkrenaissance.github.io/darkfi/index.html">README</a> to ensure
+you have all the necessary dependenices.</p>
 <h2 id="usage-darkfi-network"><a class="header" href="#usage-darkfi-network">Usage (DarkFi Network)</a></h2>
 <p>Upon installing <code>ircd</code> as described above, the preconfigured defaults
 will allow you to connect to the network and start chatting with the
@@ -204,34 +207,6 @@ following commands (there is an assumption that <code>irc_listen</code> in the
 <p>This will set up the server, save the settings, and exit weechat.
 You are now ready to begin using the chat. Simply start weechat
 and everything should work.</p>
-<p>We can now proceed with installing the <code>mallumo</code> weechat script, which
-is used for E2E encryption in private messages on this IRC network.</p>
-<h4 id="e2e-encryption-with-mallumo"><a class="header" href="#e2e-encryption-with-mallumo">E2E encryption with mallumo</a></h4>
-<p><code>mallumo</code> is a Python plugin for Weechat that can be used to
-enable end-to-end encryption for private messages between you and
-other users of the DarkFi IRC network. The verbose installation
-and configuration instructions can be found in the <a href="https://github.com/darkrenaissance/mallumo">mallumo git
-repository</a>.</p>
-<p>Briefly, make sure you install python3 and
-<a href="https://github.com/pyca/pynacl/"><code>pynacl</code></a> (can usually be done with
-your distribution's package manager or <code>pip</code>).</p>
-<p>Then find where weechat has put its configuration files. It is usually
-<code>~/.weechat</code> or <code>~/.local/share/weechat</code> (here we will assume the
-latter). Go to the directory, clone the repo, and make a couple of
-symlinks:</p>
-<pre><code class="language-shell">% cd ~/.local/share/weechat
-% mkdir -p src
-% git clone https://github.com/darkrenaissance/mallumo src/mallumo
-% cd python
-% ln -s `realpath ../src/mallumo/mallumo` mallumo
-% ln -s `realpath ../src/mallumo/mallumo/__init__.py` autoload/mallumo.py
-</code></pre>
-<p>Refer to
-<a href="https://github.com/darkrenaissance/mallumo">darkrenaissance/mallumo</a>
-and its README for usage instructions.</p>
-<p>After this has been set up, the next time you start <code>ircd</code> and then
-<code>weechat</code>, you will be connected to the DarkFi IRC network and be
-able to chat with other participants.</p>
 <h2 id="usage-local-deployment"><a class="header" href="#usage-local-deployment">Usage (Local Deployment)</a></h2>
 <p>These steps below are only for developers who wish to make a testing
 deployment. The previous sections are sufficient to join the chat.</p>
