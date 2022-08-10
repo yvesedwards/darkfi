@@ -1075,24 +1075,21 @@ and communicates with the endpoint exposed by <code>darkfid</code>.</p>
 <p><strong>Prover</strong> is the person executing the smart contract function on their secret witness data.
 They are also verifiers in our model.</p>
 <p>Lets take a pseudocode smart contract:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>contract Dao {
-<span class="boring">    1: the DAO's global state
-</span>    dao_bullas = DaoBulla[]
+<pre><code>contract Dao {
+    # 1: the DAO's global state
+    dao_bullas = DaoBulla[]
     proposal_bullas = ProposalBulla[]
     proposal_nulls = ProposalNull[]
 
-<span class="boring">    2. a public smart contract function
-</span><span class="boring">       there can be many of these
-</span>    fn mint(...) {
+    # 2. a public smart contract function
+    #    there can be many of these
+    fn mint(...) {
         ...
     }
 
     ...
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <h2 id="global-smart-contract-state"><a class="header" href="#global-smart-contract-state">Global Smart Contract State</a></h2>
 <p>Internally we represent this smart contract like this:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1105,7 +1102,7 @@ They are also verifiers in our model.</p>
         proposal_nulls: Vec&lt;ProposalNull&gt;
     }
 
-    // Corresponds to mint()
+    // Corresponds to 2. mint()
     mod mint {
         // Prover specific
         struct Builder {
@@ -1118,10 +1115,16 @@ They are also verifiers in our model.</p>
             fn new(...) -&gt; Self {
                 ...
             }
+
+            fn build() -&gt; Box&lt;FuncCallBase&gt; {
+                ...
+            }
         }
 
         // Verifier code
         struct FuncCall {
+            ...
+            // contains the function call data
             ...
         }
     }
@@ -1137,12 +1140,26 @@ on the transaction's structure or other function calls (such as their call data)
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct Transaction {
-    func_calls: Vec&lt;(ContractFuncId, Box&lt;FuncCallBase&gt;)&gt;
+    func_calls: Vec&lt;Box&lt;FuncCallBase&gt;&gt;
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>Function calls represent mutations of the current active state to a new state.
-Each function call invocation is ran using its own <code>state_transition()</code> function.</p>
+<p>Function calls represent mutations of the current active state to a new state.</p>
+<p>The <code>ContractFuncId</code> of a function call corresponds to predefined objects in the module:</p>
+<ul>
+<li><code>Builder</code> creates the <code>FuncCall</code> invocation. Ran by the prover.</li>
+<li><code>FuncCall</code> is the function call invocation that verifiers have access to.</li>
+<li><code>state_transition()</code> that runs the function call on the current state.</li>
+<li><code>apply()</code> commits the update to the current state taking it to the next state.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait FuncCallBase {
+    fn contract_func_id() -&gt; ContractFuncId;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Each function call invocation is ran using its own <code>state_transition()</code> function.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>mod dao_contract {
@@ -1155,6 +1172,8 @@ Each function call invocation is ran using its own <code>state_transition()</cod
         fn state_transition(states: &amp;StateRegistry, func_call_index: usize, parent_tx: &amp;Transaction) -&gt; Result&lt;Update&gt; {
             // we could pass the func_call, index and parent_tx also
             let (_, func_call) = parent_tx.func_calls[func_call_index];
+            // we can elide this with macro magic
+            let func_call = func_call.as_any().downcast_ref::&lt;FuncCall&gt;();
 
             ...
         }
@@ -1205,7 +1224,7 @@ The <code>contract_func_id</code> corresponds to the contract and specific funct
 </ol>
 <h2 id="parallelisation-techniques"><a class="header" href="#parallelisation-techniques">Parallelisation Techniques</a></h2>
 <p>Since verification is done through <code>state_transition()</code> which returns an update that is then committed
-to the state using <code>apply()</code>, we can perform verify all transactions in a block in parallel.</p>
+to the state using <code>apply()</code>, we can verify all transactions in a block in parallel.</p>
 <p>To enable calling another transaction within the same block (such as flashloans), we can add a special
 depends field within the tx that makes a tx wait on another tx before being allowed to verify.
 This causes a small deanonymization to occur but brings a massive scalability benefit
