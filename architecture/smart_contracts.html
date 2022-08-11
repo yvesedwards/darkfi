@@ -270,7 +270,7 @@ represent <code>DAO::mint()</code> or <code>Money::transfer()</code>.</p>
             // So we know the tx is well formed.
 
             // we can elide this with macro magic
-            assert_eq((&amp;*call_data).type_id(), TypeId::of::&lt;CallData&gt;());
+            assert_eq((&amp;**call_data).type_id(), TypeId::of::&lt;CallData&gt;());
             let func_call = func_call.call_data.downcast_ref::&lt;CallData&gt;();
 
             ...
