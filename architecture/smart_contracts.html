@@ -215,6 +215,8 @@ They are also verifiers in our model.</p>
 </span></code></pre></pre>
 <p>There is a pipeline where the prover runs <code>Builder::build()</code> to create the <code>CallData</code> object that
 is then broadcast to the verifiers through the p2p network.</p>
+<p>The <code>CallData</code> usually is the public values exported from a ZK proof. Essentially it is the data
+used by the verifier to check the function call for <code>DAO::mint()</code>.</p>
 <h2 id="atomic-transactions"><a class="header" href="#atomic-transactions">Atomic Transactions</a></h2>
 <p>Transactions represent several function call invocations that are atomic. If any function call fails,
 the entire tx is rejected. Additionally some smart contracts might impose additional conditions
