@@ -198,7 +198,7 @@ They are also verifiers in our model.</p>
                 ...
             }
 
-            fn build() -&gt; Box&lt;FuncCallBase&gt; {
+            fn build() -&gt; FuncCall {
                 ...
             }
         }
@@ -213,7 +213,7 @@ They are also verifiers in our model.</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>There is a pipeline where the prover runs <code>Builder::build()</code> to create the <code>CallData</code> object that
+<p>There is a pipeline where the prover runs <code>Builder::build()</code> to create the <code>FuncCall</code> object that
 is then broadcast to the verifiers through the p2p network.</p>
 <p>The <code>CallData</code> usually is the public values exported from a ZK proof. Essentially it is the data
 used by the verifier to check the function call for <code>DAO::mint()</code>.</p>
