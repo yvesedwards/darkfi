@@ -185,8 +185,8 @@ instead of a <code>Settings</code>.</p>
     let ext_addr = Url::parse(&quot;tcp://127.0.0.1:51554&quot;).unwrap();
 
     let net = Settings {
-        inbound: Some(inbound),
-        external_addr: Some(ext_addr),
+        inbound: vec![inbound],
+        external_addr: vec![ext_addr],
         seeds: vec![seed],
         ..Default::default()
     };
@@ -204,7 +204,7 @@ instead of a <code>Settings</code>.</p>
 </span>fn bob() -&gt; Result&lt;AppSettings&gt; {
     //...
     let net = Settings {
-        inbound: None,
+        inbound: vec![],
         outbound_connections: 5,
         seeds: vec![seed],
         ..Default::default()

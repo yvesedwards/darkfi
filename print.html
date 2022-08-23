@@ -2719,8 +2719,7 @@ and <code>p2p::stop()</code>.</p>
 <p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L129">start()</a>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    pub async fn start(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
-        debug!(target: &quot;net&quot;, &quot;P2p::start() [BEGIN]&quot;);
+</span>        debug!(target: &quot;net&quot;, &quot;P2p::start() [BEGIN]&quot;);
 
         *self.state.lock().await = P2pState::Start;
 
@@ -2734,6 +2733,7 @@ and <code>p2p::stop()</code>.</p>
         debug!(target: &quot;net&quot;, &quot;P2p::start() [END]&quot;);
         Ok(())
     }
+
 <span class="boring">}
 </span></code></pre></pre>
 <p><code>start()</code> changes the <code>P2pState</code> to <code>P2pState::Start</code> and runs a <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/session/seed_session.rs">seed
@@ -2748,8 +2748,7 @@ the channel from the channel list.</p>
 <p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L157">run()</a>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    pub async fn run(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
-        debug!(target: &quot;net&quot;, &quot;P2p::run() [BEGIN]&quot;);
+</span>        debug!(target: &quot;net&quot;, &quot;P2p::run() [BEGIN]&quot;);
 
         *self.state.lock().await = P2pState::Run;
 
@@ -2776,6 +2775,7 @@ the channel from the channel list.</p>
         debug!(target: &quot;net&quot;, &quot;P2p::run() [END]&quot;);
         Ok(())
     }
+
 <span class="boring">}
 </span></code></pre></pre>
 <p><code>run()</code> changes the P2pState to <code>P2pState::Run</code>. It then calls <code>start()</code>
@@ -2793,9 +2793,9 @@ is received.</p>
 <p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L186">stop()</a>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>        pub async fn stop(&amp;self) {
-        self.stop_subscriber.notify(()).await
+</span>            self.stop_subscriber.notify(()).await
     }
+
 <span class="boring">}
 </span></code></pre></pre>
 <p><code>stop()</code> transmits a shutdown signal to all channels subscribed to the
@@ -3251,12 +3251,12 @@ can now support. Finally, we pass the message into <code>p2p.broadcast()</code>.
 <p>Here's what happens under the hood:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    pub async fn broadcast&lt;M: Message + Clone&gt;(&amp;self, message: M) -&gt; Result&lt;()&gt; {
-        for channel in self.channels.lock().await.values() {
+</span>        for channel in self.channels.lock().await.values() {
             channel.send(message.clone()).await?;
         }
         Ok(())
     }
+
 <span class="boring">}
 </span></code></pre></pre>
 <p>This is pretty straightforward: <code>broadcast()</code> takes a generic <code>Message</code> type
@@ -3521,8 +3521,8 @@ instead of a <code>Settings</code>.</p>
     let ext_addr = Url::parse(&quot;tcp://127.0.0.1:51554&quot;).unwrap();
 
     let net = Settings {
-        inbound: Some(inbound),
-        external_addr: Some(ext_addr),
+        inbound: vec![inbound],
+        external_addr: vec![ext_addr],
         seeds: vec![seed],
         ..Default::default()
     };
@@ -3540,7 +3540,7 @@ instead of a <code>Settings</code>.</p>
 </span>fn bob() -&gt; Result&lt;AppSettings&gt; {
     //...
     let net = Settings {
-        inbound: None,
+        inbound: vec![],
         outbound_connections: 5,
         seeds: vec![seed],
         ..Default::default()
@@ -3724,21 +3724,21 @@ calls which deliver info specific to a node, its inbound or outbound
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>    pub async fn get_info(&amp;self) -&gt; serde_json::Value {
-        let external_addr = self
-            .settings
-            .external_addr
-            .as_ref()
-            .map(|addr| serde_json::Value::from(addr.to_string()))
-            .unwrap_or(serde_json::Value::Null);
+        // Building ext_addr_vec string
+        let mut ext_addr_vec = vec![];
+        for ext_addr in &amp;self.settings.external_addr {
+            ext_addr_vec.push(ext_addr.as_ref().to_string());
+        }
 
         json!({
-            &quot;external_addr&quot;: external_addr,
+            &quot;external_addr&quot;: format!(&quot;{:?}&quot;, ext_addr_vec),
             &quot;session_manual&quot;: self.session_manual().await.get_info().await,
             &quot;session_inbound&quot;: self.session_inbound().await.get_info().await,
             &quot;session_outbound&quot;: self.session_outbound().await.get_info().await,
             &quot;state&quot;: self.state.lock().await.to_string(),
         })
     }
+
 <span class="boring">}
 </span></code></pre></pre>
 <p>Here we return two pieces of info that are unique to a node:

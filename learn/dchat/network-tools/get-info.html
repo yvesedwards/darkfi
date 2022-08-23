@@ -197,21 +197,21 @@ calls which deliver info specific to a node, its inbound or outbound
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>    pub async fn get_info(&amp;self) -&gt; serde_json::Value {
-        let external_addr = self
-            .settings
-            .external_addr
-            .as_ref()
-            .map(|addr| serde_json::Value::from(addr.to_string()))
-            .unwrap_or(serde_json::Value::Null);
+        // Building ext_addr_vec string
+        let mut ext_addr_vec = vec![];
+        for ext_addr in &amp;self.settings.external_addr {
+            ext_addr_vec.push(ext_addr.as_ref().to_string());
+        }
 
         json!({
-            &quot;external_addr&quot;: external_addr,
+            &quot;external_addr&quot;: format!(&quot;{:?}&quot;, ext_addr_vec),
             &quot;session_manual&quot;: self.session_manual().await.get_info().await,
             &quot;session_inbound&quot;: self.session_inbound().await.get_info().await,
             &quot;session_outbound&quot;: self.session_outbound().await.get_info().await,
             &quot;state&quot;: self.state.lock().await.to_string(),
         })
     }
+
 <span class="boring">}
 </span></code></pre></pre>
 <p>Here we return two pieces of info that are unique to a node:
