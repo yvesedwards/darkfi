@@ -161,28 +161,26 @@
 % sudo make install BINS=&quot;darkwikid darkwiki&quot;
 </code></pre>
 <h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
-<ul>
-<li>Once Darkwiki get installed, darkwiki daemon must run in the background:</li>
-</ul>
+<p>1 - Once Darkwiki get installed, darkwiki daemon must run in the background:</p>
 <pre><code class="language-shell">% darkwikid
 </code></pre>
-<p>1 - To update <code>synchronized directory</code> (default ~/darkwiki) and receive new documents from the network:</p>
+<p>2 - To update <code>synchronized directory</code> (default ~/darkwiki) and receive new documents from the network:</p>
 <pre><code class="language-shell">% darkwiki update
 </code></pre>
 <blockquote>
 <p><strong><em>NOTE:</em></strong>  The <code>synchronized directory</code> path can be changed from the config file in ~/.config/darkfi/darkwiki.toml</p>
 </blockquote>
-<p>2 - After add/edit a document in ~/darkwiki, the changes will be published by running
+<p>3 - After add/edit a document in ~/darkwiki, the changes will be published by running
 <code>update</code> command:</p>
 <pre><code class="language-shell">% darkwiki update
 </code></pre>
-<p>3 - For restore files having local changes to the original text: </p>
+<p>4 - For restore files having local changes to the original text: </p>
 <pre><code class="language-shell">% darkwiki resotre
 </code></pre>
-<p>4 - For both <code>restore</code> and <code>update</code> commands, the flag <code>--dry-run</code> can show the changes without applying/publishing the patches</p>
+<p>5 - For both <code>restore</code> and <code>update</code> commands, the flag <code>--dry-run</code> can show the changes without applying/publishing the patches</p>
 <pre><code class="language-shell">% darkwiki update --dry-run
 </code></pre>
-<p>5 - Both <code>restore</code> and <code>update</code> commands are accepting passing the files names instead of updating/restoring all the documents in ~/darkwiki</p>
+<p>6 - Both <code>restore</code> and <code>update</code> commands are accepting passing the files names instead of updating/restoring all the documents in ~/darkwiki</p>
 <pre><code class="language-shell">% darkwiki update file1.md file2.md 
 </code></pre>
 
