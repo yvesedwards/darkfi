@@ -170,12 +170,12 @@ can now support. Finally, we pass the message into <code>p2p.broadcast()</code>.
 <p>Here's what happens under the hood:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>        for channel in self.channels.lock().await.values() {
-            channel.send(message.clone()).await?;
-        }
-        Ok(())
-    }
-
+</span>                    // We check again to see if we have any pending connections.
+                    if !self.pending().await.is_empty() {
+                        // We wait for outbound connections to finish initilizing.
+                        init_recv.recv().await?;
+                    }
+                }
 <span class="boring">}
 </span></code></pre></pre>
 <p>This is pretty straightforward: <code>broadcast()</code> takes a generic <code>Message</code> type
