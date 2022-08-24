@@ -651,10 +651,12 @@ so it's enough to install <code>cargo hack</code> and run <code>make check</code
 <h1 id="p2p-port-ranges"><a class="header" href="#p2p-port-ranges">P2P port ranges</a></h1>
 <p>Standard port ranges used by DarkFi.</p>
 <ul>
+<li>lilith: 25551</li>
 <li>darkfid-sync: 33032</li>
 <li>darkfid-consensus: 33033</li>
 <li>ircd: 25551</li>
 <li>taud: 23331</li>
+<li>darkwikid: 24331</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="architecture-design"><a class="header" href="#architecture-design">Architecture design</a></h1>
@@ -2095,8 +2097,8 @@ straight after receiving them.</p>
 <p>The first time you run the program, a config file will be created in
 .config/darkfi. You must specify an inbound accept address in your
 config file to configure a seed node:</p>
-<pre><code class="language-toml">## P2P accept address
-inbound=&quot;127.0.0.1:11001&quot; 
+<pre><code class="language-toml">## P2P accept addresses
+inbound=[&quot;127.0.0.1:11001&quot;]
 </code></pre>
 <p>Note that the above config doesn't specify an external address since
 the seed node shouldn't be advertised in the list of connectable
@@ -2106,14 +2108,14 @@ the network during the bootstrapping phase.</p>
 <h3 id="inbound-node"><a class="header" href="#inbound-node">Inbound Node</a></h3>
 <p>This is a node accepting inbound connections on the network but which
 is not making any outbound connections.</p>
-<p>The external address is important and must be correct.</p>
+<p>The external addresses are important and must be correct.</p>
 <p>To run an inbound node, your config file must contain the following
 info:</p>
-<pre><code class="language-toml">## P2P accept address
-inbound=&quot;127.0.0.1:11002&quot; 
+<pre><code class="language-toml">## P2P accept addresses
+inbound=[&quot;127.0.0.1:11002&quot;]
 
-## P2P external address
-external_addr=&quot;127.0.0.1:11002&quot;
+## P2P external addresses
+external_addr=[&quot;127.0.0.1:11002&quot;]
 
 ## Seed nodes to connect to 
 seeds=[&quot;127.0.0.1:11001&quot;]
@@ -2168,8 +2170,8 @@ connects to a seed node and runs <code>protocol_seed</code>, which requests a li
 addresses from the seed node and disconnects straight after receiving them.</p>
 <pre><code>in config file:
 
-	## P2P accept address
-	inbound=&quot;127.0.0.1:11001&quot; 
+	## P2P accept addresses
+	inbound=[&quot;127.0.0.1:11001&quot;] 
 </code></pre>
 <p>Note that the above config doesn't specify an external address since the
 seed node shouldn't be advertised in the list of connectable nodes. The seed
@@ -2178,14 +2180,14 @@ new nodes to discover other nodes in the network during the bootstrapping phase.
 <h3 id="inbound-node-1"><a class="header" href="#inbound-node-1">Inbound Node</a></h3>
 <p>This is a node accepting inbound connections on the network but which is not
 making any outbound connections.</p>
-<p>The external address is important and must be correct.</p>
+<p>The external addresses are important and must be correct.</p>
 <pre><code>in config file:
 	
-	## P2P accept address
-	inbound=&quot;127.0.0.1:11002&quot; 
+	## P2P accept addresses
+	inbound=[&quot;127.0.0.1:11002&quot;]
 	
-	## P2P external address
-	external_addr=&quot;127.0.0.1:11002&quot;
+	## P2P external addresses
+	external_addr=[&quot;127.0.0.1:11002&quot;]
 
 	## Seed nodes to connect to 
 	seeds=[&quot;127.0.0.1:11001&quot;]

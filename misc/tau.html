@@ -169,8 +169,8 @@ connects to a seed node and runs <code>protocol_seed</code>, which requests a li
 addresses from the seed node and disconnects straight after receiving them.</p>
 <pre><code>in config file:
 
-	## P2P accept address
-	inbound=&quot;127.0.0.1:11001&quot; 
+	## P2P accept addresses
+	inbound=[&quot;127.0.0.1:11001&quot;] 
 </code></pre>
 <p>Note that the above config doesn't specify an external address since the
 seed node shouldn't be advertised in the list of connectable nodes. The seed
@@ -179,14 +179,14 @@ new nodes to discover other nodes in the network during the bootstrapping phase.
 <h3 id="inbound-node"><a class="header" href="#inbound-node">Inbound Node</a></h3>
 <p>This is a node accepting inbound connections on the network but which is not
 making any outbound connections.</p>
-<p>The external address is important and must be correct.</p>
+<p>The external addresses are important and must be correct.</p>
 <pre><code>in config file:
 	
-	## P2P accept address
-	inbound=&quot;127.0.0.1:11002&quot; 
+	## P2P accept addresses
+	inbound=[&quot;127.0.0.1:11002&quot;]
 	
-	## P2P external address
-	external_addr=&quot;127.0.0.1:11002&quot;
+	## P2P external addresses
+	external_addr=[&quot;127.0.0.1:11002&quot;]
 
 	## Seed nodes to connect to 
 	seeds=[&quot;127.0.0.1:11001&quot;]

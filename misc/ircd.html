@@ -219,8 +219,8 @@ straight after receiving them.</p>
 <p>The first time you run the program, a config file will be created in
 .config/darkfi. You must specify an inbound accept address in your
 config file to configure a seed node:</p>
-<pre><code class="language-toml">## P2P accept address
-inbound=&quot;127.0.0.1:11001&quot; 
+<pre><code class="language-toml">## P2P accept addresses
+inbound=[&quot;127.0.0.1:11001&quot;]
 </code></pre>
 <p>Note that the above config doesn't specify an external address since
 the seed node shouldn't be advertised in the list of connectable
@@ -230,14 +230,14 @@ the network during the bootstrapping phase.</p>
 <h3 id="inbound-node"><a class="header" href="#inbound-node">Inbound Node</a></h3>
 <p>This is a node accepting inbound connections on the network but which
 is not making any outbound connections.</p>
-<p>The external address is important and must be correct.</p>
+<p>The external addresses are important and must be correct.</p>
 <p>To run an inbound node, your config file must contain the following
 info:</p>
-<pre><code class="language-toml">## P2P accept address
-inbound=&quot;127.0.0.1:11002&quot; 
+<pre><code class="language-toml">## P2P accept addresses
+inbound=[&quot;127.0.0.1:11002&quot;]
 
-## P2P external address
-external_addr=&quot;127.0.0.1:11002&quot;
+## P2P external addresses
+external_addr=[&quot;127.0.0.1:11002&quot;]
 
 ## Seed nodes to connect to 
 seeds=[&quot;127.0.0.1:11001&quot;]
