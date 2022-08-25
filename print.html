@@ -2677,7 +2677,7 @@ instance of the p2p network.</p>
 <p>Add the following to <code>main()</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let p2p = net::P2p::new(settings.net.into()).await;
+</span>    let p2p = net::P2p::new(settings.net).await;
 <span class="boring">}
 </span></code></pre></pre>
 <p>We will next create a <code>Dchat</code> struct that will store all the data required
@@ -3567,7 +3567,7 @@ async fn main() -&gt; Result&lt;()&gt; {
 
     let settings = settings?.clone();
 
-    let p2p = net::P2p::new(settings.net.into()).await;
+    let p2p = net::P2p::new(settings.net).await;
     //...
 }
 </code></pre></pre>
@@ -3648,7 +3648,7 @@ async fn main() -&gt; Result&lt;()&gt; {
 
     let settings = settings?.clone();
 
-    let p2p = net::P2p::new(settings.net.into()).await;
+    let p2p = net::P2p::new(settings.net).await;
 
     let nthreads = num_cpus::get();
     let (signal, shutdown) = async_channel::unbounded::&lt;()&gt;();
