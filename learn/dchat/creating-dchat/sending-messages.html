@@ -170,12 +170,12 @@ can now support. Finally, we pass the message into <code>p2p.broadcast()</code>.
 <p>Here's what happens under the hood:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>                    // We check again to see if we have any pending connections.
-                    if !self.pending().await.is_empty() {
-                        // We wait for outbound connections to finish initilizing.
-                        init_recv.recv().await?;
-                    }
-                }
+</span>            self.settings.outbound_connections &gt; 0
+        {
+            debug!(target: &quot;net&quot;, &quot;P2p::wait_for_outbound(): seeds are configured, waiting for outbound initialization...&quot;);
+
+            let self_inbound_addr = self.settings().external_addr.clone();
+            let addrs = self.hosts().load_all().await;
 <span class="boring">}
 </span></code></pre></pre>
 <p>This is pretty straightforward: <code>broadcast()</code> takes a generic <code>Message</code> type
