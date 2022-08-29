@@ -163,9 +163,9 @@ would allow the organizer of a process to correlate each vote envelope
 with its voter's key on the database, so votes wouldn't be secret.</p>
 <h2 id="vote-proof"><a class="header" href="#vote-proof">Vote proof</a></h2>
 <pre><code>constant &quot;Vote&quot; {
-	EcFixedPoint VALUE_COMMIT_VALUE,
+	EcFixedPointShort VALUE_COMMIT_VALUE,
 	EcFixedPoint VALUE_COMMIT_RANDOM,
-	EcFixedPoint NULLIFIER_K,
+	EcFixedPointBase NULLIFIER_K,
 }
 
 contract &quot;Vote&quot; {
@@ -191,7 +191,7 @@ circuit &quot;Vote&quot; {
 	pk_hash = poseidon_hash(public_x, public_y);
 
 	# Merkle root
-	root = calculate_merkle_root(leaf_pos, path, pk_hash);
+	root = merkle_root(leaf_pos, path, pk_hash);
 	constrain_instance(root);
 
 	# Pedersen commitment for vote
