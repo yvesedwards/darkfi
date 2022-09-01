@@ -1425,14 +1425,13 @@ from source code.</p>
 <h1 id="zkas-bincode"><a class="header" href="#zkas-bincode">zkas bincode</a></h1>
 <p>The bincode design for zkas is the compiled code in the form of a
 binary blob, that can be read by a program and fed into the VM.</p>
-<p>Our programs consist of three sections: <code>constant</code>, <code>contract</code>, and
-<code>circuit</code>. Our bincode represents the same. Additionally, there is
-an optional section called <code>.debug</code> which can hold debug info related
-to the binary.</p>
-<p>We currently keep everything on the same stack, so we avoid having to
-deal with different types. Instead, we rely that the compiler does
-a proper parse and analysis of the source code, so we are sure that
-in the VM, when referenced, the types shall be correct.</p>
+<p>Our programs consist of four sections: <code>constant</code>, <code>literal</code>,
+<code>contract</code>, and <code>circuit</code>. Our bincode represents the
+same. Additionally, there is an optional section called <code>.debug</code>
+which can hold debug info related to the binary.</p>
+<p>We currently keep all variables on one stack, and literals on another
+stack. Therefore before each <code>STACK_INDEX</code> we prepend <code>STACK_TYPE</code> so
+the VM is able to know which stack it should do lookup from.</p>
 <p>The compiled binary blob has the following layout:</p>
 <pre><code>MAGIC_BYTES
 BINARY_VERSION
@@ -1440,13 +1439,17 @@ BINARY_VERSION
 CONSTANT_TYPE CONSTANT_NAME 
 CONSTANT_TYPE CONSTANT_NAME 
 ...
+.literal
+LITERAL
+LITERAL
+...
 .contract
 WITNESS_TYPE
 WITNESS_TYPE
 ...
 .circuit
-OPCODE ARG_NUM STACK_INDEX ... STACK_INDEX
-OPCODE ARG_NUM STACK_INDEX ... STACK_INDEX
+OPCODE ARG_NUM STACK_TYPE STACK_INDEX ... STACK_TYPE STACK_INDEX
+OPCODE ARG_NUM STACK_TYPE STACK_INDEX ... STACK_TYPE STACK_INDEX
 ...
 .debug
 TBD
@@ -1459,18 +1462,22 @@ for our Rust implementation.</p>
 <p>The magic bytes are the file signature consisting of four bytes used
 to identify the zkas binary code. They consist of:</p>
 <blockquote>
-<p><code>0x0b</code> <code>0xxx</code> <code>0xb1</code> <code>0x35</code></p>
+<p><code>0x0b</code> <code>0x01</code> <code>0xb1</code> <code>0x35</code></p>
 </blockquote>
 <h3 id="binary_version"><a class="header" href="#binary_version"><code>BINARY_VERSION</code></a></h3>
 <p>The binary code also contains the binary version to allow parsing
 potential different formats in the future.</p>
 <blockquote>
-<p><code>0x01</code></p>
+<p><code>0x02</code></p>
 </blockquote>
 <h3 id="constant"><a class="header" href="#constant"><code>.constant</code></a></h3>
 <p>The constants in the <code>.constant</code> section are declared with their type
 and name, so that the VM knows how to search for the builtin constant
 and add it to the stack.</p>
+<h3 id="literal"><a class="header" href="#literal"><code>.literal</code></a></h3>
+<p>The literals in the <code>.literal</code> section are currently unsigned integers
+that get parsed into a <code>u64</code> type inside the VM. In the future this
+could be extended with signed integers, and strings.</p>
 <h3 id="contract"><a class="header" href="#contract"><code>.contract</code></a></h3>
 <p>The <code>.contract</code> section holds the circuit witness values in the form
 of <code>WITNESS_TYPE</code>. Their stack index is incremented for each witness
@@ -1483,13 +1490,15 @@ will be loaded into the circuit as <em>private values</em> using the Halo2
 In here we have statements with opcodes that are executed as
 understood by the VM. The statements are in the form of:</p>
 <blockquote>
-<p><code>OPCODE ARG_NUM STACK_INDEX ... STACK_INDEX</code></p>
+<p><code>OPCODE ARG_NUM STACK_TYPE STACK_INDEX ... STACK_TYPE STACK_INDEX</code></p>
 </blockquote>
 <p>where:</p>
 <div class="table-wrapper"><table><thead><tr><th>Element</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>OPCODE</code></td><td>The opcode we wish to execute</td></tr>
 <tr><td><code>ARG_NUM</code></td><td>The number of arguments given to this opcode</td></tr>
 <tr><td></td><td>(Note the VM should be checking the correctness of this as well)</td></tr>
+<tr><td><code>STACK_TYPE</code></td><td>Type of the stack to do lookup from (variables or literals)</td></tr>
+<tr><td></td><td>(This is prepended to every <code>STACK_INDEX</code>)</td></tr>
 <tr><td><code>STACK_INDEX</code></td><td>The location of the argument on the stack.</td></tr>
 <tr><td></td><td>(This is supposed to be repeated <code>ARG_NUM</code> times)</td></tr>
 </tbody></table>
@@ -1499,7 +1508,7 @@ the stack and become available for later references.</p>
 <h3 id="debug"><a class="header" href="#debug"><code>.debug</code></a></h3>
 <p>TBD</p>
 <h2 id="syntax-reference"><a class="header" href="#syntax-reference">Syntax Reference</a></h2>
-<h3 id="types"><a class="header" href="#types">Types</a></h3>
+<h3 id="variable-types"><a class="header" href="#variable-types">Variable Types</a></h3>
 <div class="table-wrapper"><table><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>EcPoint</code></td><td>Elliptic Curve Point.</td></tr>
 <tr><td><code>EcFixedPoint</code></td><td>Elliptic Curve Point (constant).</td></tr>
@@ -1513,6 +1522,11 @@ the stack and become available for later references.</p>
 <tr><td><code>Uint64</code></td><td>Unsigned 64 Bit Integer.</td></tr>
 </tbody></table>
 </div>
+<h3 id="literal-types"><a class="header" href="#literal-types">Literal Types</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>Uint64</code></td><td>Unsigned 64 Bit Integer.</td></tr>
+</tbody></table>
+</div>
 <h3 id="opcodes"><a class="header" href="#opcodes">Opcodes</a></h3>
 <div class="table-wrapper"><table><thead><tr><th>Opcode</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>EcAdd</code></td><td>Elliptic Curve Addition.</td></tr>
@@ -1522,11 +1536,13 @@ the stack and become available for later references.</p>
 <tr><td><code>EcGetX</code></td><td>Get X Coordinate of Elliptic Curve Point.</td></tr>
 <tr><td><code>EcGetY</code></td><td>Get Y Coordinate of Elliptic Curve Point.</td></tr>
 <tr><td><code>PoseidonHash</code></td><td>Poseidon Hash of N Elements.</td></tr>
-<tr><td><code>CalculateMerkeRoot</code></td><td>Compute a Merkle Root.</td></tr>
+<tr><td><code>MerkleRoot</code></td><td>Compute a Merkle Root.</td></tr>
 <tr><td><code>BaseAdd</code></td><td><code>Base</code> Addition.</td></tr>
 <tr><td><code>BaseMul</code></td><td><code>Base</code> Multiplication.</td></tr>
 <tr><td><code>BaseSub</code></td><td><code>Base</code> Subtraction.</td></tr>
-<tr><td><code>GreaterThan</code></td><td>Greater Than Operation of <code>Base</code>.</td></tr>
+<tr><td><code>WitnessBase</code></td><td>Witness an unsigned integer into a <code>Base</code>.</td></tr>
+<tr><td><code>RangeCheck</code></td><td>Perform a (either 64bit or 253bit) range check over some <code>Base</code></td></tr>
+<tr><td><code>LessThan</code></td><td>Compare if <code>Base</code> a is lesser than <code>Base</code> b</td></tr>
 <tr><td><code>ConstrainInstance</code></td><td>Constrain a <code>Base</code> to a Circuit's Public Input.</td></tr>
 </tbody></table>
 </div>
@@ -1539,11 +1555,13 @@ the stack and become available for later references.</p>
 <tr><td><code>EcGetX</code></td><td><code>ec_get_x(EcPoint a)</code></td><td><code>(Base x)</code></td></tr>
 <tr><td><code>EcGetY</code></td><td><code>ec_get_y(EcPoint a)</code></td><td><code>(Base y)</code></td></tr>
 <tr><td><code>PoseidonHash</code></td><td><code>poseidon_hash(Base a, ..., Base n)</code></td><td><code>(Base h)</code></td></tr>
-<tr><td><code>CalculateMerkleRoot</code></td><td><code>calculate_merkle_root(Uint32 i, MerklePath p, Base a)</code></td><td><code>(Base r)</code></td></tr>
+<tr><td><code>MerkleRoot</code></td><td><code>merkle_root(Uint32 i, MerklePath p, Base a)</code></td><td><code>(Base r)</code></td></tr>
 <tr><td><code>BaseAdd</code></td><td><code>base_add(Base a, Base b)</code></td><td><code>(Base c)</code></td></tr>
 <tr><td><code>BaseMul</code></td><td><code>base_mul(Base a, Base b)</code></td><td><code>(Base c)</code></td></tr>
 <tr><td><code>BaseSub</code></td><td><code>base_sub(Base a, Base b)</code></td><td><code>(Base c)</code></td></tr>
-<tr><td><code>GreaterThan</code></td><td><code>greater_than(Base a, Base b)</code></td><td><code>(Base gt)</code></td></tr>
+<tr><td><code>WitnessBase</code></td><td><code>witness_base(123)</code></td><td><code>(Base a)</code></td></tr>
+<tr><td><code>RangeCheck</code></td><td><code>range_check(64, Base a)</code></td><td><code>()</code></td></tr>
+<tr><td><code>LessThan</code></td><td><code>less_than(Base a, Base b)</code></td><td><code>()</code></td></tr>
 <tr><td><code>ConstrainInstance</code></td><td><code>constrain_instance(Base a)</code></td><td><code>()</code></td></tr>
 </tbody></table>
 </div>
