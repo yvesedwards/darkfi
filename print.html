@@ -1454,30 +1454,31 @@ TBD
 <p>Integers in the binary are encoded using variable-integer encoding.
 See <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/util/serial.rs"><code>serial.rs</code></a>
 for our Rust implementation.</p>
-<h2 id="magic_bytes"><a class="header" href="#magic_bytes"><code>MAGIC_BYTES</code></a></h2>
+<h2 id="sections"><a class="header" href="#sections">Sections</a></h2>
+<h3 id="magic_bytes"><a class="header" href="#magic_bytes"><code>MAGIC_BYTES</code></a></h3>
 <p>The magic bytes are the file signature consisting of four bytes used
 to identify the zkas binary code. They consist of:</p>
 <blockquote>
 <p><code>0x0b</code> <code>0xxx</code> <code>0xb1</code> <code>0x35</code></p>
 </blockquote>
-<h2 id="binary_version"><a class="header" href="#binary_version"><code>BINARY_VERSION</code></a></h2>
+<h3 id="binary_version"><a class="header" href="#binary_version"><code>BINARY_VERSION</code></a></h3>
 <p>The binary code also contains the binary version to allow parsing
 potential different formats in the future.</p>
 <blockquote>
 <p><code>0x01</code></p>
 </blockquote>
-<h2 id="constant"><a class="header" href="#constant"><code>.constant</code></a></h2>
+<h3 id="constant"><a class="header" href="#constant"><code>.constant</code></a></h3>
 <p>The constants in the <code>.constant</code> section are declared with their type
 and name, so that the VM knows how to search for the builtin constant
 and add it to the stack.</p>
-<h2 id="contract"><a class="header" href="#contract"><code>.contract</code></a></h2>
+<h3 id="contract"><a class="header" href="#contract"><code>.contract</code></a></h3>
 <p>The <code>.contract</code> section holds the circuit witness values in the form
 of <code>WITNESS_TYPE</code>. Their stack index is incremented for each witness
 as they're kept in order like in the source file. The witnesses
 that are of the same type as the circuit itself (typically <code>Base</code>)
 will be loaded into the circuit as <em>private values</em> using the Halo2
 <code>load_private</code> API.</p>
-<h2 id="circuit"><a class="header" href="#circuit"><code>.circuit</code></a></h2>
+<h3 id="circuit"><a class="header" href="#circuit"><code>.circuit</code></a></h3>
 <p>The <code>.circuit</code> section holds the procedural logic of the ZK proof.
 In here we have statements with opcodes that are executed as
 understood by the VM. The statements are in the form of:</p>
@@ -1495,8 +1496,57 @@ understood by the VM. The statements are in the form of:</p>
 </div>
 <p>In case an opcode has a return value, the value shall be pushed to
 the stack and become available for later references.</p>
-<h2 id="debug"><a class="header" href="#debug"><code>.debug</code></a></h2>
+<h3 id="debug"><a class="header" href="#debug"><code>.debug</code></a></h3>
 <p>TBD</p>
+<h2 id="syntax-reference"><a class="header" href="#syntax-reference">Syntax Reference</a></h2>
+<h3 id="types"><a class="header" href="#types">Types</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>EcPoint</code></td><td>Elliptic Curve Point.</td></tr>
+<tr><td><code>EcFixedPoint</code></td><td>Elliptic Curve Point (constant).</td></tr>
+<tr><td><code>EcFixedPointBase</code></td><td>Elliptic Curve Point in Base Field (constant).</td></tr>
+<tr><td><code>Base</code></td><td>Base Field Element.</td></tr>
+<tr><td><code>BaseArray</code></td><td>Base Field Element Array.</td></tr>
+<tr><td><code>Scalar</code></td><td>Scalar Field Element.</td></tr>
+<tr><td><code>ScalarArray</code></td><td>Scalar Field Element Array.</td></tr>
+<tr><td><code>MerklePath</code></td><td>Merkle Tree Path.</td></tr>
+<tr><td><code>Uint32</code></td><td>Unsigned 32 Bit Integer.</td></tr>
+<tr><td><code>Uint64</code></td><td>Unsigned 64 Bit Integer.</td></tr>
+</tbody></table>
+</div>
+<h3 id="opcodes"><a class="header" href="#opcodes">Opcodes</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Opcode</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>EcAdd</code></td><td>Elliptic Curve Addition.</td></tr>
+<tr><td><code>EcMul</code></td><td>Elliptic Curve Multiplication.</td></tr>
+<tr><td><code>EcMulBase</code></td><td>Elliptic Curve Multiplication with <code>Base</code>.</td></tr>
+<tr><td><code>EcMulShort</code></td><td>Elliptic Curve Multiplication with a u64 wrapped in a <code>Scalar</code>.</td></tr>
+<tr><td><code>EcGetX</code></td><td>Get X Coordinate of Elliptic Curve Point.</td></tr>
+<tr><td><code>EcGetY</code></td><td>Get Y Coordinate of Elliptic Curve Point.</td></tr>
+<tr><td><code>PoseidonHash</code></td><td>Poseidon Hash of N Elements.</td></tr>
+<tr><td><code>CalculateMerkeRoot</code></td><td>Compute a Merkle Root.</td></tr>
+<tr><td><code>BaseAdd</code></td><td><code>Base</code> Addition.</td></tr>
+<tr><td><code>BaseMul</code></td><td><code>Base</code> Multiplication.</td></tr>
+<tr><td><code>BaseSub</code></td><td><code>Base</code> Subtraction.</td></tr>
+<tr><td><code>GreaterThan</code></td><td>Greater Than Operation of <code>Base</code>.</td></tr>
+<tr><td><code>ConstrainInstance</code></td><td>Constrain a <code>Base</code> to a Circuit's Public Input.</td></tr>
+</tbody></table>
+</div>
+<h3 id="built-in-opcode-wrappers"><a class="header" href="#built-in-opcode-wrappers">Built-in Opcode Wrappers</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Opcode</th><th>Function</th><th>Return</th></tr></thead><tbody>
+<tr><td><code>EcAdd</code></td><td><code>ec_add(EcPoint a, EcPoint b)</code></td><td><code>(EcPoint c)</code></td></tr>
+<tr><td><code>EcMul</code></td><td><code>ec_mul(EcPoint a, EcPoint c)</code></td><td><code>(EcPoint c)</code></td></tr>
+<tr><td><code>EcMulBase</code></td><td><code>ec_mul_base(Base a, EcFixedPointBase b)</code></td><td><code>(EcPoint c)</code></td></tr>
+<tr><td><code>EcMulShort</code></td><td><code>ec_mul_short(Base a, EcFixedPointShort b)</code></td><td><code>(EcPoint c)</code></td></tr>
+<tr><td><code>EcGetX</code></td><td><code>ec_get_x(EcPoint a)</code></td><td><code>(Base x)</code></td></tr>
+<tr><td><code>EcGetY</code></td><td><code>ec_get_y(EcPoint a)</code></td><td><code>(Base y)</code></td></tr>
+<tr><td><code>PoseidonHash</code></td><td><code>poseidon_hash(Base a, ..., Base n)</code></td><td><code>(Base h)</code></td></tr>
+<tr><td><code>CalculateMerkleRoot</code></td><td><code>calculate_merkle_root(Uint32 i, MerklePath p, Base a)</code></td><td><code>(Base r)</code></td></tr>
+<tr><td><code>BaseAdd</code></td><td><code>base_add(Base a, Base b)</code></td><td><code>(Base c)</code></td></tr>
+<tr><td><code>BaseMul</code></td><td><code>base_mul(Base a, Base b)</code></td><td><code>(Base c)</code></td></tr>
+<tr><td><code>BaseSub</code></td><td><code>base_sub(Base a, Base b)</code></td><td><code>(Base c)</code></td></tr>
+<tr><td><code>GreaterThan</code></td><td><code>greater_than(Base a, Base b)</code></td><td><code>(Base gt)</code></td></tr>
+<tr><td><code>ConstrainInstance</code></td><td><code>constrain_instance(Base a)</code></td><td><code>()</code></td></tr>
+</tbody></table>
+</div>
 <h2 id="decoding-the-bincode"><a class="header" href="#decoding-the-bincode">Decoding the bincode</a></h2>
 <p>An example decoder implementation can be found in zkas'
 <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/zkas/decoder.rs"><code>decoder.rs</code></a>
