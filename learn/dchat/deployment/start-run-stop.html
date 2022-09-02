@@ -200,7 +200,9 @@ and <code>p2p::stop()</code>.</p>
 <p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L129">start()</a>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>        debug!(target: &quot;net&quot;, &quot;P2p::start() [BEGIN]&quot;);
+</span>    /// Invoke startup and seeding sequence. Call from constructing thread.
+    pub async fn start(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
+        debug!(target: &quot;net&quot;, &quot;P2p::start() [BEGIN]&quot;);
 
         *self.state.lock().await = P2pState::Start;
 
@@ -213,8 +215,6 @@ and <code>p2p::stop()</code>.</p>
 
         debug!(target: &quot;net&quot;, &quot;P2p::start() [END]&quot;);
         Ok(())
-    }
-
 <span class="boring">}
 </span></code></pre></pre>
 <p><code>start()</code> changes the <code>P2pState</code> to <code>P2pState::Start</code> and runs a <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/session/seed_session.rs">seed
@@ -229,7 +229,9 @@ the channel from the channel list.</p>
 <p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L157">run()</a>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>        debug!(target: &quot;net&quot;, &quot;P2p::run() [BEGIN]&quot;);
+</span>    /// Waits for a stop signal and stops the network if received.
+    pub async fn run(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
+        debug!(target: &quot;net&quot;, &quot;P2p::run() [BEGIN]&quot;);
 
         *self.state.lock().await = P2pState::Run;
 
@@ -255,8 +257,6 @@ the channel from the channel list.</p>
 
         debug!(target: &quot;net&quot;, &quot;P2p::run() [END]&quot;);
         Ok(())
-    }
-
 <span class="boring">}
 </span></code></pre></pre>
 <p><code>run()</code> changes the P2pState to <code>P2pState::Run</code>. It then calls <code>start()</code>
@@ -273,10 +273,10 @@ is received.</p>
 <h2 id="stop"><a class="header" href="#stop">Stop</a></h2>
 <p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L186">stop()</a>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>        pub async fn wait_for_outbound(self: Arc&lt;Self&gt;) -&gt; Result&lt;()&gt; {
-        debug!(target: &quot;net&quot;, &quot;P2p::wait_for_outbound() [BEGIN]&quot;);
-        // To verify that the network needs initialization, we check if we have seeds or peers configured,
+</span>    
+<span class="boring">fn main() {
+</span>    /// Wait for outbound connections to be established.
+    pub async fn wait_for_outbound(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p><code>stop()</code> transmits a shutdown signal to all channels subscribed to the
