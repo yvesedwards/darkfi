@@ -2146,7 +2146,7 @@ on how to install it on your computer.</p>
 <code>ircd</code> instance. First, start weechat, and in its window - run the
 following commands (there is an assumption that <code>irc_listen</code> in the
 <code>ircd</code> config file is set to <code>127.0.0.1:11066</code>):</p>
-<pre><code>/server add darkfi localhost/11066 -autoconnect
+<pre><code>/server add darkfi localhost/6667 -autoconnect
 /save
 /quit
 </code></pre>
@@ -2163,8 +2163,9 @@ nodes can connect to when they first connect to the network. The
 which requests a list of addresses from the seed node and disconnects
 straight after receiving them.</p>
 <p>The first time you run the program, a config file will be created in
-.config/darkfi. You must specify an inbound accept address in your
-config file to configure a seed node:</p>
+<code>~/.config/darkfi</code> if your are using Linux or in 
+<code>~/Library/Application Support/darkfi/</code> on MacOS. 
+You must specify an inbound accept address in your config file to configure a seed node:</p>
 <pre><code class="language-toml">## P2P accept addresses
 inbound=[&quot;127.0.0.1:11001&quot;]
 </code></pre>
