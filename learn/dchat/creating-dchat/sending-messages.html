@@ -175,7 +175,7 @@ can now support. Finally, we pass the message into <code>p2p.broadcast()</code>.
             self.settings.outbound_connections &gt; 0
         {
             debug!(target: &quot;net&quot;, &quot;P2p::wait_for_outbound(): seeds are configured, waiting for outbound initialization...&quot;);
-
+            // Retrieve P2P network settings;
 <span class="boring">}
 </span></code></pre></pre>
 <p>This is pretty straightforward: <code>broadcast()</code> takes a generic <code>Message</code> type
