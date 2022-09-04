@@ -207,59 +207,98 @@ connect to in the p2p network.</p>
 <code>--key-gen</code>:</p>
 <pre><code class="language-shell">% taud --key-gen
 </code></pre>
-<p>This will generate a new secret key in <code>/home/${USER}/.config/tau/secret_key</code> that 
-you can share with nodes you want them to get and decrypt your tasks, otherwise if you
-have already generated or got a copy from a peer place it in the same directory
-<code>/home/${USER}/.config/tau/secret_key</code>.</p>
+<p>This will generate a new secret key and print it to the terminal that
+you can share with nodes you want them to get and decrypt your tasks,
+otherwise if you have already generated or got a key from a peer, place
+it in <code>secret</code> field under the corresponding <code>workspace</code> in the config
+file.</p>
 <h2 id="usage-cli"><a class="header" href="#usage-cli">Usage (CLI)</a></h2>
 <pre><code class="language-shell">% tau --help 
 </code></pre>
 <pre><code>tau 0.3.0
-Command-line client for taud
 
 USAGE:
-	tau [OPTIONS] &lt;SUBCOMMAND&gt;
+    tau [OPTIONS] [FILTERS]... [SUBCOMMAND]
+
+ARGS:
+    &lt;FILTERS&gt;...    Search filters (zero or more)                                 
 
 OPTIONS:
-	-e, --endpoint &lt;ENDPOINT&gt;    taud JSON-RPC endpoint [default: tcp://127.0.0.1:11055]
-	-h, --help                   Print help information
-	-v                           Increase verbosity (-vvv supported)
-	-V, --version                Print version information
+    -e, --endpoint &lt;ENDPOINT&gt;    taud JSON-RPC endpoint [default: tcp://127.0.0.1:23330]
+    -h, --help                   Print help information
+    -v                           Increase verbosity (-vvv supported)
+    -V, --version                Print version information
 
 SUBCOMMANDS:
-	add        Add a new task                                                    
-	comment    Set or Get comment for a task
-	help       Print this message or the help of the given subcommand(s)
-	info       Get task info by ID
-	state      Set or Get task state
-	update     Update/Edit an existing task by ID
+    add        Add a new task.                                                    
+    comment    Set or Get comment for task(s)
+    export     Export tasks to a specified directory
+    help       Print this message or the help of the given subcommand(s)
+    import     Import tasks from a specified directory
+    info       Get all data about selected task(s)
+    list       List tasks
+    log        Log drawdown
+    modify     Modify/Edit an existing task
+    open       Open task(s)
+    pause      Pause task(s)
+    start      Start task(s)
+    stop       Stop task(s)
+    switch     Switch workspace
 </code></pre>
-<pre><code class="language-shell">% tau help [SUBCOMMAND]
+<pre><code class="language-shell">% tau [SUBCOMMAND] --help
 </code></pre>
-<h3 id="example"><a class="header" href="#example">Example</a></h3>
-<pre><code class="language-shell">% # add new task  
-% tau add &quot;new title&quot;   
-% tau add &quot;new title&quot; project:blockchain desc:&quot;new description&quot; rank:3 assign:dark
-% 
-% # lists tasks
-% tau 		   		 
-% tau open	# open tasks
-% tau pause	# paused tasks
-% tau 0522	# created at May 2022
-% tau project:blockchain assign:dark
-% tau rank:gt:n	# lists all tasks that have rank greater than n
-% tau rank:ls:n	# lists all tasks that have rank lesser than n
-% 
-% # update task 
-% tau update 3 project:network rank:20
-% 
-% # state 
-% tau state 3		# get state
-% tau state 3 pause	# set the state to pause 
-% 
-% # comments 
-% tau comment 1			# list comments
-% tau comment 3 &quot;new comment&quot;	# add new comment 
+<h3 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h3>
+<h4 id="lets-add-some-tasks"><a class="header" href="#lets-add-some-tasks">Let's add some tasks</a></h4>
+<pre><code class="language-shell">% tau add Review tau usage desc:description	# will add a new task named
+%						# &quot;Review tau usage&quot; with
+%						# &quot;description&quot; in its desc filed
+% tau add Second task assign:dave 	# will add a new task and assign it
+%					# to &quot;dave&quot;.
+%					# Note: not having &quot;desc:&quot; key
+% 					# will pop up your OS editor
+%					# configured in $EDITOR env var,
+%					# this is recommended for
+%					# formatting reasons and
+%					# will be used through this demo.
+% tau add Third task project:tau rank:1.1
+% tau add Fourth task assign:dave project:tau due:1509 rank:2.5
+% tau add Five
+</code></pre>
+<h4 id="now-lets-list-tasks-and-while-were-at-it-lets-use-some-filters"><a class="header" href="#now-lets-list-tasks-and-while-were-at-it-lets-use-some-filters">Now let's list tasks, and while we're at it let's use some filters</a></h4>
+<pre><code class="language-shell">% tau				# all non-stop tasks
+% tau list			# all non-stop tasks
+% tau 1-3			# tasks 1 to 3
+% tau 1,2 state:open		# tasks 1 and 2 and if they are open
+% tau rank:gt:2			# all tasks that have rank greater than 2
+% tau due.not:today		# all tasks that thier due date is not today
+% tau due.after:0909		# all tasks that thier due date is after September 9th
+% tau assign:dave		# tasks that assign field is &quot;dave&quot;
+</code></pre>
+<h4 id="filtering-tasks-and-run-commands-on-them"><a class="header" href="#filtering-tasks-and-run-commands-on-them">Filtering tasks and run commands on them</a></h4>
+<p>Note: mod commands are: start, open, pause, stop and modify.</p>
+<p>Note: All filters from the previous section could work with mod commands.</p>
+<pre><code class="language-shell">% tau 5 stop			# will stop task 5
+% tau 1,3 start			# start 1 and 3
+% tau 2 pause			# pause 2
+% tau 2,4 modify due:2009	# edit due to September in tasks 2 and 4 
+% tau 1-4 modify project:tau	# edit project to tau in tasks 1,2,3 and 4
+% tau state:pause open		# open paused tasks
+% tau 3 info			# show information about task 3 (does not modify)
+</code></pre>
+<h4 id="comments"><a class="header" href="#comments">Comments</a></h4>
+<pre><code class="language-shell">% tau 1 comment &quot;content foo bar&quot;	# will add a comment to task 1
+% tau 3 comment				# will show comments on task 3 
+</code></pre>
+<h4 id="log-drawdown"><a class="header" href="#log-drawdown">Log drawdown</a></h4>
+<pre><code class="language-shell">% tau log 0922			# will list assignees of stopped tasks
+% tau log 0922 [&lt;Assignee&gt;]	# will draw a heatmap of stopped tasks for [Assignee]
+</code></pre>
+<h4 id="export-and-import"><a class="header" href="#export-and-import">Export and Import</a></h4>
+<pre><code class="language-shell">% tau export ~/example_dir	# will save tasks json files to the path
+% tau import ~/example_dir	# will reload saved json files from the path
+</code></pre>
+<h4 id="switch-workspace"><a class="header" href="#switch-workspace">Switch workspace</a></h4>
+<pre><code class="language-shell">% tau switch darkfi	# darkfi workspace needs to be configured in config file
 </code></pre>
 
                     </main>
