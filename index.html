@@ -157,8 +157,9 @@
 <a href="https://dark.fi"><img src="https://img.shields.io/badge/Web-dark.fi-white?logo=firefox&amp;logoColor=white&amp;style=flat-square" alt="Web - dark.fi" /></a>
 <a href="https://dark.fi/manifesto.html"><img src="https://img.shields.io/badge/Manifesto-unsystem-informational?logo=minutemailer&amp;logoColor=white&amp;style=flat-square" alt="Manifesto - unsystem" /></a>
 <a href="https://darkrenaissance.github.io/darkfi"><img src="https://img.shields.io/badge/Book-mdbook-orange?logo=gitbook&amp;logoColor=white&amp;style=flat-square" alt="Book - mdbook" /></a></p>
-<h2 id="connect-to-darkfi-irc"><a class="header" href="#connect-to-darkfi-irc">Connect to darkfi IRC</a></h2>
-<p>Follow <a href="https://darkrenaissance.github.io/darkfi/misc/ircd.html#installation">installation instructions</a> for the p2p IRC daemon.</p>
+<h2 id="connect-to-darkfi-irc"><a class="header" href="#connect-to-darkfi-irc">Connect to DarkFi IRC</a></h2>
+<p>Follow the <a href="https://darkrenaissance.github.io/darkfi/misc/ircd.html#installation">installation instructions</a>
+for the P2P IRC daemon.</p>
 <h2 id="build"><a class="header" href="#build">Build</a></h2>
 <p>This project requires the Rust compiler to be installed. 
 Please visit <a href="https://rustup.rs/">Rustup</a> for instructions.</p>
@@ -177,25 +178,24 @@ Please visit <a href="https://rustup.rs/">Rustup</a> for instructions.</p>
 <tr><td>expat xml lib</td><td>libexpat1-dev</td></tr>
 </tbody></table>
 </div>
-<p>Users of Debian-based systems (e.g. Ubuntu) can simply run the following 
-to install the required dependencies:</p>
+<p>Users of Debian-based systems (e.g. Ubuntu) can simply run the
+following to install the required dependencies:</p>
 <pre><code class="language-shell"># apt-get update
 # apt-get install -y build-essential cmake jq wget pkg-config \
     clang libclang-dev llvm-dev libudev-dev libfreetype6-dev \
     libexpat1-dev
 </code></pre>
-<p>Alternatively, users can chose one of the automated scripts 
-under <code>contrib</code> folder by executing:</p>
-<pre><code class="language-shell">% bash contrib/*_setup.sh
+<p>Alternatively, users can try using the automated script under <code>contrib</code>
+folder by executing:</p>
+<pre><code class="language-shell">% sh contrib/dependency_setup.sh
 </code></pre>
-<p>The following setup script are provided:</p>
-<ul>
-<li><strong>mac_setup.sh</strong>: installation using brew (brew will be installed if not present).</li>
-<li><strong>void_setup.sh</strong>: Xbps dependencies for Void Linux.</li>
-</ul>
-<p>To build the necessary binaries, we can just clone the repo, and use the 
-provided Makefile to build the project. This will download the trusted 
-setup params, and compile the source code.</p>
+<p>The script will try to recognize which system you are running,
+and install dependencies accordingly. In case it does not find your
+package manager, please consider adding support for it into the script
+and sending a patch.</p>
+<p>To build the necessary binaries, we can just clone the repo, and use
+the provided Makefile to build the project. This will download the
+trusted setup params, and compile the source code.</p>
 <pre><code class="language-shell">% git clone https://github.com/darkrenaissance/darkfi
 % cd darkfi/
 % make
