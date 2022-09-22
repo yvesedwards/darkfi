@@ -196,7 +196,12 @@ calls which deliver info specific to a node, its inbound or outbound
 <p>Here's what happens:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    }
+</span>        *self_.session_outbound.lock().await = Some(OutboundSession::new(parent));
+
+        register_default_protocols(self_.clone()).await;
+
+        self_
+    }
 
     pub async fn get_info(&amp;self) -&gt; serde_json::Value {
         // Building ext_addr_vec string
@@ -207,11 +212,6 @@ calls which deliver info specific to a node, its inbound or outbound
 
         json!({
             &quot;external_addr&quot;: format!(&quot;{:?}&quot;, ext_addr_vec),
-            &quot;session_manual&quot;: self.session_manual().await.get_info().await,
-            &quot;session_inbound&quot;: self.session_inbound().await.get_info().await,
-            &quot;session_outbound&quot;: self.session_outbound().await.get_info().await,
-            &quot;state&quot;: self.state.lock().await.to_string(),
-        })
 <span class="boring">}
 </span></code></pre></pre>
 <p>Here we return two pieces of info that are unique to a node:

@@ -169,13 +169,13 @@ this input to initialize a message of the type <code>DchatMsg</code> that the ne
 can now support. Finally, we pass the message into <code>p2p.broadcast()</code>.</p>
 <p>Here's what happens under the hood:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>        // and have configured outbound slots.
-        if !(self.settings.seeds.is_empty() &amp;&amp; self.settings.peers.is_empty()) &amp;&amp;
-            self.settings.outbound_connections &gt; 0
-        {
-            debug!(target: &quot;net&quot;, &quot;P2p::wait_for_outbound(): seeds are configured, waiting for outbound initialization...&quot;);
-            // Retrieve P2P network settings;
+</span>
+<span class="boring">fn main() {
+</span>    /// Wait for outbound connections to be established.
+    pub async fn wait_for_outbound(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
+        debug!(target: &quot;net&quot;, &quot;P2p::wait_for_outbound() [BEGIN]&quot;);
+        // To verify that the network needs initialization, we check if we have seeds or peers configured,
+        // and have configured outbound slots.
 <span class="boring">}
 </span></code></pre></pre>
 <p>This is pretty straightforward: <code>broadcast()</code> takes a generic <code>Message</code> type
