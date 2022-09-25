@@ -171,15 +171,15 @@
 </div>
 <h2 id="eventnode"><a class="header" href="#eventnode">EventNode</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>parent</td><td>Option&lt;<code>EventNode</code>&gt;</td><td>Only current root has this set to None</td></tr>
+<tr><td>parent</td><td>Option&lt;<code>EventId</code>&gt;</td><td>Only current root has this set to None</td></tr>
 <tr><td>Event</td><td><code>Event</code></td><td>The <code>Event</code> itself</td></tr>
-<tr><td>Children</td><td>Vec&lt;<code>EventNode</code>&gt;</td><td>The <code>Event</code>s which has parent as this <code>Event</code> hash</td></tr>
+<tr><td>Children</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>The <code>Event</code>s which has parent as this <code>Event</code> hash</td></tr>
 </tbody></table>
 </div>
 <h2 id="model"><a class="header" href="#model">Model</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>current_root</td><td><code>EventId</code></td><td>The root <code>Event</code> for the tree</td></tr>
-<tr><td>orphans</td><td>Vec&lt;<code>Event</code>&gt;</td><td>Recently added <code>Event</code>s</td></tr>
+<tr><td>orphans</td><td>HashMap&lt;<code>EventId</code>, <code>Event</code>&gt;</td><td>Recently added <code>Event</code>s</td></tr>
 <tr><td>event_map</td><td>HashMap&lt;<code>EventId</code>, <code>EventNode</code>&gt;</td><td>The actual tree</td></tr>
 </tbody></table>
 </div>
@@ -228,14 +228,6 @@ the head in the longest chain the client has to ensure the chain remain
 roughly in sync.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>Head</td><td><code>EventId</code></td><td>head id in the longest chain</td></tr>
-</tbody></table>
-</div>
-<h2 id="events"><a class="header" href="#events">Events</a></h2>
-<p>This used in response to <code>Sync</code> message, sending all the children 
-in the node correspond to <code>EventId</code> in <code>Sync</code> message </p>
-<div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>Events</td><td>Vec&lt;<code>Event</code>&gt;</td><td>A list of <code>Event</code></td></tr>
-<tr><td>Head</td><td><code>EventId</code></td><td>The head in the <code>Sync</code> message</td></tr>
 </tbody></table>
 </div>
 <h2 id="seen"><a class="header" href="#seen">Seen<ObjectId></a></h2>
