@@ -2486,10 +2486,15 @@ dispatching these <code>Event</code>s to the clients. </p>
 <tr><td>seen</td><td>HashSet&lt;<code>EventId</code>&gt;</td><td>A list of <code>Event</code>s have imported from Model</td></tr>
 </tbody></table>
 </div>
-<h2 id="invitem"><a class="header" href="#invitem">InvItem</a></h2>
-<p>Unique generated integer</p>
-<pre><code>type InvItem = u32;	
+<h2 id="invid"><a class="header" href="#invid">InvId</a></h2>
+<pre><code>type InvId = u64;
 </code></pre>
+<h2 id="invitem"><a class="header" href="#invitem">InvItem</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
+<tr><td>Id</td><td><code>InvId</code></td><td>Unique generated integer</td></tr>
+<tr><td>Hash</td><td><code>EventId</code></td><td>Hash of the Event</td></tr>
+</tbody></table>
+</div>
 <h2 id="inv"><a class="header" href="#inv">Inv</a></h2>
 <p>On receiving a new <code>Event</code>, the node must advertise its knowledge for this <code>Event</code> to confirm receipt </p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
@@ -2497,10 +2502,9 @@ dispatching these <code>Event</code>s to the clients. </p>
 </tbody></table>
 </div>
 <h2 id="getdata"><a class="header" href="#getdata">GetData</a></h2>
-<p>On receiving an <code>Inv</code> message if the client doesn't have the <code>InvItem</code>s, 
-Sending back <code>GetData</code> message contain the missing <code>InvItem</code>s</p>
+<p>Sending back <code>GetData</code> message contain the missing items, when receiving an <code>Inv</code> message. </p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>Invs</td><td>Vec&lt;<code>InvItem</code>&gt;</td><td>A list of <code>EventId</code></td></tr>
+<tr><td>Invs</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>A list of <code>EventId</code></td></tr>
 </tbody></table>
 </div>
 <h2 id="unreadmessages"><a class="header" href="#unreadmessages">UnreadMessages</a></h2>
@@ -2513,7 +2517,7 @@ All unread <code>Event</code>s are continually sent until receiving confirmation
 <li>All <code>Event</code>s are organized by timestamp. Older <code>Event</code>s just gently expired and are then ignored.</li>
 </ul>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>Messages</td><td>HashMap&lt;<code>InvItem</code>, <code>Event</code>&gt;</td><td>Hold all the <code>Event</code>s that have broadcasted to other nodes but haven't confirmed yet</td></tr>
+<tr><td>Messages</td><td>HashMap&lt;<code>EventId</code>, <code>Event</code>&gt;</td><td>Hold all the <code>Event</code>s that have broadcasted to other nodes but haven't confirmed yet</td></tr>
 </tbody></table>
 </div>
 <h2 id="sync"><a class="header" href="#sync">Sync</a></h2>
@@ -2532,18 +2536,11 @@ in the node correspond to <code>EventId</code> in <code>Sync</code> message </p>
 <tr><td>Head</td><td><code>EventId</code></td><td>The head in the <code>Sync</code> message</td></tr>
 </tbody></table>
 </div>
-<h2 id="seeneventids"><a class="header" href="#seeneventids">SeenEventIds</a></h2>
-<p>Every <code>Event</code> received its id will be add to this list to prevent receiving duplicate <code>Event</code>s.
+<h2 id="seen"><a class="header" href="#seen">Seen<ObjectId></a></h2>
+<p>This used to prevent receiving duplicate Objects.
 The list will contains only 2^16 ids.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>Ids</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>Contains all the <code>Event</code>s ids</td></tr>
-</tbody></table>
-</div>
-<h2 id="seeninvids"><a class="header" href="#seeninvids">SeenInvIds</a></h2>
-<p>Every <code>InvItem</code> received its id will be add to this list to prevent receiving duplicate <code>InvItem</code>.
-The list will contains only 2^16 ids.</p>
-<div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>Ids</td><td>Vec&lt;<code>InvItem</code>&gt;</td><td>Contains all the <code>InvItem</code>s ids</td></tr>
+<tr><td>Ids</td><td>Vec<ObjectId></td><td>Contains objects ids</td></tr>
 </tbody></table>
 </div>
 <h2 id="actions-types"><a class="header" href="#actions-types">Actions types</a></h2>
