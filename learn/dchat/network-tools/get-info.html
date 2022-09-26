@@ -225,17 +225,17 @@ happens via a child struct called <code>ChannelInfo</code>.</p>
 <p>This is <code>ChannelInfo::get_info()</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    async fn get_info(&amp;self) -&gt; serde_json::Value {
-        let result = json!({
-            &quot;random_id&quot;: self.random_id,
-            &quot;remote_node_id&quot;: self.remote_node_id,
-            &quot;last_msg&quot;: self.last_msg,
-            &quot;last_status&quot;: self.last_status,
-            &quot;log&quot;: self.log.lock().await.clone(),
-        });
-        *self.log.lock().await = Vec::new();
-        result
+</span>            last_status: String::new(),
+            log,
+        }
     }
+
+    async fn get_info(&amp;self) -&gt; serde_json::Value {
+        let log = match &amp;self.log {
+            Some(l) =&gt; {
+                let mut lock = l.lock().await;
+                let ret = lock.clone();
+                *lock = Vec::new();
 <span class="boring">}
 </span></code></pre></pre>
 <p><code>dnetview</code> uses the info returned from <code>Channel</code> and <code>Session</code> and
