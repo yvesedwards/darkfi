@@ -153,8 +153,61 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="network-protocol"><a class="header" href="#network-protocol">Network Protocol</a></h1>
-<pre><code>TODO
+<p>The protocol check that <code>Event</code>s have properly broadcasted through the
+network before adding <code>Event</code>s to the <code>Model</code>. </p>
+<p>The read_confirms inside each <code>Event</code> indicate how many times the <code>Event</code> has 
+been read from other nodes in the network.</p>
+<p>The protocol classify the Events by their state:</p>
+<pre><code>| Unread   |  read_confirms &lt; `MAX_CONFIMRS`  | 
+| Read 	   |  read_confirms &gt;= `MAX_CONFIMRS` | 
 </code></pre>
+<h2 id="receiving-a-new-event"><a class="header" href="#receiving-a-new-event">Receiving a new <code>Event</code></a></h2>
+<p>The new received <code>Event</code> with unread status gets add to the <code>UnreadMessages</code> buffer after
+increasing the read_confirms by one. </p>
+<p>The <code>Event</code> with read status gets add to the <code>Model</code>.</p>
+<p>The protocol broadcast the received <code>Event</code> to the network again, to ensure every nodes
+in the network get the Event.</p>
+<h2 id="sending-an-event"><a class="header" href="#sending-an-event">Sending an <code>Event</code></a></h2>
+<p>A new created <code>Event</code> has unread status with read_confirms equal to 0.</p>
+<p>The protocol broadcast the <code>Event</code> to the network after adding it to the
+<code>UnreadMessages</code>.</p>
+<h2 id="receiving-an-inv-message"><a class="header" href="#receiving-an-inv-message">Receiving an <code>Inv</code> message</a></h2>
+<p>An <code>Inv</code> message is a confirmation from a node in the network that the <code>Event</code>
+has been read.</p>
+<p>Confirmation for an <code>Event</code> not exist in the <code>UnreadMessages</code> list, 
+A <code>GetData</code> message must send back to request the missing <code>Event</code>.</p>
+<p>The protocol update the <code>Event</code> in the <code>UnreadMessages</code> list by increasing the
+read_confirms by one.</p>
+<p>The state for updated <code>Event</code> change to read when the read_confirms exceed
+<code>MAX_CONFIMRS</code>, Then the <code>Event remove from the </code>UnreadMessages<code>list and add to the</code>Model`. </p>
+<p>The protocol rebroadcast the received <code>Inv</code> to the network.</p>
+<h2 id="sending-an-inv-message"><a class="header" href="#sending-an-inv-message">Sending an <code>Inv</code> message</a></h2>
+<p>On receiving an <code>Event</code> with unread status from the network, The protocol send back 
+an <code>Inv</code> message to confirm that the <code>Event</code> has been read.</p>
+<h2 id="receiving-a-getdata-message"><a class="header" href="#receiving-a-getdata-message">Receiving a <code>GetData</code> message</a></h2>
+<p>The protocol search in both <code>Model</code> and <code>UnreadMessages</code> for requested <code>Event</code>
+in <code>GetData</code> message.</p>
+<h2 id="add-new-event-to-model"><a class="header" href="#add-new-event-to-model">Add new <code>Event</code> to <code>Model</code></a></h2>
+<p>For the <code>Event</code> to be successfully add to the <code>Model</code>, the protocol check if
+the previous <code>Event</code>'s hash inside the <code>Event</code> is exist in the <code>Model</code>.</p>
+<p>In case the check for previous <code>Event</code> failed The protocol 
+send a <code>GetData</code> message requesting the previous <code>Event</code>.</p>
+<h2 id="add-new-event-to-unreadmessages"><a class="header" href="#add-new-event-to-unreadmessages">Add new <code>Event</code> to <code>UnreadMessages</code></a></h2>
+<p>To add an <code>Event</code> to <code>UnreadMessages</code>, the protocol first must check the validity of
+<code>Event</code>. </p>
+<p>The <code>Event</code> is not valid in the network if it's too far in the future from now,
+or too far in the past from now.</p>
+<h2 id="updating-unreadmessages-list"><a class="header" href="#updating-unreadmessages-list">Updating <code>UnreadMessages</code> list</a></h2>
+<p>The protocol continually broadcast unread <code>Event</code> to the network 
+after a certain period of time(<code>SEND_UNREAD_EVENTS_INTERVAL</code>), 
+Until the state of <code>Event</code> updated to read.</p>
+<h2 id="synchronization"><a class="header" href="#synchronization">Synchronization</a></h2>
+<p>To achieve complete synchronization between nodes, the protocol send a
+<code>SyncEvent</code> message every 2 seconds to other nodes in the network.</p>
+<p>The <code>SyncEvent</code> contains the hashes of <code>Event</code>s set in the leaves of <code>Model</code>'s tree.</p>
+<p>On receiving <code>SyncEvent</code> message, The leaves in <code>SyncEvent</code> should match the 
+leaves in the <code>Model</code>'s tree, Otherwise the protocol send <code>Event</code>s which are the childern of
+<code>Event</code>s in <code>SyncEvent</code> </p>
 
                     </main>
 

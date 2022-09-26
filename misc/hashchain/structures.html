@@ -198,36 +198,23 @@
 </tbody></table>
 </div>
 <h2 id="inv"><a class="header" href="#inv">Inv</a></h2>
-<p>On receiving a new <code>Event</code>, the node must advertise its knowledge for this <code>Event</code> to confirm receipt </p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>Invs</td><td>Vec&lt;<code>InvItem</code>&gt;</td><td>A list of <code>InvItem</code></td></tr>
 </tbody></table>
 </div>
 <h2 id="getdata"><a class="header" href="#getdata">GetData</a></h2>
-<p>Sending back <code>GetData</code> message contain the missing items, when receiving an <code>Inv</code> message. </p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>Invs</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>A list of <code>EventId</code></td></tr>
 </tbody></table>
 </div>
 <h2 id="unreadmessages"><a class="header" href="#unreadmessages">UnreadMessages</a></h2>
-<p>Once a <code>Event</code> received from the network it will be added to this list unless it has <code>read_confirms</code> above the <code>MAXIMUM CONFIRMATION</code>. 
-All unread <code>Event</code>s are continually sent until receiving confirmations from other nodes.</p>
-<p>All the <code>Event</code>s will apply to these filtering rules: </p>
-<ul>
-<li>Reject new <code>Event</code> too far in the future from now (20 Minutes)</li>
-<li>Reject old <code>Event</code> too far in the past from now (1 Hour)</li>
-<li>All <code>Event</code>s are organized by timestamp. Older <code>Event</code>s just gently expired and are then ignored.</li>
-</ul>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>Messages</td><td>HashMap&lt;<code>EventId</code>, <code>Event</code>&gt;</td><td>Hold all the <code>Event</code>s that have broadcasted to other nodes but haven't confirmed yet</td></tr>
 </tbody></table>
 </div>
-<h2 id="sync"><a class="header" href="#sync">Sync</a></h2>
-<p>Every 2 seconds each client must broadcast this message which contains 
-the head in the longest chain the client has to ensure the chain remain 
-roughly in sync.</p>
+<h2 id="syncevent"><a class="header" href="#syncevent">SyncEvent</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>Head</td><td><code>EventId</code></td><td>head id in the longest chain</td></tr>
+<tr><td>Leaves</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>hash of <code>Event</code>s</td></tr>
 </tbody></table>
 </div>
 <h2 id="seen"><a class="header" href="#seen">Seen<ObjectId></a></h2>
