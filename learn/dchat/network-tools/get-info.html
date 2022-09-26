@@ -233,7 +233,7 @@ happens via a child struct called <code>ChannelInfo</code>.</p>
             &quot;last_status&quot;: self.last_status,
             &quot;log&quot;: self.log.lock().await.clone(),
         });
-        self.log.lock().await.clear();
+        *self.log.lock().await = Vec::new();
         result
     }
 <span class="boring">}
