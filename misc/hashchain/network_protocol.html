@@ -178,35 +178,35 @@ Read: 	read_confirms &gt;= `MAX_CONFIMRS`
 <h3 id="receiving-an-inv-message"><a class="header" href="#receiving-an-inv-message">Receiving an <code>Inv</code> message</a></h3>
 <p>An <code>Inv</code> message is a confirmation from a node in the network that the <code>Event</code>
 has been read.</p>
-<p>Confirmation for an <code>Event</code> not exist in the <code>UnreadMessages</code> list, 
+<p>Confirmation for an <code>Event</code> not exist in the <code>UnreadEvents</code> list, 
 The protocol send a <code>GetData</code> message to request the missing <code>Event</code>.</p>
-<p>The protocol update the <code>Event</code> in the <code>UnreadMessages</code> list by increasing the
+<p>The protocol update the <code>Event</code> in the <code>UnreadEvents</code> list by increasing the
 read_confirms by one.</p>
 <p>The state for updated <code>Event</code> change to read when the read_confirms exceed
-<code>MAX_CONFIMRS</code>, Then the <code>Event remove from the </code>UnreadMessages<code>list and add to the</code>Model`. </p>
+<code>MAX_CONFIMRS</code>, Then the <code>Event remove from the </code>UnreadEvents<code>list and add to the</code>Model`. </p>
 <p>The protocol rebroadcast the received <code>Inv</code> to the network.</p>
 <h3 id="sending-an-inv-message"><a class="header" href="#sending-an-inv-message">Sending an <code>Inv</code> message</a></h3>
 <p>On receiving an <code>Event</code> with unread status from the network, The protocol send back 
 an <code>Inv</code> message to confirm that the <code>Event</code> has been read.</p>
 <h2 id="getdata"><a class="header" href="#getdata">GetData</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>Invs</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>A list of <code>EventId</code></td></tr>
+<tr><td>events</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>A list of <code>EventId</code></td></tr>
 </tbody></table>
 </div>
 <h3 id="receiving-a-getdata-message"><a class="header" href="#receiving-a-getdata-message">Receiving a <code>GetData</code> message</a></h3>
-<p>The protocol search in both <code>Model</code> and <code>UnreadMessages</code> for requested <code>Event</code>
+<p>The protocol search in both <code>Model</code> and <code>UnreadEvents</code> for requested <code>Event</code>s
 in <code>GetData</code> message.</p>
-<h2 id="unreadmessages"><a class="header" href="#unreadmessages">UnreadMessages</a></h2>
+<h2 id="unreadevents"><a class="header" href="#unreadevents">UnreadEvents</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>Messages</td><td>HashMap&lt;<code>EventId</code>, <code>Event</code>&gt;</td><td>Hold all the <code>Event</code>s that have broadcasted to other nodes but haven't confirmed yet</td></tr>
 </tbody></table>
 </div>
-<h3 id="add-new-event-to-unreadmessages"><a class="header" href="#add-new-event-to-unreadmessages">Add new <code>Event</code> to <code>UnreadMessages</code></a></h3>
-<p>To add an <code>Event</code> to <code>UnreadMessages</code>, the protocol first must check the validity of
+<h3 id="add-new-event-to-unreadevents"><a class="header" href="#add-new-event-to-unreadevents">Add new <code>Event</code> to <code>UnreadEvents</code></a></h3>
+<p>To add an <code>Event</code> to <code>UnreadEvents</code>, the protocol first must check the validity of
 <code>Event</code>. </p>
 <p>The <code>Event</code> is not valid in the network if it's too far in the future from now,
 or too far in the past from now.</p>
-<h3 id="updating-unreadmessages-list"><a class="header" href="#updating-unreadmessages-list">Updating <code>UnreadMessages</code> list</a></h3>
+<h3 id="updating-unreadevents-list"><a class="header" href="#updating-unreadevents-list">Updating <code>UnreadEvents</code> list</a></h3>
 <p>The protocol continually broadcast unread <code>Event</code> to the network 
 after a certain period of time(<code>SEND_UNREAD_EVENTS_INTERVAL</code>), 
 Until the state of <code>Event</code> updated to read.</p>
@@ -230,7 +230,7 @@ The list will contains only 2^16 ids.</p>
 </tbody></table>
 </div>
 <h2 id="receiving-a-new-event"><a class="header" href="#receiving-a-new-event">Receiving a new <code>Event</code></a></h2>
-<p>The new received <code>Event</code> with unread status add to the <code>UnreadMessages</code> buffer after
+<p>The new received <code>Event</code> with unread status add to the <code>UnreadEvents</code> buffer after
 increasing the read_confirms by one. </p>
 <p>The <code>Event</code> with read status add to the <code>Model</code>.</p>
 <p>The protocol broadcast the received <code>Event</code> to the network again, to ensure every nodes
@@ -238,7 +238,7 @@ in the network get the Event.</p>
 <h2 id="sending-an-event"><a class="header" href="#sending-an-event">Sending an <code>Event</code></a></h2>
 <p>A new created <code>Event</code> has unread status with read_confirms equal to 0.</p>
 <p>The protocol broadcast the <code>Event</code> to the network after adding it to the
-<code>UnreadMessages</code>.</p>
+<code>UnreadEvents</code>.</p>
 <h2 id="add-new-event-to-model"><a class="header" href="#add-new-event-to-model">Add new <code>Event</code> to <code>Model</code></a></h2>
 <p>For the <code>Event</code> to be successfully add to the <code>Model</code>, the protocol check if
 the previous <code>Event</code>'s hash inside the <code>Event</code> is exist in the <code>Model</code>.</p>
