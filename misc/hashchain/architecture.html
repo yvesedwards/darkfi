@@ -195,10 +195,10 @@ All the chains share a root <code>Event</code> to preserve the tree structure. <
 </tbody></table>
 </div>
 <h2 id="view"><a class="header" href="#view">View</a></h2>
-<p>The <code>View</code> asking <code>Model</code> for new <code>Event</code>s, then dispatching these <code>Event</code>s to the clients. </p>
-<p>The <code>Event</code>s in <code>View</code> are sorted according to the timestamp attached to each <code>Event</code>.</p>
+<p>The <code>View</code> check the <code>Model</code> for new <code>Event</code>s, then dispatch these <code>Event</code>s to the clients. </p>
+<p><code>Event</code>s are sorted according to the timestamp attached to each <code>Event</code>.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>seen</td><td>HashSet&lt;<code>EventId</code>&gt;</td><td>A list of <code>Event</code>s have imported from Model</td></tr>
+<tr><td>seen</td><td>HashMap&lt;<code>EventId</code>&gt;</td><td>A list of <code>Event</code>s</td></tr>
 </tbody></table>
 </div>
 <h1 id="architecture"><a class="header" href="#architecture">Architecture</a></h1>
@@ -212,16 +212,16 @@ orphans list. </p>
 <p><code>Event</code> from orphans list add to chains according to its ancestor. </p>
 <p>For example, in the <em> Example1 </em> below, An <code>Event</code> add to the first chain if
 its previous hash is Event-A1</p>
-<h2 id="remove-old-chains"><a class="header" href="#remove-old-chains">Remove old chains</a></h2>
-<pre><code>TODO
-</code></pre>
+<h2 id="remove-old-leaves"><a class="header" href="#remove-old-leaves">Remove old leaves</a></h2>
+<p>Remove leaves which are too far from the head leaf(the leaf in the longest chain).</p>
+<p>The depth difference from the common ancestor between a leaf to be removed and a head leaf 
+must be greater than <code>MAX_DEPTH</code>. </p>
 <h2 id="update-the-root"><a class="header" href="#update-the-root">Update the root</a></h2>
-<pre><code>TODO
-</code></pre>
+<p>Finding the highest common ancestor for the leaves and assign it as the root
+for the tree.</p>
+<p>The highest common ancestor must have height greater than <code>MAX_HEIGHT</code>.</p>
 <p><img src="../../assets/mv_event.png" alt="data structure" /></p>
 <p>Example1</p>
-<p><img src="../../assets/mv_event_tree.png" alt="data structure" /></p>
-<p>Example2</p>
 
                     </main>
 
