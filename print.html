@@ -2440,24 +2440,30 @@ All the chains share a root <code>Event</code> to preserve the tree structure. <
 <tr><td>current_root</td><td><code>EventId</code></td><td>The root <code>Event</code> for the tree</td></tr>
 <tr><td>orphans</td><td>HashMap&lt;<code>EventId</code>, <code>Event</code>&gt;</td><td>Recently added <code>Event</code>s</td></tr>
 <tr><td>event_map</td><td>HashMap&lt;<code>EventId</code>, <code>EventNode</code>&gt;</td><td>The actual tree</td></tr>
+<tr><td>events_queue</td><td><code>EventsQueue</code></td><td>Communication channel</td></tr>
 </tbody></table>
 </div>
 <h2 id="view"><a class="header" href="#view">View</a></h2>
 <p>The <code>View</code> check the <code>Model</code> for new <code>Event</code>s, then dispatch these <code>Event</code>s to the clients. </p>
 <p><code>Event</code>s are sorted according to the timestamp attached to each <code>Event</code>.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>seen</td><td>HashMap&lt;<code>EventId</code>&gt;</td><td>A list of <code>Event</code>s</td></tr>
+<tr><td>seen</td><td>HashMap&lt;<code>EventId</code>, <code>Event</code>&gt;</td><td>A list of <code>Event</code>s</td></tr>
 </tbody></table>
 </div>
+<h2 id="eventsqueue"><a class="header" href="#eventsqueue">EventsQueue</a></h2>
+<p>The <code>EventsQueue</code> used to transport the event from <code>Model</code> to <code>View</code>.</p>
+<p>The <code>Model</code> fill The <code>EventsQueue</code> with the new <code>Event</code>, while the <code>View</code> keep
+fetching <code>Event</code>s from queue continuously.</p>
 <h1 id="architecture"><a class="header" href="#architecture">Architecture</a></h1>
 <p>Tau using Model–view software architecture. All the operations, main data structures, 
 and handling messages from network protocol, happen in the <code>Model</code> side. 
 While keeping the <code>View</code> independent of the <code>Model</code> and focusing on getting update 
 from it continuously.</p>
 <h2 id="add-new-event"><a class="header" href="#add-new-event">Add new Event</a></h2>
-<p>On receiving new <code>Event</code> from the network protocol, the <code>Event</code> add to the
+<p>Once receiving new <code>Event</code> from the network protocol, the <code>Event</code> will be add to the
 orphans list. </p>
-<p><code>Event</code> from orphans list add to chains according to its ancestor. </p>
+<p>After the ancestor for the new orphan gets found, The orphan <code>Event</code> will be add to the chain
+according to its ancestor.</p>
 <p>For example, in the <em> Example1 </em> below, An <code>Event</code> add to the first chain if
 its previous hash is Event-A1</p>
 <h2 id="remove-old-leaves"><a class="header" href="#remove-old-leaves">Remove old leaves</a></h2>
