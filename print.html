@@ -1277,6 +1277,7 @@ Returns a readable block upon success.
 <h2 id="tx-methods"><a class="header" href="#tx-methods">tx methods</a></h2>
 <ul>
 <li><a href="clients/darkfid_jsonrpc.html#txtransfer"><code>tx.transfer</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#txsimulate"><code>tx.simulate</code></a></li>
 <li><a href="clients/darkfid_jsonrpc.html#txbroadcast"><code>tx.broadcast</code></a></li>
 </ul>
 <h3 id="txtransfer"><a class="header" href="#txtransfer"><code>tx.transfer</code></a></h3>
@@ -1286,17 +1287,25 @@ Returns a transaction ID upon success.</p>
 <li><code>dest_addr</code> -&gt; Recipient's DarkFi address</li>
 <li><code>token_id</code> -&gt; ID of the token to send</li>
 <li><code>12345</code> -&gt; Amount in <code>u64</code> of the funds to send
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_tx.rs#L29">[src]</a></sup></li>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_tx.rs#L27">[src]</a></sup></li>
 </ul>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;tx.transfer&quot;, &quot;params&quot;: [&quot;dest_addr&quot;, &quot;token_id&quot;, 12345], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;txID...&quot;, &quot;id&quot;: 1}
+</code></pre>
+<h3 id="txsimulate"><a class="header" href="#txsimulate"><code>tx.simulate</code></a></h3>
+<p>Simulate a network state transition with the given transaction.
+Returns <code>true</code> if the transaction is valid, otherwise, a corresponding
+error.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_tx.rs#L108">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;tx.simulate&quot;, &quot;params&quot;: [&quot;base58encodedTX&quot;], &quot;id&quot;: 1}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: true, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="txbroadcast"><a class="header" href="#txbroadcast"><code>tx.broadcast</code></a></h3>
 <p>Broadcast a given transaction to the P2P network.
 The function will first simulate the state transition in order to see
 if the transaction is actually valid, and in turn it will return an
 error if this is the case. Otherwise, a transaction ID will be returned.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_tx.rs#L111">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_tx.rs#L152">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;tx.broadcast&quot;, &quot;params&quot;: [&quot;base58encodedTX&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: &quot;txID...&quot;, &quot;id&quot;: 1}
 </code></pre>
