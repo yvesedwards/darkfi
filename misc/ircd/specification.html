@@ -209,28 +209,41 @@ pubkey = &quot;7CkVuFgwTUpJn5Sv67Q3fyEDpa28yrSeL5Hg2GqQ4jfM&quot;
 <h2 id="ircserver"><a class="header" href="#ircserver">IrcServer</a></h2>
 <p>The server start listening to an address specifed in the configuration file. </p>
 <p>For each irc client get connected, an <code>IrcClient</code> instance created.</p>
-<p>A Communication channel get initialized by the server for the new <code>IrcClient</code> 
-and add to the subscriptions list for handling data between them. 
-in this way the server handle and maintain each irc client connection separately.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>settings</td><td><code>Settings</code></td><td>The base settings parsed from the configuration file</td></tr>
-<tr><td>clients_subscriptions</td><td>SubscriberPtr&lt;<code>PrivMsgEvent</code>&gt;</td><td>Channels to notify the <code>IrcClient</code>s about new messages</td></tr>
+<tr><td>clients_subscriptions</td><td>SubscriberPtr&lt;<code>ClientSubMsg</code>&gt;</td><td>Channels to notify the <code>IrcClient</code>s about new data</td></tr>
 </tbody></table>
 </div>
 <h2 id="ircclient"><a class="header" href="#ircclient">IrcClient</a></h2>
 <p>The <code>IrcClient</code> handle all irc opeartions and commands from the irc client.</p>
-<p>The subscription channel listen to the server for new messages from the ircd 
-network and pass them to the irc client. While notify the server to broadcast 
-new messages from the irc client.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>write_stream</td><td>WriteHalf<Stream></td><td>A writer for sending data to the connection stream</td></tr>
 <tr><td>read_stream</td><td>ReadHalf<Stream></td><td>Read data from the connection stream</td></tr>
 <tr><td>address</td><td>SocketAddr</td><td>The actual address for the irc client connection</td></tr>
 <tr><td>irc_config</td><td><code>IrcConfig</code></td><td>Base configuration for irc</td></tr>
-<tr><td>server_notifier</td><td>Channel&lt;(<code>PrivMsgEvent</code>, u64)&gt;</td><td>A Channel to notify the server about a new message from the irc client</td></tr>
-<tr><td>subscription</td><td>Subscription&lt;<code>PrivMsgEvent</code>&gt;</td><td>A channel to receive messages from the server</td></tr>
+<tr><td>server_notifier</td><td>Channel&lt;(<code>NotifierMsg</code>, u64)&gt;</td><td>A Channel to notify the server about a new data from the irc client</td></tr>
+<tr><td>subscription</td><td>Subscription&lt;<code>ClientSubMsg</code>&gt;</td><td>A channel to receive notification from the server</td></tr>
 </tbody></table>
 </div>
+<h2 id="communications-between-the-server-and-the-clients"><a class="header" href="#communications-between-the-server-and-the-clients">Communications between the server and the clients</a></h2>
+<p>Two Communication channels get initialized by the server for every new <code>IrcClient</code>. </p>
+<p>The channel <code>Channel&lt;(NotifierMsg, u64)&gt;</code> used  by the <code>IrcClient</code> to
+notify the server about new messages/queries received from the irc client.</p>
+<p>The channel <code>Subscription&lt;ClientSubMsg&gt;</code> used by the server to notify
+<code>IrcClient</code>s about new messages/queries fetched from the <code>View</code>. </p>
+<h3 id="clientsubmsg"><a class="header" href="#clientsubmsg">ClientSubMsg</a></h3>
+<pre><code>enum ClientSubMsg {
+	Privmsg(`PrivMsgEvent`),
+	Config(`IrcConfig`),	
+}
+</code></pre>
+<h3 id="notifiermsg"><a class="header" href="#notifiermsg">NotifierMsg</a></h3>
+<pre><code>enum NotifierMsg {
+	Privmsg(`PrivMsgEvent`),
+	UpdateConfig,
+}
+</code></pre>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
