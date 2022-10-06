@@ -2574,18 +2574,10 @@ been read from other nodes in the network.</p>
 <pre><code>Unread: read_confirms &lt; `MAX_CONFIMRS` 
 Read: 	read_confirms &gt;= `MAX_CONFIMRS` 
 </code></pre>
-<h2 id="invid"><a class="header" href="#invid">InvId</a></h2>
-<pre><code>type InvId = u64;
-</code></pre>
-<h2 id="invitem"><a class="header" href="#invitem">InvItem</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>Id</td><td><code>InvId</code></td><td>Unique generated integer</td></tr>
-<tr><td>Hash</td><td><code>EventId</code></td><td>Hash of Event</td></tr>
-</tbody></table>
-</div>
 <h2 id="inv"><a class="header" href="#inv">Inv</a></h2>
+<p>Inventory vectors are used for notifying other nodes about objects they have or data which is being requested.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>Invs</td><td>Vec&lt;<code>InvItem</code>&gt;</td><td>A list of <code>InvItem</code></td></tr>
+<tr><td>invs</td><td><code>Vec&lt;[u8; 32]&gt;</code></td><td>Inventory items</td></tr>
 </tbody></table>
 </div>
 <h3 id="receiving-an-inv-message"><a class="header" href="#receiving-an-inv-message">Receiving an <code>Inv</code> message</a></h3>
