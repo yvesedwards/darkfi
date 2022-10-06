@@ -2499,7 +2499,7 @@ connect to in the p2p network.</p>
 <p>The <code>Event</code> could have many actions according to the underlying data.</p>
 <pre><code>enum EventAction { ... };	
 </code></pre>
-<h4 id="privmsg"><a class="header" href="#privmsg">Privmsg</a></h4>
+<h3 id="privmsg"><a class="header" href="#privmsg">Privmsg</a></h3>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>nickname</td><td>String</td><td>The nickname for the sender (must be less than 32 chars)</td></tr>
 <tr><td>target</td><td>String</td><td>The target for the <code>Privmsg</code> (recipient)</td></tr>
@@ -2509,16 +2509,15 @@ connect to in the p2p network.</p>
 <h2 id="event"><a class="header" href="#event">Event</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>previous_event_hash</td><td><code>EventId</code></td><td>Hash of the previous <code>Event</code></td></tr>
-<tr><td>Action</td><td><code>EventAction</code></td><td><code>Event</code>'s action</td></tr>
-<tr><td>Timestamp</td><td>u64</td><td><code>Event</code>'s timestamp</td></tr>
-<tr><td>read_confirms</td><td>u8</td><td>A confirmation counter</td></tr>
+<tr><td>action</td><td><code>EventAction</code></td><td><code>Event</code>'s action</td></tr>
+<tr><td>timestamp</td><td>u64</td><td><code>Event</code>'s timestamp</td></tr>
 </tbody></table>
 </div>
 <h2 id="eventnode"><a class="header" href="#eventnode">EventNode</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>parent</td><td>Option&lt;<code>EventId</code>&gt;</td><td>Only current root has this set to None</td></tr>
-<tr><td>Event</td><td><code>Event</code></td><td>The <code>Event</code> itself</td></tr>
-<tr><td>Children</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>The <code>Event</code>s which has parent as this <code>Event</code> hash</td></tr>
+<tr><td>event</td><td><code>Event</code></td><td>The <code>Event</code> itself</td></tr>
+<tr><td>children</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>The <code>Event</code>s which has parent as this <code>Event</code> hash</td></tr>
 </tbody></table>
 </div>
 <h2 id="model"><a class="header" href="#model">Model</a></h2>
