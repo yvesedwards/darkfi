@@ -2500,13 +2500,6 @@ connect to in the p2p network.</p>
 <p>The <code>Event</code> could have many actions according to the underlying data.</p>
 <pre><code>enum EventAction { ... };	
 </code></pre>
-<h3 id="privmsg"><a class="header" href="#privmsg">Privmsg</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>nickname</td><td>String</td><td>The nickname for the sender (must be less than 32 chars)</td></tr>
-<tr><td>target</td><td>String</td><td>The target for the <code>Privmsg</code> (recipient)</td></tr>
-<tr><td>message</td><td>String</td><td>The <code>Privmsg</code>'s content</td></tr>
-</tbody></table>
-</div>
 <h2 id="event"><a class="header" href="#event">Event</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>previous_event_hash</td><td><code>EventId</code></td><td>Hash of the previous <code>Event</code></td></tr>
