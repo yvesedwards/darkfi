@@ -663,6 +663,27 @@ so it's enough to install <code>cargo hack</code> and run <code>make check</code
 <h1 id="architecture-design"><a class="header" href="#architecture-design">Architecture design</a></h1>
 <p>This section of the book shows the software architecture of DarkFi and
 the network implementations.</p>
+<p>For this phase of development we organize into teams lead by a single
+surgeon. The role of the team is to give full support to the surgeon
+and make his work effortless and smooth.</p>
+<div class="table-wrapper"><table><thead><tr><th>Component</th><th>Description</th><th>Surgeon</th><th>Copilot</th><th>Assistant</th><th>Status</th></tr></thead><tbody>
+<tr><td>consensus</td><td>Algorithm for blockchain consensus</td><td>err</td><td>agg</td><td></td><td>Progress</td></tr>
+<tr><td>zk / crypto</td><td>ZK compiler and crypto algos</td><td>par</td><td>nar</td><td></td><td>Mature</td></tr>
+<tr><td>wasm</td><td>WASM smart contract system</td><td>par</td><td>nar</td><td>das</td><td>Progress</td></tr>
+<tr><td>net</td><td>p2p network protocol code</td><td>agg</td><td>xsan</td><td>nar</td><td>Mature</td></tr>
+<tr><td>blockchain</td><td>consensus + net + db</td><td>err</td><td>das</td><td></td><td>Easy</td></tr>
+<tr><td>bridge</td><td>Develop robust &amp; secure multi-chain bridge architecture</td><td>par</td><td>xsan</td><td></td><td>None</td></tr>
+<tr><td>tokenomics</td><td>Research and define DRK tokenomics</td><td>xeno</td><td>err</td><td>nar</td><td>Starting</td></tr>
+<tr><td>util</td><td>Various utilities and tooling</td><td>nar</td><td>xsan</td><td>das</td><td>Progress</td></tr>
+<tr><td>integration</td><td>Responsible for overseeing integration and liaising with team copilots</td><td>nar</td><td></td><td></td><td>Progress</td></tr>
+</tbody></table>
+</div>
+<p>Priorities:</p>
+<ol>
+<li>consensus</li>
+<li>wasm</li>
+<li>util</li>
+</ol>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
 <p>DarkFi is a layer one proof-of-stake blockchain that supports anonymous
@@ -1144,18 +1165,22 @@ the entire tx is rejected. Additionally some smart contracts might impose additi
 on the transaction's structure or other function calls (such as their call data).</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>struct Transaction {
-    func_calls: Vec&lt;FuncCall&gt;
+</span>pub struct Transaction {
+    pub func_calls: Vec&lt;FuncCall&gt;,
+    // TODO: this is wrong. It should be Vec&lt;Vec&lt;Signature&gt;&gt;
+    // each Vec&lt;Signature&gt; correspond to ONE function call
+    pub signatures: Vec&lt;Signature&gt;,
 }
 <span class="boring">}
 </span></code></pre></pre>
 <p>Function calls represent mutations of the current active state to a new state.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>struct FuncCall {
-    contract_id: ContractId,
-    func_id: FuncId,
-    call_data: Box&lt;dyn Any&gt;,
+</span>pub struct FuncCall {
+    pub contract_id: ContractId,
+    pub func_id: FuncId,
+    pub call_data: Box&lt;dyn CallDataBase&gt;,
+    pub proofs: Vec&lt;Proof&gt;,
 }
 <span class="boring">}
 </span></code></pre></pre>
@@ -1241,6 +1266,59 @@ The <code>contract_id</code> and <code>func_id</code> corresponds to the contrac
 </ol>
 </li>
 </ol>
+<h2 id="zk-proofs-and-signatures"><a class="header" href="#zk-proofs-and-signatures">ZK Proofs and Signatures</a></h2>
+<p>Lets review again the format of transactions.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Transaction {
+    pub func_calls: Vec&lt;FuncCall&gt;,
+    // TODO: this is wrong. It should be Vec&lt;Vec&lt;Signature&gt;&gt;
+    // each Vec&lt;Signature&gt; correspond to ONE function call
+    pub signatures: Vec&lt;Signature&gt;,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>And corresponding function calls.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct FuncCall {
+    pub contract_id: ContractId,
+    pub func_id: FuncId,
+    pub call_data: Box&lt;dyn CallDataBase&gt;,
+    pub proofs: Vec&lt;Proof&gt;,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>As we can see the ZK proofs and signatures are separate from the actuall <code>call_data</code> interpreted
+by <code>state_transition()</code>. They are both automatically verified by the VM.</p>
+<p>However for verification to work, the ZK proofs also need corresponding public values, and
+the signatures need the public keys. We do this in the <code>CallDataBase</code> trait by exporting these
+methods:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait CallDataBase {
+    // Public values for verifying the proofs
+    // Needed so we can convert internal types so they can be used in Proof::verify()
+    fn zk_public_values(&amp;self) -&gt; Vec&lt;(String, Vec&lt;DrkCircuitField&gt;)&gt;;
+
+    // For upcasting to CallData itself so it can be read in state_transition()
+    fn as_any(&amp;self) -&gt; &amp;dyn Any;
+
+    // Public keys we will use to verify transaction signatures.
+    fn signature_public_keys(&amp;self) -&gt; Vec&lt;PublicKey&gt;;
+
+    fn encode_bytes(
+        &amp;self,
+        writer: &amp;mut dyn std::io::Write,
+    ) -&gt; core::result::Result&lt;usize, std::io::Error&gt;;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>These methods export the required values needed for the ZK proofs and signature verification
+from the actual call data itself.</p>
+<p>For signature verification, the data we are verifying is simply the entire transactions minus
+the actual signatures. That's why the signatures are a separate top level field in the
+transaction.</p>
 <h2 id="parallelisation-techniques"><a class="header" href="#parallelisation-techniques">Parallelisation Techniques</a></h2>
 <p>Since verification is done through <code>state_transition()</code> which returns an update that is then committed
 to the state using <code>apply()</code>, we can verify all transactions in a block in parallel.</p>
@@ -2575,6 +2653,8 @@ Read: 	read_confirms &gt;= `MAX_CONFIMRS`
 </tbody></table>
 </div>
 <h3 id="receiving-an-inv-message"><a class="header" href="#receiving-an-inv-message">Receiving an <code>Inv</code> message</a></h3>
+<p>Allows a node to advertise its knowledge of one or more objects. It can be received unsolicited,
+or in reply to <code>getevents</code>. </p>
 <p>An <code>Inv</code> message is a confirmation from a node in the network that the <code>Event</code>
 has been read.</p>
 <p>Confirmation for an <code>Event</code> not exist in the <code>UnreadEvents</code> list, 

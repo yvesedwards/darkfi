@@ -168,6 +168,8 @@ Read: 	read_confirms &gt;= `MAX_CONFIMRS`
 </tbody></table>
 </div>
 <h3 id="receiving-an-inv-message"><a class="header" href="#receiving-an-inv-message">Receiving an <code>Inv</code> message</a></h3>
+<p>Allows a node to advertise its knowledge of one or more objects. It can be received unsolicited,
+or in reply to <code>getevents</code>. </p>
 <p>An <code>Inv</code> message is a confirmation from a node in the network that the <code>Event</code>
 has been read.</p>
 <p>Confirmation for an <code>Event</code> not exist in the <code>UnreadEvents</code> list, 
