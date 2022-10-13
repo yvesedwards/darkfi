@@ -1616,6 +1616,54 @@ and a binary code compiler.</p>
 <a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/zkas/src/main.rs"><code>main.rs</code></a>
 file shows how this toolchain is put together to produce binary code
 from source code.</p>
+<h1 id="architecture"><a class="header" href="#architecture">Architecture</a></h1>
+<p>The main part of the compilation happens inside the parser. New opcodes
+can be added by extending
+<a href="https://github.com/darkrenaissance/darkfi/blob/master/src/zkas/opcode.rs"><code>opcode.rs</code></a>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    // The lexer goes over the input file and separates its content into
+    // tokens that get fed into a parser.
+    let lexer = Lexer::new(filename, source.chars());
+    let tokens = lexer.lex();
+
+    // The parser goes over the tokens provided by the lexer and builds
+    // the initial AST, not caring much about the semantics, just enforcing
+    // syntax and general structure.
+    let parser = Parser::new(filename, source.chars(), tokens);
+    let (constants, witnesses, statements) = parser.parse();
+
+    // The analyzer goes through the initial AST provided by the parser and
+    // converts return and variable types to their correct forms, and also
+    // checks that the semantics of the ZK script are correct.
+    let mut analyzer = Analyzer::new(filename, source.chars(), constants, witnesses, statements);
+    analyzer.analyze_types();
+
+    if args.interactive {
+        analyzer.analyze_semantic();
+    }
+
+    if args.evaluate {
+        println!(&quot;{:#?}&quot;, analyzer.constants);
+        println!(&quot;{:#?}&quot;, analyzer.witnesses);
+        println!(&quot;{:#?}&quot;, analyzer.statements);
+        println!(&quot;{:#?}&quot;, analyzer.stack);
+        exit(0);
+    }
+
+    let compiler = Compiler::new(
+        filename,
+        source.chars(),
+        analyzer.constants,
+        analyzer.witnesses,
+        analyzer.statements,
+        analyzer.literals,
+        !args.strip,
+    );
+
+    let bincode = compiler.compile();
+<span class="boring">}
+</span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="zkas-bincode"><a class="header" href="#zkas-bincode">zkas bincode</a></h1>
 <p>The bincode design for zkas is the compiled code in the form of a
@@ -2799,7 +2847,7 @@ All the chains share a root <code>Event</code> to preserve the tree structure. <
 <p>The <code>EventsQueue</code> used to transport the event from <code>Model</code> to <code>View</code>.</p>
 <p>The <code>Model</code> fill The <code>EventsQueue</code> with the new <code>Event</code>, while the <code>View</code> keep
 fetching <code>Event</code>s from queue continuously.</p>
-<h1 id="architecture"><a class="header" href="#architecture">Architecture</a></h1>
+<h1 id="architecture-1"><a class="header" href="#architecture-1">Architecture</a></h1>
 <p>Tau using Model–view software architecture. All the operations, main data structures, 
 and handling messages from network protocol, happen in the <code>Model</code> side. 
 While keeping the <code>View</code> independent of the <code>Model</code> and focusing on getting update 
