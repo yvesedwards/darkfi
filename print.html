@@ -1225,6 +1225,16 @@ They are also verifiers in our model.</p>
     ...
 }
 </code></pre>
+<h2 id="important-invariants"><a class="header" href="#important-invariants">Important Invariants</a></h2>
+<ol>
+<li>The state of a contract (the contract member values) is globally readable but
+<em>only</em> writable by that contract's functions.</li>
+<li>Transactions are atomic. If a subsequent contract function call fails then the earlier
+ones are also invalid. The entire tx will be rolled back.</li>
+<li><code>foo_contract::bar_func::validate::state_transition()</code> is able to access the entire
+transaction to perform validation on its structure. It might need to enforce requirements
+on the calldata of other function calls within the same tx. See <code>DAO::exec()</code>.</li>
+</ol>
 <h2 id="global-smart-contract-state"><a class="header" href="#global-smart-contract-state">Global Smart Contract State</a></h2>
 <p>Internally we represent this smart contract like this:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1327,6 +1337,7 @@ represent <code>DAO::mint()</code> or <code>Money::transfer()</code>.</p>
             // So we know the tx is well formed.
 
             // we can elide this with macro magic
+            // dao_contract::mint::validate::CallData
             assert_eq((&amp;**call_data).type_id(), TypeId::of::&lt;CallData&gt;());
             let func_call = func_call.call_data.downcast_ref::&lt;CallData&gt;();
 
