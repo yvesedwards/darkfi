@@ -171,10 +171,8 @@ pass it around.</p>
 </span><span class="boring">fn main() {
 </span>use async_std::sync::{Arc, Mutex};
 
-use darkfi::{
-    net,
-    serial::{SerialDecodable, SerialEncodable},
-};
+use darkfi::net;
+use darkfi_serial::{SerialDecodable, SerialEncodable};
 
 pub type DchatMsgsBuffer = Arc&lt;Mutex&lt;Vec&lt;DchatMsg&gt;&gt;&gt;;
 

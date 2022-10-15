@@ -3204,7 +3204,8 @@ setup.</p>
 <p>Once that's done we can access DarkFi's net methods inside of
 dchat. We'll need a few more external libraries too, so add these
 dependencies:</p>
-<pre><code># Async
+<pre><code>
+# Async
 async-std = &quot;1.12.0&quot;
 async-trait = &quot;0.1.57&quot;
 async-executor = &quot;1.4.1&quot;
@@ -3221,7 +3222,6 @@ url = &quot;2.3.1&quot;
 # Encoding and parsing
 serde_json = &quot;1.0.85&quot;
 serde = {version = &quot;1.0.145&quot;, features = [&quot;derive&quot;]}
-toml = &quot;0.5.9&quot;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="writing-a-daemon"><a class="header" href="#writing-a-daemon">Writing a daemon</a></h1>
@@ -3687,10 +3687,8 @@ pass it around.</p>
 </span><span class="boring">fn main() {
 </span>use async_std::sync::{Arc, Mutex};
 
-use darkfi::{
-    net,
-    serial::{SerialDecodable, SerialEncodable},
-};
+use darkfi::net;
+use darkfi_serial::{SerialDecodable, SerialEncodable};
 
 pub type DchatMsgsBuffer = Arc&lt;Mutex&lt;Vec&lt;DchatMsg&gt;&gt;&gt;;
 
@@ -4483,8 +4481,7 @@ happens via a child struct called <code>ChannelInfo</code>.</p>
 <p>This is <code>ChannelInfo::get_info()</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>            last_status: String::new(),
-            log,
+</span>            log,
         }
     }
 
@@ -4494,6 +4491,7 @@ happens via a child struct called <code>ChannelInfo</code>.</p>
                 let mut lock = l.lock().await;
                 let ret = lock.clone();
                 *lock = Vec::new();
+                ret
 <span class="boring">}
 </span></code></pre></pre>
 <p><code>dnetview</code> uses the info returned from <code>Channel</code> and <code>Session</code> and

@@ -225,8 +225,7 @@ happens via a child struct called <code>ChannelInfo</code>.</p>
 <p>This is <code>ChannelInfo::get_info()</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>            last_status: String::new(),
-            log,
+</span>            log,
         }
     }
 
@@ -236,6 +235,7 @@ happens via a child struct called <code>ChannelInfo</code>.</p>
                 let mut lock = l.lock().await;
                 let ret = lock.clone();
                 *lock = Vec::new();
+                ret
 <span class="boring">}
 </span></code></pre></pre>
 <p><code>dnetview</code> uses the info returned from <code>Channel</code> and <code>Session</code> and
