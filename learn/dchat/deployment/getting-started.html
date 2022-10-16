@@ -158,11 +158,11 @@ like so:</p>
 <pre><code>[package]
 name = &quot;dchat&quot;
 version = &quot;0.1.0&quot;
-edition = &quot;2021&quot;
-description = &quot;Demo chat to document darkfi net code&quot;
-
-[dependencies]
-darkfi = {path = &quot;../../&quot;, features = [&quot;net&quot;, &quot;rpc&quot;]}
+homepage = &quot;https://dark.fi&quot;
+description = &quot;Demo chat app used to document DarkFi networking code&quot;
+authors = [&quot;darkfi &lt;dev@dark.fi&gt;&quot;]
+repository = &quot;https://github.com/darkrenaissance/darkfi&quot;
+license = &quot;AGPL-3.0-only&quot;
 </code></pre>
 <p>Be sure to replace the path to DarkFi with the correct path for your
 setup.</p>
@@ -170,23 +170,23 @@ setup.</p>
 dchat. We'll need a few more external libraries too, so add these
 dependencies:</p>
 <pre><code>
-# Async
+[dependencies]
+darkfi = {path = &quot;../../&quot;, features = [&quot;net&quot;, &quot;rpc&quot;]}
+darkfi-serial = {path = &quot;../../src/serial&quot;}
+
 async-std = &quot;1.12.0&quot;
 async-trait = &quot;0.1.57&quot;
-async-executor = &quot;1.4.1&quot;
-async-channel = &quot;1.7.1&quot;
 easy-parallel = &quot;3.2.0&quot;
 smol = &quot;1.2.5&quot;
 num_cpus = &quot;1.13.1&quot;
 
-# Misc
 log = &quot;0.4.17&quot;
 simplelog = &quot;0.12.0&quot;
 url = &quot;2.3.1&quot;
 
-# Encoding and parsing
 serde_json = &quot;1.0.85&quot;
 serde = {version = &quot;1.0.145&quot;, features = [&quot;derive&quot;]}
+toml = &quot;0.5.9&quot;
 </code></pre>
 
                     </main>

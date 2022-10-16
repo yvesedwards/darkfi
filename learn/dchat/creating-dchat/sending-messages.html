@@ -158,11 +158,11 @@ that takes user input, creates a <code>DchatMsg</code> and sends it over the net
 <p>Let's start by creating a <code>send()</code> function inside <code>Dchat</code>. This will
 introduce us to a new p2p method that is essential to our chat app:
 <code>p2p.broadcast()</code>.</p>
-<pre><code>    async fn send(&amp;self, msg: String) -&gt; Result&lt;()&gt; {
-        let dchatmsg = DchatMsg { msg };
+<pre><code>        let dchatmsg = DchatMsg { msg };
         self.p2p.broadcast(dchatmsg).await?;
         Ok(())
     }
+}
 </code></pre>
 <p>We pass a <code>String</code> called msg that will be taken from user input. We use
 this input to initialize a message of the type <code>DchatMsg</code> that the network

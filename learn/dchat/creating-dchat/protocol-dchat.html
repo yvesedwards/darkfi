@@ -159,11 +159,11 @@ pointer to the <code>ProtocolJobsManager</code>. We'll also include the <code>Dc
 in the struct as it will come in handy later on.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>use async_executor::Executor;
-use async_std::sync::Arc;
+</span>use async_std::sync::Arc;
 use async_trait::async_trait;
 use darkfi::{net, Result};
 use log::debug;
+use smol::Executor;
 
 use crate::dchatmsg::{DchatMsg, DchatMsgsBuffer};
 

@@ -161,13 +161,13 @@
 <h3 id="blockchainget_slot"><a class="header" href="#blockchainget_slot"><code>blockchain.get_slot</code></a></h3>
 <p>Queries the blockchain database for a block in the given slot.
 Returns a readable block upon success.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L22">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L20">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.get_slot&quot;, &quot;params&quot;: [0], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: {...}, &quot;id&quot;: 1}
 </code></pre>
 <h3 id="blockchainmerkle_roots"><a class="header" href="#blockchainmerkle_roots"><code>blockchain.merkle_roots</code></a></h3>
 <p>Queries the blockchain database for all available merkle roots.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L55">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L53">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.merkle_roots&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: [..., ..., ...], &quot;id&quot;: 1}
 </code></pre>

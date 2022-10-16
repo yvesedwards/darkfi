@@ -161,8 +161,7 @@ handle to the p2p network contained in the <code>Dchat</code> struct. It will th
 call <code>register()</code> on the registry and pass the <code>ProtocolDchat</code> constructor.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    async fn register_protocol(&amp;self, msgs: DchatMsgsBuffer) -&gt; Result&lt;()&gt; {
-        debug!(target: &quot;dchat&quot;, &quot;Dchat::register_protocol() [START]&quot;);
+</span>        debug!(target: &quot;dchat&quot;, &quot;Dchat::register_protocol() [START]&quot;);
         let registry = self.p2p.protocol_registry();
         registry
             .register(!net::SESSION_SEED, move |channel, _p2p| {
@@ -173,6 +172,7 @@ call <code>register()</code> on the registry and pass the <code>ProtocolDchat</c
         debug!(target: &quot;dchat&quot;, &quot;Dchat::register_protocol() [STOP]&quot;);
         Ok(())
     }
+
 <span class="boring">}
 </span></code></pre></pre>
 <p>There's a lot going on here. <code>register()</code> takes a closure with two
@@ -200,13 +200,12 @@ in <code>main()</code> and pass it to <code>Dchat::new()</code>. Let's add <code
 <code>Dchat</code> struct definition first.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>use crate::{
-    dchat_error::ErrorMissingSpecifier,
+</span>    dchat_error::ErrorMissingSpecifier,
     dchatmsg::{DchatMsg, DchatMsgsBuffer},
     protocol_dchat::ProtocolDchat,
-};
+    rpc::JsonRpcInterface,
 
-struct Dchat {
+
     p2p: net::P2pPtr,
     recv_msgs: DchatMsgsBuffer,
 }
@@ -215,37 +214,38 @@ impl Dchat {
     fn new(p2p: net::P2pPtr, recv_msgs: DchatMsgsBuffer) -&gt; Self {
         Self { p2p, recv_msgs }
     }
+
     //...
-}
+
 <span class="boring">}
 </span></code></pre></pre>
 <p>And initialize it:</p>
-<pre><pre class="playground"><code class="language-rust">#[async_std::main]
-async fn main() -&gt; Result&lt;()&gt; {
+<pre><pre class="playground"><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
+    let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
     //...
-    let msgs: DchatMsgsBuffer = Arc::new(Mutex::new(vec![DchatMsg { msg: String::new() }]));
+
 
     let mut dchat = Dchat::new(p2p, msgs);
     //...
-}
+
 </code></pre></pre>
 <p>Finally, call <code>register_protocol()</code> in <code>dchat::start()</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    async fn start(&amp;mut self, ex: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
-        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
+</span>        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
 
         let ex2 = ex.clone();
 
         self.register_protocol(self.recv_msgs.clone()).await?;
         self.p2p.clone().start(ex.clone()).await?;
+        ex2.spawn(self.p2p.clone().run(ex.clone())).detach();
         self.p2p.clone().run(ex.clone()).await?;
 
-        self.p2p.stop().await;
 
         debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [STOP]&quot;);
         Ok(())
     }
+
 <span class="boring">}
 </span></code></pre></pre>
 <p>Now try running Alice and Bob and seeing what debug output you get. Keep

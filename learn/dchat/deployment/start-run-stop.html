@@ -157,9 +157,9 @@
 instance of the p2p network.</p>
 <p>Add the following to <code>main()</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    let p2p = net::P2p::new(settings.net).await;
-<span class="boring">}
+</span>
+<span class="boring">fn main() {
+</span><span class="boring">}
 </span></code></pre></pre>
 <p>We will next create a <code>Dchat</code> struct that will store all the data required
 by dchat. For now, it will just hold a pointer to the p2p network.</p>
@@ -181,18 +181,18 @@ takes an executor and runs three p2p methods, <code>p2p::start()</code>, <code>p
 and <code>p2p::stop()</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    async fn start(&amp;mut self, ex: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
-        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
+</span>        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
 
-        self.p2p.clone().start(ex.clone()).await?;
+
+        ex2.spawn(self.p2p.clone().run(ex.clone())).detach();
 
         self.p2p.clone().run(ex.clone()).await?;
 
-        self.p2p.stop().await;
 
         debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [STOP]&quot;);
         Ok(())
     }
+
 <span class="boring">}
 </span></code></pre></pre>
 <p>Let's take a quick look at the underlying p2p methods we're using here.</p>

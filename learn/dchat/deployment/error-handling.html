@@ -172,9 +172,8 @@ impl error::Error for ErrorMissingSpecifier {}
 <span class="boring">}
 </span></code></pre></pre>
 <p>Finally we can read the flag from the command-line by adding the following lines to <code>main()</code>:</p>
-<pre><pre class="playground"><code class="language-rust">use crate::{
-    dchat_error::ErrorMissingSpecifier,
-};
+<pre><pre class="playground"><code class="language-rust">    dchat_error::ErrorMissingSpecifier,
+    dchatmsg::{DchatMsg, DchatMsgsBuffer},
 
 
 #[async_std::main]
@@ -186,8 +185,9 @@ async fn main() -&gt; Result&lt;()&gt; {
             _ =&gt; Err(ErrorMissingSpecifier.into()),
         },
         None =&gt; Err(ErrorMissingSpecifier.into()),
+    };
 //...
-}
+
 </code></pre></pre>
 
                     </main>

@@ -161,8 +161,7 @@ simply displays the messages that <code>ProtocolDchat</code> has saved in the
 <p>Here's what it should look like:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    async fn menu(&amp;self) -&gt; Result&lt;()&gt; {
-        let mut buffer = String::new();
+</span>        let mut buffer = String::new();
         let stdin = stdin();
         loop {
             println!(
@@ -208,18 +207,18 @@ simply displays the messages that <code>ProtocolDchat</code> has saved in the
             }
         }
     }
+
 <span class="boring">}
 </span></code></pre></pre>
 <p>We'll call <code>menu()</code> inside of <code>dchat::start()</code> along with our other methods, like so:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    async fn start(&amp;mut self, ex: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
-        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
+</span>        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
 
-        self.register_protocol(self.recv_msgs.clone()).await?;
+
         self.p2p.clone().start(ex.clone()).await?;
+        ex2.spawn(self.p2p.clone().run(ex.clone())).detach();
         self.p2p.clone().run(ex.clone()).await?;
-
         self.menu().await?;
 
         self.p2p.stop().await;
@@ -227,6 +226,7 @@ simply displays the messages that <code>ProtocolDchat</code> has saved in the
         debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [STOP]&quot;);
         Ok(())
     }
+
 <span class="boring">}
 </span></code></pre></pre>
 <p>But wait- if you try running this code, you'll notice that the menu never
@@ -237,8 +237,7 @@ to detach it in the background.</p>
 <p>The complete implementaion looks like this:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    async fn start(&amp;mut self, ex: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
-        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
+</span>        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
 
         let ex2 = ex.clone();
 
@@ -253,6 +252,7 @@ to detach it in the background.</p>
         debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [STOP]&quot;);
         Ok(())
     }
+
 <span class="boring">}
 </span></code></pre></pre>
 

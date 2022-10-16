@@ -472,12 +472,12 @@ before-mentioned public inputs for the circuit:</p>
     let coin1 = pallas::Base::random(&amp;mut OsRng);
     let coin3 = pallas::Base::random(&amp;mut OsRng);
 
-    tree.append(&amp;MerkleNode(coin0));
+    tree.append(&amp;MerkleNode::from(coin0));
     tree.witness();
-    tree.append(&amp;MerkleNode(coin1));
-    tree.append(&amp;MerkleNode(coin2));
+    tree.append(&amp;MerkleNode::from(coin1));
+    tree.append(&amp;MerkleNode::from(coin2));
     let leaf_pos = tree.witness().unwrap();
-    tree.append(&amp;MerkleNode(coin3));
+    tree.append(&amp;MerkleNode::from(coin3));
     tree.witness();
 
     let root = tree.root(0).unwrap();
@@ -517,7 +517,7 @@ before-mentioned public inputs for the circuit:</p>
         *value_coords.y(),
         *token_coords.x(),
         *token_coords.y(),
-        merkle_root.0,
+        merkle_root.inner(),
         *sig_coords.x(),
         *sig_coords.y(),
     ];

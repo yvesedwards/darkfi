@@ -157,29 +157,28 @@
 run the p2p network, we'll need to implement our own daemon.  So we'll
 start building <code>dchat</code> by configuring our main function into a daemon that
 can run the p2p network.</p>
-<pre><pre class="playground"><code class="language-rust">use async_executor::Executor;
+<pre><pre class="playground"><code class="language-rust">use std::{error, fs::File, io::stdin};
+
 use async_std::sync::{Arc, Mutex};
 use easy_parallel::Parallel;
-
-use std::{error, fs::File, io::stdin};
-
 use log::debug;
 use simplelog::WriteLogger;
+use smol::Executor;
 use url::Url;
 
-pub type Error = Box&lt;dyn error::Error&gt;;
+
 pub type Result&lt;T&gt; = std::result::Result&lt;T, Error&gt;;
 
-#[async_std::main]
-async fn main() -&gt; Result&lt;()&gt; {
-    let nthreads = num_cpus::get();
-    let (signal, shutdown) = async_channel::unbounded::&lt;()&gt;();
 
-    let (_, result) = Parallel::new()
+async fn main() -&gt; Result&lt;()&gt; {
+    let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
+    let (signal, shutdown) = smol::channel::unbounded::&lt;()&gt;();
+
+
         .each(0..nthreads, |_| smol::future::block_on(ex2.run(shutdown.recv())))
         .finish(|| {
             smol::future::block_on(async move {
-                drop(signal);
+                dchat.start(ex3).await?;
                 Ok(())
             })
         });
