@@ -1633,7 +1633,7 @@ can be added by extending
     // the initial AST, not caring much about the semantics, just enforcing
     // syntax and general structure.
     let parser = Parser::new(filename, source.chars(), tokens);
-    let (constants, witnesses, statements) = parser.parse();
+    let (namespace, constants, witnesses, statements) = parser.parse();
 
     // The analyzer goes through the initial AST provided by the parser and
     // converts return and variable types to their correct forms, and also
@@ -1656,6 +1656,7 @@ can be added by extending
     let compiler = Compiler::new(
         filename,
         source.chars(),
+        namespace,
         analyzer.constants,
         analyzer.witnesses,
         analyzer.statements,
@@ -1680,6 +1681,7 @@ the VM is able to know which stack it should do lookup from.</p>
 <p>The compiled binary blob has the following layout:</p>
 <pre><code>MAGIC_BYTES
 BINARY_VERSION
+NAMESPACE
 .constant
 CONSTANT_TYPE CONSTANT_NAME 
 CONSTANT_TYPE CONSTANT_NAME 
@@ -1700,8 +1702,8 @@ OPCODE ARG_NUM STACK_TYPE STACK_INDEX ... STACK_TYPE STACK_INDEX
 TBD
 </code></pre>
 <p>Integers in the binary are encoded using variable-integer encoding.
-See <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/util/serial.rs"><code>serial.rs</code></a>
-for our Rust implementation.</p>
+See the <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/serial/src/lib.rs"><code>serial</code></a>
+crate and module for our Rust implementation.</p>
 <h2 id="sections"><a class="header" href="#sections">Sections</a></h2>
 <h3 id="magic_bytes"><a class="header" href="#magic_bytes"><code>MAGIC_BYTES</code></a></h3>
 <p>The magic bytes are the file signature consisting of four bytes used
@@ -1715,6 +1717,15 @@ potential different formats in the future.</p>
 <blockquote>
 <p><code>0x02</code></p>
 </blockquote>
+<h3 id="namespace"><a class="header" href="#namespace"><code>NAMESPACE</code></a></h3>
+<p>This sector after <code>MAGIC_BYTES</code> and <code>BINARY_VERSION</code> contains the
+reference namespace of the code. This is the namespace used in the
+source code, e.g.:</p>
+<pre><code>constant &quot;MyNamespace&quot; { ... }
+contract &quot;MyNamespace&quot; { ... }
+circuit  &quot;MyNamespace&quot; { ... }
+</code></pre>
+<p>The string is serialized with variable-integer encoding.</p>
 <h3 id="constant"><a class="header" href="#constant"><code>.constant</code></a></h3>
 <p>The constants in the <code>.constant</code> section are declared with their type
 and name, so that the VM knows how to search for the builtin constant
