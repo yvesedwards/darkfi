@@ -168,16 +168,13 @@ introduce us to a new p2p method that is essential to our chat app:
 this input to initialize a message of the type <code>DchatMsg</code> that the network
 can now support. Finally, we pass the message into <code>p2p.broadcast()</code>.</p>
 <p>Here's what happens under the hood:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
-</span>    /// Wait for outbound connections to be established.
+<pre><code class="language-rust">
+    /// Wait for outbound connections to be established.
     pub async fn wait_for_outbound(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
         debug!(target: &quot;net&quot;, &quot;P2p::wait_for_outbound() [BEGIN]&quot;);
         // To verify that the network needs initialization, we check if we have seeds or peers configured,
         // and have configured outbound slots.
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>This is pretty straightforward: <code>broadcast()</code> takes a generic <code>Message</code> type
 and sends it across all the channels that our node has access to.</p>
 <p>All that's left to do is to create a UI.</p>

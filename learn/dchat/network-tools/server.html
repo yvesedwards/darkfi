@@ -161,7 +161,7 @@ It starts a JSON-RPC server that is bound to the provided accept URL
 and uses our previously implemented <code>RequestHandler</code> to handle incoming
 requests.</p>
 <p>Add the following lines to <code>main()</code>:</p>
-<pre><pre class="playground"><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
+<pre><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
     let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
 
     //...
@@ -171,7 +171,7 @@ requests.</p>
     let (_, result) = Parallel::new()
     //...
 
-</code></pre></pre>
+</code></pre>
 <p>We create a new <code>JsonRpcInterface</code> inside an <code>Arc</code> pointer and pass in our
 <code>accept_addr</code> and <code>p2p</code> object.</p>
 <p>Next, we create an async block that calls <code>listen_and_serve()</code>. The async
@@ -181,7 +181,7 @@ We use an <code>executor</code> to spawn <code>listen_and_serve()</code> as a ne
 detach it in the background.</p>
 <p>We have enabled JSON-RPC.</p>
 <p>Here's what our complete <code>main()</code> function looks like:</p>
-<pre><pre class="playground"><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
+<pre><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
     let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
         Some(id) =&gt; match id.as_str() {
             &quot;a&quot; =&gt; alice(),
@@ -222,7 +222,7 @@ detach it in the background.</p>
 
     result
 }
-</code></pre></pre>
+</code></pre>
 
                     </main>
 

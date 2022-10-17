@@ -159,9 +159,7 @@ register the protocol with the <code>ProtocolRegistry</code>.</p>
 <code>register_protocol()</code>. It will invoke the <code>ProtocolRegistry</code> using the
 handle to the p2p network contained in the <code>Dchat</code> struct. It will then
 call <code>register()</code> on the registry and pass the <code>ProtocolDchat</code> constructor.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>        debug!(target: &quot;dchat&quot;, &quot;Dchat::register_protocol() [START]&quot;);
+<pre><code class="language-rust">        debug!(target: &quot;dchat&quot;, &quot;Dchat::register_protocol() [START]&quot;);
         let registry = self.p2p.protocol_registry();
         registry
             .register(!net::SESSION_SEED, move |channel, _p2p| {
@@ -173,21 +171,17 @@ call <code>register()</code> on the registry and pass the <code>ProtocolDchat</c
         Ok(())
     }
 
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>There's a lot going on here. <code>register()</code> takes a closure with two
 arguments, <code>channel</code> and <code>p2p</code>. We use <code>move</code> to capture these values. We
 then create an async closure that captures these values and the value
 <code>msgs</code> and use them to call <code>ProtocolDchat::init()</code> in the async block.</p>
 <p>The code would be expressed more simply as:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>registry.register(!net::SESSION_SEED, async move |channel, _p2p| {
+<pre><code class="language-rust">registry.register(!net::SESSION_SEED, async move |channel, _p2p| {
         ProtocolDchat::init(channel, msgs).await
     })
     .await;
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>However we cannot do this due to limitation with async closures. So
 instead we wrap the <code>async move</code> in a <code>move</code> in order to capture the
 variables needed by <code>ProtocolDchat::init()</code>.</p>
@@ -198,9 +192,7 @@ seed session.</p>
 send to the <code>ProtocolDchat</code> constructor. We'll create the <code>DchatMsgsBuffer</code>
 in <code>main()</code> and pass it to <code>Dchat::new()</code>. Let's add <code>DchatMsgsBuffer</code> to the
 <code>Dchat</code> struct definition first.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    dchat_error::ErrorMissingSpecifier,
+<pre><code class="language-rust">    dchat_error::ErrorMissingSpecifier,
     dchatmsg::{DchatMsg, DchatMsgsBuffer},
     protocol_dchat::ProtocolDchat,
     rpc::JsonRpcInterface,
@@ -217,10 +209,9 @@ impl Dchat {
 
     //...
 
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>And initialize it:</p>
-<pre><pre class="playground"><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
+<pre><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
     let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
     //...
 
@@ -228,11 +219,9 @@ impl Dchat {
     let mut dchat = Dchat::new(p2p, msgs);
     //...
 
-</code></pre></pre>
+</code></pre>
 <p>Finally, call <code>register_protocol()</code> in <code>dchat::start()</code>:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
+<pre><code class="language-rust">        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
 
         let ex2 = ex.clone();
 
@@ -246,8 +235,7 @@ impl Dchat {
         Ok(())
     }
 
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>Now try running Alice and Bob and seeing what debug output you get. Keep
 an eye out for the following:</p>
 <pre><code>[DEBUG] (1) net: Channel::subscribe_msg() [START, command=&quot;DchatMsg&quot;, address=tcp://127.0.0.1:55555]

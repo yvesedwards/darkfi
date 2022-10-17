@@ -168,9 +168,7 @@ from source code.</p>
 <p>The main part of the compilation happens inside the parser. New opcodes
 can be added by extending
 <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/zkas/opcode.rs"><code>opcode.rs</code></a>.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    // The lexer goes over the input file and separates its content into
+<pre><code class="language-rust">    // The lexer goes over the input file and separates its content into
     // tokens that get fed into a parser.
     let lexer = Lexer::new(filename, source.chars());
     let tokens = lexer.lex();
@@ -211,8 +209,7 @@ can be added by extending
     );
 
     let bincode = compiler.compile();
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 
                     </main>
 

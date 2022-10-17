@@ -160,9 +160,7 @@ Bob to connect to JSON-RPC, we'll need to generalize this return a RPC
 <code>Url</code> as well as a <code>Settings</code>.</p>
 <p>Let's define a new struct called <code>AppSettings</code> that has two fields,
 <code>Url</code> and <code>Settings</code>.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>struct AppSettings {
+<pre><code class="language-rust">struct AppSettings {
     accept_addr: Url,
     net: Settings,
 }
@@ -172,13 +170,10 @@ impl AppSettings {
         Self { accept_addr, net }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>Next, we'll change our <code>alice()</code> method to return a <code>AppSettings</code>
 instead of a <code>Settings</code>.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    let log_level = simplelog::LevelFilter::Debug;
+<pre><code class="language-rust">    let log_level = simplelog::LevelFilter::Debug;
     //...
     let inbound = Url::parse(&quot;tcp://127.0.0.1:51554&quot;).unwrap();
     let ext_addr = Url::parse(&quot;tcp://127.0.0.1:51554&quot;).unwrap();
@@ -196,12 +191,9 @@ instead of a <code>Settings</code>.</p>
     Ok(settings)
 }
 
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>And the same for <code>bob()</code>:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    let log_level = simplelog::LevelFilter::Debug;
+<pre><code class="language-rust">    let log_level = simplelog::LevelFilter::Debug;
     //...
         inbound: vec![],
         outbound_connections: 5,
@@ -215,10 +207,9 @@ instead of a <code>Settings</code>.</p>
     Ok(settings)
 }
 
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>Update <code>main()</code> with the new type:</p>
-<pre><pre class="playground"><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
+<pre><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
     let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
         Some(id) =&gt; match id.as_str() {
             &quot;a&quot; =&gt; alice(),
@@ -234,7 +225,7 @@ instead of a <code>Settings</code>.</p>
 
     //...
 
-</code></pre></pre>
+</code></pre>
 
                     </main>
 

@@ -162,9 +162,7 @@ comes in. <code>dnetview</code> implements a JSON-RPC client that calls a single
 method: <code>get_info()</code>.</p>
 <p>To use it, let's return to our <code>JsonRpcInterface</code> and add the following
 method:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    // RPCAPI:
+<pre><code class="language-rust">    // RPCAPI:
     // Retrieves P2P network information.
     // --&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_info&quot;, &quot;params&quot;: [], &quot;id&quot;: 42}
     // &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, result&quot;: {&quot;nodeID&quot;: [], &quot;nodeinfo&quot;: [], &quot;id&quot;: 42}
@@ -172,12 +170,9 @@ method:</p>
         let resp = self.p2p.get_info().await;
         JsonResponse::new(resp, id).into()
     }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>And add it to <code>handle_request()</code>:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    async fn handle_request(&amp;self, req: JsonRequest) -&gt; JsonResult {
+<pre><code class="language-rust">    async fn handle_request(&amp;self, req: JsonRequest) -&gt; JsonResult {
         //...
         match req.method.as_str() {
             Some(&quot;ping&quot;) =&gt; self.pong(req.id, req.params).await,
@@ -186,17 +181,14 @@ method:</p>
         }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>This calls the p2p function <code>get_info()</code> and passes the returned data into a
 <code>JsonResponse</code>.</p>
 <p>Under the hood, this function triggers a hierarchy of <code>get_info()</code>
 calls which deliver info specific to a node, its inbound or outbound
 <code>Session</code>'s, and the <code>Channel</code>'s those <code>Session</code>'s run.</p>
 <p>Here's what happens:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>        *self_.session_outbound.lock().await = Some(OutboundSession::new(parent));
+<pre><code class="language-rust">        *self_.session_outbound.lock().await = Some(OutboundSession::new(parent));
 
         register_default_protocols(self_.clone()).await;
 
@@ -212,8 +204,7 @@ calls which deliver info specific to a node, its inbound or outbound
 
         json!({
             &quot;external_addr&quot;: format!(&quot;{:?}&quot;, ext_addr_vec),
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>Here we return two pieces of info that are unique to a node:
 <code>external_addr</code> and <code>state</code>. We couple that data with <code>SessionInfo</code>
 by calling <code>get_info()</code> on each <code>Session</code>.</p>
@@ -223,9 +214,7 @@ inbound <code>Session</code>). <code>Session::get_info()</code> then calls the f
 <code>Channel::get_info()</code> which returns data specific to a <code>Channel</code>. This
 happens via a child struct called <code>ChannelInfo</code>.</p>
 <p>This is <code>ChannelInfo::get_info()</code>.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>            log,
+<pre><code class="language-rust">            log,
         }
     }
 
@@ -236,8 +225,7 @@ happens via a child struct called <code>ChannelInfo</code>.</p>
                 let ret = lock.clone();
                 *lock = Vec::new();
                 ret
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><code>dnetview</code> uses the info returned from <code>Channel</code> and <code>Session</code> and
 node-specific info like <code>external_addr</code> to display an overview of the
 p2p network.</p>

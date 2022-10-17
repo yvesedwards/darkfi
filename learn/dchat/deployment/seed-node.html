@@ -156,7 +156,7 @@
 <p>Let's create an instance of dchat inside our main function and pass the
 p2p network into it.  Then we'll add <code>dchat::start()</code> to our async loop
 in the main function. </p>
-<pre><pre class="playground"><code class="language-rust">#[async_std::main]
+<pre><code class="language-rust">#[async_std::main]
 async fn main() -&gt; Result&lt;()&gt; {
     let settings: Result&lt;Settings&gt; = match std::env::args().nth(1) {
         Some(id) =&gt; match id.as_str() {
@@ -191,7 +191,7 @@ async fn main() -&gt; Result&lt;()&gt; {
 
     result
 }
-</code></pre></pre>
+</code></pre>
 <p>Now try to run the program, don't forget to add a specifier <code>a</code> or <code>b</code>
 to define the type of node.</p>
 <p>It should output the following error: </p>

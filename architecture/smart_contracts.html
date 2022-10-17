@@ -184,9 +184,7 @@ on the calldata of other function calls within the same tx. See <code>DAO::exec(
 </ol>
 <h2 id="global-smart-contract-state"><a class="header" href="#global-smart-contract-state">Global Smart Contract State</a></h2>
 <p>Internally we represent this smart contract like this:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>mod dao_contract {
+<pre><code class="language-rust">mod dao_contract {
     // Corresponds to 1. above, the global state
     struct State {
         dao_bullas: Vec&lt;DaoBulla&gt;,
@@ -221,8 +219,7 @@ on the calldata of other function calls within the same tx. See <code>DAO::exec(
         }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>There is a pipeline where the prover runs <code>Builder::build()</code> to create the <code>FuncCall</code> object that
 is then broadcast to the verifiers through the p2p network.</p>
 <p>The <code>CallData</code> usually is the public values exported from a ZK proof. Essentially it is the data
@@ -231,17 +228,21 @@ used by the verifier to check the function call for <code>DAO::mint()</code>.</p
 <p>Transactions represent several function call invocations that are atomic. If any function call fails,
 the entire tx is rejected. Additionally some smart contracts might impose additional conditions
 on the transaction's structure or other function calls (such as their call data).</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>{{#include ../../../bin/daod/src/demo.rs:transaction}}
-<span class="boring">}
-</span></code></pre></pre>
+<pre><code class="language-rust">pub struct Transaction {
+    pub func_calls: Vec&lt;FuncCall&gt;,
+    // TODO: this is wrong. It should be Vec&lt;Vec&lt;Signature&gt;&gt;
+    // each Vec&lt;Signature&gt; correspond to ONE function call
+    pub signatures: Vec&lt;Signature&gt;,
+}
+</code></pre>
 <p>Function calls represent mutations of the current active state to a new state.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>{{#include ../../../bin/daod/src/demo.rs:funccall}}
-<span class="boring">}
-</span></code></pre></pre>
+<pre><code class="language-rust">pub struct FuncCall {
+    pub contract_id: ContractId,
+    pub func_id: FuncId,
+    pub call_data: Box&lt;dyn CallDataBase + Send + Sync&gt;,
+    pub proofs: Vec&lt;Proof&gt;,
+}
+</code></pre>
 <p>The <code>contract_id</code> corresponds to the top level module for the contract which
 includes the global <code>State</code>.</p>
 <p>The <code>func_id</code> of a function call corresponds to predefined objects in the submodules:</p>
@@ -255,9 +256,7 @@ Verifiers have this.</li>
 <p>An example of a <code>contract_id</code> could represent <code>DAO</code> or <code>Money</code>. Examples of <code>func_id</code> could
 represent <code>DAO::mint()</code> or <code>Money::transfer()</code>.</p>
 <p>Each function call invocation is ran using its own <code>state_transition()</code> function.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>mod dao_contract {
+<pre><code class="language-rust">mod dao_contract {
     ...
 
     // DAO::mint() in the smart contract pseudocode
@@ -282,8 +281,7 @@ represent <code>DAO::mint()</code> or <code>Money::transfer()</code>.</p>
         }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>The <code>state_transition()</code> has access to the entire atomic transaction to enforce correctness. For example
 chaining of function calls is used by the <code>DAO::exec()</code> smart contract function to execute moving money out
 of the treasury using <code>Money::transfer()</code> within the same transaction.</p>
@@ -292,9 +290,7 @@ which is needed for some contracts.</p>
 <p>Note that during this step, the state is <em>not</em> modified. Modification happens after the <code>state_transition()</code> is run
 for all function call invocations within the transaction. Assuming they all pass successfully, the updates are then
 applied at the end. This ensures atomicity property of transactions.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>mod dao_contract {
+<pre><code class="language-rust">mod dao_contract {
     ...
 
     // DAO::mint() in the smart contract pseudocode
@@ -307,8 +303,7 @@ applied at the end. This ensures atomicity property of transactions.</p>
         }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>The transaction verification pipeline roughly looks like this:</p>
 <ol>
 <li>Loop through all function call invocations within the transaction:
@@ -327,27 +322,43 @@ The <code>contract_id</code> and <code>func_id</code> corresponds to the contrac
 </ol>
 <h2 id="zk-proofs-and-signatures"><a class="header" href="#zk-proofs-and-signatures">ZK Proofs and Signatures</a></h2>
 <p>Lets review again the format of transactions.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>{{#include ../../../bin/daod/src/demo.rs:transaction}}
-<span class="boring">}
-</span></code></pre></pre>
+<pre><code class="language-rust">pub struct Transaction {
+    pub func_calls: Vec&lt;FuncCall&gt;,
+    // TODO: this is wrong. It should be Vec&lt;Vec&lt;Signature&gt;&gt;
+    // each Vec&lt;Signature&gt; correspond to ONE function call
+    pub signatures: Vec&lt;Signature&gt;,
+}
+</code></pre>
 <p>And corresponding function calls.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>{{#include ../../../bin/daod/src/demo.rs:funccall}}
-<span class="boring">}
-</span></code></pre></pre>
+<pre><code class="language-rust">pub struct FuncCall {
+    pub contract_id: ContractId,
+    pub func_id: FuncId,
+    pub call_data: Box&lt;dyn CallDataBase + Send + Sync&gt;,
+    pub proofs: Vec&lt;Proof&gt;,
+}
+</code></pre>
 <p>As we can see the ZK proofs and signatures are separate from the actuall <code>call_data</code> interpreted
 by <code>state_transition()</code>. They are both automatically verified by the VM.</p>
 <p>However for verification to work, the ZK proofs also need corresponding public values, and
 the signatures need the public keys. We do this in the <code>CallDataBase</code> trait by exporting these
 methods:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>{{#include ../../../bin/daod/src/demo.rs:calldatabase_trait}}
-<span class="boring">}
-</span></code></pre></pre>
+<pre><code class="language-rust">pub trait CallDataBase {
+    // Public values for verifying the proofs
+    // Needed so we can convert internal types so they can be used in Proof::verify()
+    fn zk_public_values(&amp;self) -&gt; Vec&lt;(String, Vec&lt;DrkCircuitField&gt;)&gt;;
+
+    // For upcasting to CallData itself so it can be read in state_transition()
+    fn as_any(&amp;self) -&gt; &amp;dyn Any;
+
+    // Public keys we will use to verify transaction signatures.
+    fn signature_public_keys(&amp;self) -&gt; Vec&lt;PublicKey&gt;;
+
+    fn encode_bytes(
+        &amp;self,
+        writer: &amp;mut dyn std::io::Write,
+    ) -&gt; std::result::Result&lt;usize, std::io::Error&gt;;
+}
+</code></pre>
 <p>These methods export the required values needed for the ZK proofs and signature verification
 from the actual call data itself.</p>
 <p>For signature verification, the data we are verifying is simply the entire transactions minus

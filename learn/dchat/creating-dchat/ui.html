@@ -159,9 +159,7 @@ send messages and see received messages inside the inbox. Our inbox
 simply displays the messages that <code>ProtocolDchat</code> has saved in the
 <code>DchatMsgBuffer</code>.</p>
 <p>Here's what it should look like:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>        let mut buffer = String::new();
+<pre><code class="language-rust">        let mut buffer = String::new();
         let stdin = stdin();
         loop {
             println!(
@@ -208,12 +206,9 @@ simply displays the messages that <code>ProtocolDchat</code> has saved in the
         }
     }
 
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>We'll call <code>menu()</code> inside of <code>dchat::start()</code> along with our other methods, like so:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
+<pre><code class="language-rust">        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
 
 
         self.p2p.clone().start(ex.clone()).await?;
@@ -227,17 +222,14 @@ simply displays the messages that <code>ProtocolDchat</code> has saved in the
         Ok(())
     }
 
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>But wait- if you try running this code, you'll notice that the menu never
 gets displayed. That's because we call <code>.await</code> on the previous function
 call, <code>p2p.run()</code>. <code>p2p.run()</code> is a loop that runs until we exit the program,
 so in order for it to not block other threads from executing we'll need
 to detach it in the background.</p>
 <p>The complete implementaion looks like this:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
+<pre><code class="language-rust">        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
 
         let ex2 = ex.clone();
 
@@ -253,8 +245,7 @@ to detach it in the background.</p>
         Ok(())
     }
 
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 
                     </main>
 

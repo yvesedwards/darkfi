@@ -157,9 +157,7 @@
 <code>ProtocolDchat</code> that contains a <code>MessageSubscription</code> to <code>DchatMsg</code> and a
 pointer to the <code>ProtocolJobsManager</code>. We'll also include the <code>DchatMsgsBuffer</code>
 in the struct as it will come in handy later on.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use async_std::sync::Arc;
+<pre><code class="language-rust">use async_std::sync::Arc;
 use async_trait::async_trait;
 use darkfi::{net, Result};
 use log::debug;
@@ -172,14 +170,11 @@ pub struct ProtocolDchat {
     msg_sub: net::MessageSubscription&lt;DchatMsg&gt;,
     msgs: DchatMsgsBuffer,
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>Next we'll implement the trait <code>ProtocolBase</code>. <code>ProtocolBase</code> requires
 two functions, <code>start()</code> and <code>name()</code>. In <code>start()</code> we will start up the
 <code>ProtocolJobsManager</code>. <code>name()</code> will return a <code>str</code> of the protocol name.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[async_trait]
+<pre><code class="language-rust">#[async_trait]
 impl net::ProtocolBase for ProtocolDchat {
     async fn start(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
         debug!(target: &quot;dchat&quot;, &quot;ProtocolDchat::ProtocolBase::start() [START]&quot;);
@@ -192,8 +187,7 @@ impl net::ProtocolBase for ProtocolDchat {
         &quot;ProtocolDchat&quot;
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>Once that's done, we'll need to create a <code>ProtocolDchat</code> constructor
 that we will pass to the <code>ProtocolRegistry</code> to register our protocol.
 We'll invoke the <code>MessageSubsystem</code> and add <code>DchatMsg</code> as to the list
@@ -201,9 +195,7 @@ of dispatchers. Next, we'll create a <code>MessageSubscription</code> to <code>D
 using the method <code>subscribe_msg()</code>.</p>
 <p>We'll also initialize the <code>ProtocolJobsManager</code> and finally return a
 pointer to the protocol.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>impl ProtocolDchat {
+<pre><code class="language-rust">impl ProtocolDchat {
     pub async fn init(channel: net::ChannelPtr, msgs: DchatMsgsBuffer) -&gt; net::ProtocolBasePtr {
         debug!(target: &quot;dchat&quot;, &quot;ProtocolDchat::init() [START]&quot;);
         let message_subsytem = channel.get_message_subsystem();
@@ -219,15 +211,12 @@ pointer to the protocol.</p>
         })
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>We're nearly there. But right now the protocol doesn't actually do
 anything. Let's write a method called <code>handle_receive_msg()</code> which receives
 a message on our <code>MessageSubscription</code> and adds it to <code>DchatMsgsBuffer</code>.</p>
 <p>Put this inside the <code>ProtocolDchat</code> implementation:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    async fn handle_receive_msg(self: Arc&lt;Self&gt;) -&gt; Result&lt;()&gt; {
+<pre><code class="language-rust">    async fn handle_receive_msg(self: Arc&lt;Self&gt;) -&gt; Result&lt;()&gt; {
         debug!(target: &quot;dchat&quot;, &quot;ProtocolDchat::handle_receive_msg() [START]&quot;);
         while let Ok(msg) = self.msg_sub.receive().await {
             let msg = (*msg).to_owned();
@@ -236,19 +225,15 @@ a message on our <code>MessageSubscription</code> and adds it to <code>DchatMsgs
 
         Ok(())
     }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>As a final step, let's add that task to the <code>ProtocolJobManager</code> that is invoked
 in <code>start()</code>:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    async fn start(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
+<pre><code class="language-rust">    async fn start(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
         //...
         self.jobsman.clone().spawn(self.clone().handle_receive_msg(), executor.clone()).await;
         //...
     }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 
                     </main>
 

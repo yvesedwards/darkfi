@@ -261,9 +261,7 @@ is the blinding factor, and <span class="katex"><span class="katex-html" aria-hi
 <h2 id="pseudo-code"><a class="header" href="#pseudo-code">Pseudo-code</a></h2>
 <p>Knowing this we can extend our pseudo-code and build the
 before-mentioned public inputs for the circuit:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    let bincode = include_bytes!(&quot;../proof/mint.zk.bin&quot;);
+<pre><code class="language-rust">    let bincode = include_bytes!(&quot;../proof/mint.zk.bin&quot;);
     let zkbin = ZkBinary::decode(bincode)?;
 
     // ======
@@ -323,8 +321,7 @@ before-mentioned public inputs for the circuit:</p>
 
     let verifying_key = VerifyingKey::build(13, &amp;circuit);
     proof.verify(&amp;verifying_key, &amp;public_inputs)?;
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <h2 id="burn"><a class="header" href="#burn">Burn</a></h2>
 <pre><code>constant &quot;Burn&quot; {
 	EcFixedPointShort VALUE_COMMIT_VALUE,
@@ -436,9 +433,7 @@ with a genera tor <span class="katex"><span class="katex-html" aria-hidden="true
 <h2 id="pseudo-code-1"><a class="header" href="#pseudo-code-1">Pseudo-code</a></h2>
 <p>Knowing this we can extend our pseudo-code and build the
 before-mentioned public inputs for the circuit:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    let bincode = include_bytes!(&quot;../proof/burn.zk.bin&quot;);
+<pre><code class="language-rust">    let bincode = include_bytes!(&quot;../proof/burn.zk.bin&quot;);
     let zkbin = ZkBinary::decode(bincode)?;
 
     // ======
@@ -540,8 +535,7 @@ before-mentioned public inputs for the circuit:</p>
 
     let verifying_key = VerifyingKey::build(13, &amp;circuit);
     proof.verify(&amp;verifying_key, &amp;public_inputs)?;
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>See section 3: <em>The Commitment Scheme</em> of Torben Pryds Pedersen's
 <a href="https://link.springer.com/content/pdf/10.1007%2F3-540-46766-1_9.pdf">paper on Non-Interactive and

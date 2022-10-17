@@ -155,9 +155,7 @@
 <h1 id="error-handling"><a class="header" href="#error-handling">Error handling</a></h1>
 <p>Before we continue, we need to quickly add some error handling to handle
 the case where a user forgets to add the command-line flag.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use std::{error, fmt};
+<pre><code class="language-rust">use std::{error, fmt};
 
 #[derive(Debug, Clone)]
 pub struct ErrorMissingSpecifier;
@@ -169,10 +167,9 @@ impl fmt::Display for ErrorMissingSpecifier {
 }
 
 impl error::Error for ErrorMissingSpecifier {}
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>Finally we can read the flag from the command-line by adding the following lines to <code>main()</code>:</p>
-<pre><pre class="playground"><code class="language-rust">    dchat_error::ErrorMissingSpecifier,
+<pre><code class="language-rust">    dchat_error::ErrorMissingSpecifier,
     dchatmsg::{DchatMsg, DchatMsgsBuffer},
 
 
@@ -188,7 +185,7 @@ async fn main() -&gt; Result&lt;()&gt; {
     };
 //...
 
-</code></pre></pre>
+</code></pre>
 
                     </main>
 

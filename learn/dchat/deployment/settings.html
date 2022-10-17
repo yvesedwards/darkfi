@@ -167,9 +167,7 @@ log file because we don't want it interfering with our terminal UI when
 we eventually build it.</p>
 <p>This is a function that returns the settings to create Alice, an
 inbound node:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>fn alice() -&gt; Result&lt;Settings&gt; {
+<pre><code class="language-rust">fn alice() -&gt; Result&lt;Settings&gt; {
    let log_level = simplelog::LevelFilter::Debug;
    let log_config = simplelog::Config::default();
 
@@ -190,13 +188,10 @@ inbound node:</p>
 
    Ok(settings)
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>This is a function that returns the settings to create Bob, an
 outbound node:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>fn bob() -&gt; Result&lt;Settings&gt; {
+<pre><code class="language-rust">fn bob() -&gt; Result&lt;Settings&gt; {
    let log_level = simplelog::LevelFilter::Debug;
    let log_config = simplelog::Config::default();
 
@@ -215,8 +210,7 @@ outbound node:</p>
 
    Ok(settings)
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>Both outbound and inbound nodes specify a seed address to connect to. The
 inbound node also specifies an external address and an inbound address:
 this is where it will receive connections. The outbound node specifies

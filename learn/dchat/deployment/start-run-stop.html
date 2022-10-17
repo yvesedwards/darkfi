@@ -156,16 +156,11 @@
 <p>Now that we have initialized the network settings we can create an
 instance of the p2p network.</p>
 <p>Add the following to <code>main()</code>:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
-</span><span class="boring">}
-</span></code></pre></pre>
+<pre><code class="language-rust">
+</code></pre>
 <p>We will next create a <code>Dchat</code> struct that will store all the data required
 by dchat. For now, it will just hold a pointer to the p2p network.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>struct Dchat {
+<pre><code class="language-rust">struct Dchat {
     p2p: net::P2pPtr,
 }
 
@@ -174,14 +169,11 @@ impl Dchat {
         Self { p2p }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>Now let's add a <code>start()</code> function to the <code>Dchat</code> implementation. <code>start()</code>
 takes an executor and runs three p2p methods, <code>p2p::start()</code>, <code>p2p::run()</code>,
 and <code>p2p::stop()</code>.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
+<pre><code class="language-rust">        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
 
 
         ex2.spawn(self.p2p.clone().run(ex.clone())).detach();
@@ -193,14 +185,11 @@ and <code>p2p::stop()</code>.</p>
         Ok(())
     }
 
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>Let's take a quick look at the underlying p2p methods we're using here.</p>
 <h2 id="start"><a class="header" href="#start">Start</a></h2>
 <p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L129">start()</a>:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>            &quot;session_outbound&quot;: self.session_outbound().await.get_info().await,
+<pre><code class="language-rust">            &quot;session_outbound&quot;: self.session_outbound().await.get_info().await,
             &quot;state&quot;: self.state.lock().await.to_string(),
         })
     }
@@ -215,8 +204,7 @@ and <code>p2p::stop()</code>.</p>
         let seed = SeedSyncSession::new(Arc::downgrade(&amp;self));
         // This will block until all seed queries have finished
         seed.start(executor.clone()).await?;
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><code>start()</code> changes the <code>P2pState</code> to <code>P2pState::Start</code> and runs a <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/session/seed_session.rs">seed
 session</a>.</p>
 <p>This loops through the seed addresses specified in our <code>Settings</code> and
@@ -227,9 +215,7 @@ stores the channel in the p2p list of channels, and disconnects, removing
 the channel from the channel list.</p>
 <h2 id="run"><a class="header" href="#run">Run</a></h2>
 <p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L157">run()</a>:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    pub async fn session_outbound(&amp;self) -&gt; Arc&lt;OutboundSession&gt; {
+<pre><code class="language-rust">    pub async fn session_outbound(&amp;self) -&gt; Arc&lt;OutboundSession&gt; {
         self.session_outbound.lock().await.as_ref().unwrap().clone()
     }
 
@@ -257,8 +243,7 @@ the channel from the channel list.</p>
 
         // Stop the sessions
         manual.stop().await;
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><code>run()</code> changes the P2pState to <code>P2pState::Run</code>. It then calls <code>start()</code>
 on manual, inbound and outbound sessions that are contained with the
 <code>P2p</code> struct. The outcome of <code>start()</code> will depend on how your node is
@@ -272,13 +257,10 @@ return without doing anything. For example, if you are an outbound node,
 is received.</p>
 <h2 id="stop"><a class="header" href="#stop">Stop</a></h2>
 <p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L186">stop()</a>.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>            outbound.stop().await;
+<pre><code class="language-rust">            outbound.stop().await;
 
         debug!(target: &quot;net&quot;, &quot;P2p::run() [END]&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p><code>stop()</code> transmits a shutdown signal to all channels subscribed to the
 stop signal and safely shuts down the network.</p>
 

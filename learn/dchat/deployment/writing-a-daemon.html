@@ -157,7 +157,7 @@
 run the p2p network, we'll need to implement our own daemon.  So we'll
 start building <code>dchat</code> by configuring our main function into a daemon that
 can run the p2p network.</p>
-<pre><pre class="playground"><code class="language-rust">use std::{error, fs::File, io::stdin};
+<pre><code class="language-rust">use std::{error, fs::File, io::stdin};
 
 use async_std::sync::{Arc, Mutex};
 use easy_parallel::Parallel;
@@ -185,7 +185,7 @@ async fn main() -&gt; Result&lt;()&gt; {
 
     result
 }
-</code></pre></pre>
+</code></pre>
 <p>We get the number of cpu cores using <code>num_cpus::get()</code> and spin up a
 bunch of threads in parallel using <code>easy_parallel</code>. Right now it doesn't
 do anything, but soon we'll run dchat inside this block.</p>

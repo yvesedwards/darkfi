@@ -157,9 +157,7 @@
 returns <code>JsonError::MethodNotFound</code>. So before testing out the JSON-RPC,
 let's implement some methods.</p>
 <p>We'll start with a simple <code>pong</code> method that replies to <code>ping</code>.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>impl JsonRpcInterface {
+<pre><code class="language-rust">impl JsonRpcInterface {
     // RPCAPI:
     // Replies to a ping method.
     // --&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;ping&quot;, &quot;params&quot;: [], &quot;id&quot;: 42}
@@ -168,12 +166,9 @@ let's implement some methods.</p>
         JsonResponse::new(json!(&quot;pong&quot;), id).into()
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <p>And add it to <code>handle_request()</code>:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[async_trait]
+<pre><code class="language-rust">#[async_trait]
 impl RequestHandler for JsonRpcInterface {
     async fn handle_request(&amp;self, req: JsonRequest) -&gt; JsonResult {
         //...
@@ -183,8 +178,7 @@ impl RequestHandler for JsonRpcInterface {
         }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 
                     </main>
 

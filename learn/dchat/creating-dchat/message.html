@@ -167,9 +167,7 @@ returns a str of the struct's name.</p>
 we can write messages upon receiving them on the p2p network. We'll wrap
 this in a <code>Mutex</code> to ensure thread safety and an <code>Arc</code> pointer so we can
 pass it around.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use async_std::sync::{Arc, Mutex};
+<pre><code class="language-rust">use async_std::sync::{Arc, Mutex};
 
 use darkfi::net;
 use darkfi_serial::{SerialDecodable, SerialEncodable};
@@ -186,8 +184,7 @@ impl net::Message for DchatMsg {
 pub struct DchatMsg {
     pub msg: String,
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 
                     </main>
 
