@@ -172,6 +172,13 @@ which module was changed.</p>
 <p>Also keep in mind that commit messages can be longer than a single
 line, so use it to your advantage to explain your commit and
 intentions.</p>
+<h2 id="changelog"><a class="header" href="#changelog">ChangeLog</a></h2>
+<p>Whenever a major change or sub-project is completed, a summary must be noted
+in the <a href="https://github.com/darkrenaissance/darkfi/blob/master/ChangeLog">ChangeLog</a>.
+Think of this as a bulletin board where the rest of the team is notified of
+important progress.</p>
+<p>As we move through the stages, the current yyyy-mm-dd marker is updated with
+the current date, and a new section above is created.</p>
 <h2 id="cargo-fmt-pre-commit-hook"><a class="header" href="#cargo-fmt-pre-commit-hook">cargo fmt pre-commit hook</a></h2>
 <p>To ensure every contributor uses the same code style, make sure
 you run <code>cargo +nightly fmt</code> before committing. You can force yourself
@@ -194,13 +201,6 @@ and works, we can use a helper for <code>cargo</code> called
 <a href="https://github.com/taiki-e/cargo-hack"><code>cargo hack</code></a>.</p>
 <p>The <code>Makefile</code> provided in the repository is already set up to use it,
 so it's enough to install <code>cargo hack</code> and run <code>make check</code>.</p>
-<h2 id="changelog"><a class="header" href="#changelog">ChangeLog</a></h2>
-<p>Whenever a major change or sub-project is completed, a summary must be noted
-in the <a href="https://github.com/darkrenaissance/darkfi/blob/master/ChangeLog">ChangeLog</a>.
-Think of this as a bulletin board where the rest of the team is notified of
-important progress.</p>
-<p>As we move through the stages, the current yyyy-mm-dd marker is updated with
-the current date, and a new section above is created.</p>
 <h2 id="etiquette"><a class="header" href="#etiquette">Etiquette</a></h2>
 <p>These are not hard and fast rules, but guidance for team members working together.
 This allows us to coordinate more effectively.</p>
