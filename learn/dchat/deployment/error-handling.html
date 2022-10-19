@@ -173,6 +173,8 @@ impl error::Error for ErrorMissingSpecifier {}
     dchatmsg::{DchatMsg, DchatMsgsBuffer},
 
 
+}
+
 #[async_std::main]
 async fn main() -&gt; Result&lt;()&gt; {
     let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
@@ -181,10 +183,8 @@ async fn main() -&gt; Result&lt;()&gt; {
             &quot;b&quot; =&gt; bob(),
             _ =&gt; Err(ErrorMissingSpecifier.into()),
         },
-        None =&gt; Err(ErrorMissingSpecifier.into()),
-    };
 //...
-
+    result
 </code></pre>
 
                     </main>

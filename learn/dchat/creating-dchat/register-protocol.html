@@ -211,14 +211,14 @@ impl Dchat {
 
 </code></pre>
 <p>And initialize it:</p>
-<pre><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
-    let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
+<pre><code class="language-rust">
+#[async_std::main]
     //...
 
 
     let mut dchat = Dchat::new(p2p, msgs);
     //...
-
+    result
 </code></pre>
 <p>Finally, call <code>register_protocol()</code> in <code>dchat::start()</code>:</p>
 <pre><code class="language-rust">        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);

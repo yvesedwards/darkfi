@@ -3500,21 +3500,22 @@ use url::Url;
 pub type Result&lt;T&gt; = std::result::Result&lt;T, Error&gt;;
 
 
-async fn main() -&gt; Result&lt;()&gt; {
-    let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
-    let (signal, shutdown) = smol::channel::unbounded::&lt;()&gt;();
+
+#[async_std::main]
+
+    let nthreads = num_cpus::get();
 
 
+    let (_, result) = Parallel::new()
         .each(0..nthreads, |_| smol::future::block_on(ex2.run(shutdown.recv())))
         .finish(|| {
-            smol::future::block_on(async move {
                 dchat.start(ex3).await?;
+                drop(signal);
                 Ok(())
             })
         });
 
     result
-}
 </code></pre>
 <p>We get the number of cpu cores using <code>num_cpus::get()</code> and spin up a
 bunch of threads in parallel using <code>easy_parallel</code>. Right now it doesn't
@@ -3636,6 +3637,8 @@ impl error::Error for ErrorMissingSpecifier {}
     dchatmsg::{DchatMsg, DchatMsgsBuffer},
 
 
+}
+
 #[async_std::main]
 async fn main() -&gt; Result&lt;()&gt; {
     let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
@@ -3644,10 +3647,8 @@ async fn main() -&gt; Result&lt;()&gt; {
             &quot;b&quot; =&gt; bob(),
             _ =&gt; Err(ErrorMissingSpecifier.into()),
         },
-        None =&gt; Err(ErrorMissingSpecifier.into()),
-    };
 //...
-
+    result
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="start-run-stop"><a class="header" href="#start-run-stop">Start-Run-Stop</a></h1>
@@ -3845,6 +3846,7 @@ make BINS=lilith
 earlier in Alice and Bob's settings.</p>
 <pre><code class="language-toml">[network.&quot;dchat&quot;]
 port = 50515
+localnet = true
 </code></pre>
 <p>Now run <code>lilith</code>:</p>
 <pre><code class="language-bash">./lilith
@@ -4128,14 +4130,14 @@ impl Dchat {
 
 </code></pre>
 <p>And initialize it:</p>
-<pre><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
-    let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
+<pre><code class="language-rust">
+#[async_std::main]
     //...
 
 
     let mut dchat = Dchat::new(p2p, msgs);
     //...
-
+    result
 </code></pre>
 <p>Finally, call <code>register_protocol()</code> in <code>dchat::start()</code>:</p>
 <pre><code class="language-rust">        debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [START]&quot;);
@@ -4426,6 +4428,7 @@ instead of a <code>Settings</code>.</p>
         inbound: vec![inbound],
         external_addr: vec![ext_addr],
         seeds: vec![seed],
+        localnet: true,
         ..Default::default()
     };
 
@@ -4434,14 +4437,15 @@ instead of a <code>Settings</code>.</p>
 
     Ok(settings)
 }
-
 </code></pre>
 <p>And the same for <code>bob()</code>:</p>
-<pre><code class="language-rust">    let log_level = simplelog::LevelFilter::Debug;
+<pre><code class="language-rust">fn bob() -&gt; Result&lt;AppSettings&gt; {
     //...
+    let net = Settings {
         inbound: vec![],
         outbound_connections: 5,
         seeds: vec![seed],
+        localnet: true,
         ..Default::default()
     };
 
@@ -4449,11 +4453,11 @@ instead of a <code>Settings</code>.</p>
     let settings = AppSettings::new(accept_addr, net);
 
     Ok(settings)
-}
-
 </code></pre>
 <p>Update <code>main()</code> with the new type:</p>
-<pre><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
+<pre><code class="language-rust">
+#[async_std::main]
+async fn main() -&gt; Result&lt;()&gt; {
     let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
         Some(id) =&gt; match id.as_str() {
             &quot;a&quot; =&gt; alice(),
@@ -4461,14 +4465,12 @@ instead of a <code>Settings</code>.</p>
             _ =&gt; Err(ErrorMissingSpecifier.into()),
         },
         None =&gt; Err(ErrorMissingSpecifier.into()),
-    };
-
 
 
 
 
     //...
-
+    result
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="methods"><a class="header" href="#methods">Methods</a></h1>
@@ -4508,16 +4510,16 @@ It starts a JSON-RPC server that is bound to the provided accept URL
 and uses our previously implemented <code>RequestHandler</code> to handle incoming
 requests.</p>
 <p>Add the following lines to <code>main()</code>:</p>
-<pre><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
-    let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
+<pre><code class="language-rust">
+#[async_std::main]
 
     //...
+
+    let accept_addr = settings.accept_addr.clone();
     let rpc = Arc::new(JsonRpcInterface { addr: accept_addr.clone(), p2p });
     ex.spawn(async move { listen_and_serve(accept_addr.clone(), rpc).await }).detach();
-
-    let (_, result) = Parallel::new()
     //...
-
+    result
 </code></pre>
 <p>We create a new <code>JsonRpcInterface</code> inside an <code>Arc</code> pointer and pass in our
 <code>accept_addr</code> and <code>p2p</code> object.</p>
@@ -4528,7 +4530,9 @@ We use an <code>executor</code> to spawn <code>listen_and_serve()</code> as a ne
 detach it in the background.</p>
 <p>We have enabled JSON-RPC.</p>
 <p>Here's what our complete <code>main()</code> function looks like:</p>
-<pre><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
+<pre><code class="language-rust">
+#[async_std::main]
+async fn main() -&gt; Result&lt;()&gt; {
     let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
         Some(id) =&gt; match id.as_str() {
             &quot;a&quot; =&gt; alice(),
@@ -4568,7 +4572,6 @@ detach it in the background.</p>
         });
 
     result
-}
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="get_info"><a class="header" href="#get_info">get_info</a></h1>

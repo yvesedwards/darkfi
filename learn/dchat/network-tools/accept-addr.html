@@ -182,6 +182,7 @@ instead of a <code>Settings</code>.</p>
         inbound: vec![inbound],
         external_addr: vec![ext_addr],
         seeds: vec![seed],
+        localnet: true,
         ..Default::default()
     };
 
@@ -190,14 +191,15 @@ instead of a <code>Settings</code>.</p>
 
     Ok(settings)
 }
-
 </code></pre>
 <p>And the same for <code>bob()</code>:</p>
-<pre><code class="language-rust">    let log_level = simplelog::LevelFilter::Debug;
+<pre><code class="language-rust">fn bob() -&gt; Result&lt;AppSettings&gt; {
     //...
+    let net = Settings {
         inbound: vec![],
         outbound_connections: 5,
         seeds: vec![seed],
+        localnet: true,
         ..Default::default()
     };
 
@@ -205,11 +207,11 @@ instead of a <code>Settings</code>.</p>
     let settings = AppSettings::new(accept_addr, net);
 
     Ok(settings)
-}
-
 </code></pre>
 <p>Update <code>main()</code> with the new type:</p>
-<pre><code class="language-rust">async fn main() -&gt; Result&lt;()&gt; {
+<pre><code class="language-rust">
+#[async_std::main]
+async fn main() -&gt; Result&lt;()&gt; {
     let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
         Some(id) =&gt; match id.as_str() {
             &quot;a&quot; =&gt; alice(),
@@ -217,14 +219,12 @@ instead of a <code>Settings</code>.</p>
             _ =&gt; Err(ErrorMissingSpecifier.into()),
         },
         None =&gt; Err(ErrorMissingSpecifier.into()),
-    };
-
 
 
 
 
     //...
-
+    result
 </code></pre>
 
                     </main>

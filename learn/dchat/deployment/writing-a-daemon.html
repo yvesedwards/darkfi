@@ -170,21 +170,22 @@ use url::Url;
 pub type Result&lt;T&gt; = std::result::Result&lt;T, Error&gt;;
 
 
-async fn main() -&gt; Result&lt;()&gt; {
-    let settings: Result&lt;AppSettings&gt; = match std::env::args().nth(1) {
-    let (signal, shutdown) = smol::channel::unbounded::&lt;()&gt;();
+
+#[async_std::main]
+
+    let nthreads = num_cpus::get();
 
 
+    let (_, result) = Parallel::new()
         .each(0..nthreads, |_| smol::future::block_on(ex2.run(shutdown.recv())))
         .finish(|| {
-            smol::future::block_on(async move {
                 dchat.start(ex3).await?;
+                drop(signal);
                 Ok(())
             })
         });
 
     result
-}
 </code></pre>
 <p>We get the number of cpu cores using <code>num_cpus::get()</code> and spin up a
 bunch of threads in parallel using <code>easy_parallel</code>. Right now it doesn't
