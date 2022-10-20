@@ -815,11 +815,11 @@ important progress.</p>
 the current date, and a new section above is created.</p>
 <h2 id="cargo-fmt-pre-commit-hook"><a class="header" href="#cargo-fmt-pre-commit-hook">cargo fmt pre-commit hook</a></h2>
 <p>To ensure every contributor uses the same code style, make sure
-you run <code>cargo +nightly fmt</code> before committing. You can force yourself
+you run <code>cargo fmt</code> before committing. You can force yourself
 to do this by creating a git <code>pre-commit</code> hook like the following:</p>
 <pre><code class="language-shell">#!/bin/sh
-if ! cargo +nightly fmt -- --check &gt;/dev/null; then
-    echo &quot;There are some code style issues. Run 'cargo +nightly fmt' to fix it.&quot;
+if ! cargo fmt -- --check &gt;/dev/null; then
+    echo &quot;There are some code style issues. Run 'cargo fmt' to fix it.&quot;
     exit 1
 fi
 
