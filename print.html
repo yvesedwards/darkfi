@@ -3128,12 +3128,12 @@ It uses this message to synchronize with the current network state.</p>
 </div><div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="structures"><a class="header" href="#structures">Structures</a></h1>
 <h2 id="eventid-1"><a class="header" href="#eventid-1">EventId</a></h2>
-<p>Hash of <code>Event</code> </p>
-<pre><code>type EventId = [u8; 32];	
+<p>Hash of <code>Event</code></p>
+<pre><code class="language-rust">type EventId = [u8; 32];
 </code></pre>
 <h2 id="eventaction"><a class="header" href="#eventaction">EventAction</a></h2>
 <p>The <code>Event</code> could have many actions according to the underlying data.</p>
-<pre><code>enum EventAction { ... };	
+<pre><code class="language-rust">enum EventAction { ... };
 </code></pre>
 <h2 id="event-1"><a class="header" href="#event-1">Event</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
@@ -3150,9 +3150,11 @@ It uses this message to synchronize with the current network state.</p>
 </tbody></table>
 </div>
 <h2 id="model"><a class="header" href="#model">Model</a></h2>
-<p>The <code>Model</code> consist of chains(<code>EventNodes</code>) structured as a tree, each chain has Event-based
-list. To maintain strict order in chain, Each <code>Event</code> dependent on the hash of the previous <code>Event</code>. 
-All the chains share a root <code>Event</code> to preserve the tree structure. </p>
+<p>The <code>Model</code> consists of chains (<code>EventNodes</code>) structured as a tree;
+whereby, each chain has an <code>Event</code>-based list. To maintain a strict
+order of chains, each <code>Event</code> depends on the hash of the previous
+<code>Event</code>. All of the chains share a root <code>Event</code> to preserve the tree
+structure.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>current_root</td><td><code>EventId</code></td><td>The root <code>Event</code> for the tree</td></tr>
 <tr><td>orphans</td><td>HashMap&lt;<code>EventId</code>, <code>Event</code>&gt;</td><td>Recently added <code>Event</code>s</td></tr>
@@ -3161,125 +3163,136 @@ All the chains share a root <code>Event</code> to preserve the tree structure. <
 </tbody></table>
 </div>
 <h2 id="view"><a class="header" href="#view">View</a></h2>
-<p>The <code>View</code> check the <code>Model</code> for new <code>Event</code>s, then dispatch these <code>Event</code>s to the clients. </p>
-<p><code>Event</code>s are sorted according to the timestamp attached to each <code>Event</code>.</p>
+<p>The <code>View</code> checks the <code>Model</code> for new <code>Event</code>s and then dispatches
+these <code>Event</code>s to the clients.</p>
+<p><code>Event</code>s are sorted according to the timestamp attached to each
+<code>Event</code>.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>seen</td><td>HashMap&lt;<code>EventId</code>, <code>Event</code>&gt;</td><td>A list of <code>Event</code>s</td></tr>
 </tbody></table>
 </div>
 <h2 id="eventsqueue"><a class="header" href="#eventsqueue">EventsQueue</a></h2>
 <p>The <code>EventsQueue</code> used to transport the event from <code>Model</code> to <code>View</code>.</p>
-<p>The <code>Model</code> fill The <code>EventsQueue</code> with the new <code>Event</code>, while the <code>View</code> keep
-fetching <code>Event</code>s from queue continuously.</p>
+<p>The <code>Model</code> fills the <code>EventsQueue</code> with the new <code>Event</code>, while the
+<code>View</code> continuously fetches <code>Event</code>s from queue.</p>
 <h1 id="architecture-1"><a class="header" href="#architecture-1">Architecture</a></h1>
-<p>Tau using Model–view software architecture. All the operations, main data structures, 
-and handling messages from network protocol, happen in the <code>Model</code> side. 
-While keeping the <code>View</code> independent of the <code>Model</code> and focusing on getting update 
-from it continuously.</p>
-<h2 id="add-new-event"><a class="header" href="#add-new-event">Add new Event</a></h2>
-<p>Once receiving new <code>Event</code> from the network protocol, the <code>Event</code> will be add to the
-orphans list. </p>
-<p>After the ancestor for the new orphan gets found, The orphan <code>Event</code> will be add to the chain
-according to its ancestor.</p>
-<p>For example, in the <em> Example1 </em> below, An <code>Event</code> add to the first chain if
-its previous hash is Event-A1</p>
+<p>Tau uses Model–view software architecture. All of the operations, main
+data structures, and message handling from the network protocol happen
+on the <code>Model</code> side. Further, this keeps the <code>View</code> independent of the
+<code>Model</code> and allows the <code>View</code> to focus on receiving continuous updates
+from it.</p>
+<h2 id="add-new-event"><a class="header" href="#add-new-event">Add new <code>Event</code></a></h2>
+<p>Upon receiving a new <code>Event</code> from the network protocol, the <code>Event</code>
+will be added to the orphans list.</p>
+<p>After the ancestor of the new orphan is found, the orphan <code>Event</code> will
+be added to the chain according to its ancestor.</p>
+<p>For example: in <a href="misc/hashchain/hashchain.html#example1">Example1</a> below, an <code>Event</code> is added to the
+first chain if its previous hash is Event-A1.</p>
 <h2 id="remove-old-leaves"><a class="header" href="#remove-old-leaves">Remove old leaves</a></h2>
-<p>Remove leaves which are too far from the head leaf(the leaf in the longest chain).</p>
-<p>The depth difference from the common ancestor between a leaf to be removed and a head leaf 
-must be greater than <code>MAX_DEPTH</code>. </p>
+<p>Remove leaves which are too far from the head leaf (the leaf in the
+longest chain).</p>
+<p>The depth difference from the common ancestor between a leaf to be
+removed and a head leaf must be greater than <code>MAX_DEPTH</code>.</p>
 <h2 id="update-the-root"><a class="header" href="#update-the-root">Update the root</a></h2>
-<p>Finding the highest common ancestor for the leaves and assign it as the root
-for the tree.</p>
-<p>The highest common ancestor must have height greater than <code>MAX_HEIGHT</code>.</p>
+<p>Finding the highest common ancestor for the leaves and assign it as the
+root for the tree.</p>
+<p>The highest common ancestor must have a height greater than
+<code>MAX_HEIGHT</code>.</p>
+<h2 id="example1"><a class="header" href="#example1">Example1</a></h2>
 <p><img src="misc/hashchain/../../assets/mv_event.png" alt="data structure" /></p>
-<p>Example1</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="network-protocol-1"><a class="header" href="#network-protocol-1">Network Protocol</a></h1>
-<p>The protocol check that <code>Event</code>s have properly broadcasted through the
-network before adding <code>Event</code>s to the <code>Model</code>. </p>
-<p>The read_confirms inside each <code>Event</code> indicate how many times the <code>Event</code> has 
-been read from other nodes in the network.</p>
-<p>The protocol classify the Events by their state:</p>
-<pre><code>Unread: read_confirms &lt; `MAX_CONFIMRS` 
-Read: 	read_confirms &gt;= `MAX_CONFIMRS` 
+<p>The protocol checks that <code>Event</code>s properly broadcast through the
+network before adding <code>Event</code>s to the <code>Model</code>.</p>
+<p>The read_confirms inside each <code>Event</code> indicate how many times the
+<code>Event</code> has been read from other nodes in the network.</p>
+<p>The protocol classifies the <code>Event</code>s by their state:</p>
+<pre><code class="language-text">Unread: read_confirms &lt; MAX_CONFIRMS
+Read:	read_confirms &gt;= MAX_CONFIRMS
 </code></pre>
 <h2 id="inv-1"><a class="header" href="#inv-1">Inv</a></h2>
-<p>Inventory vectors are used for notifying other nodes about objects they have or data which is being requested.</p>
+<p>Inventory vectors notify other nodes about objects they have or data
+which is being requested.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>invs</td><td><code>Vec&lt;[u8; 32]&gt;</code></td><td>Inventory items</td></tr>
 </tbody></table>
 </div>
 <h3 id="receiving-an-inv-message"><a class="header" href="#receiving-an-inv-message">Receiving an <code>Inv</code> message</a></h3>
-<p>Allows a node to advertise its knowledge of one or more objects. It can be received unsolicited,
-or in reply to <code>getevents</code>. </p>
-<p>An <code>Inv</code> message is a confirmation from a node in the network that the <code>Event</code>
-has been read.</p>
-<p>Confirmation for an <code>Event</code> not exist in the <code>UnreadEvents</code> list, 
-The protocol send a <code>GetData</code> message to request the missing <code>Event</code>.</p>
-<p>The protocol update the <code>Event</code> in the <code>UnreadEvents</code> list by increasing the
-read_confirms by one.</p>
-<p>The state for updated <code>Event</code> change to read when the read_confirms exceed
-<code>MAX_CONFIMRS</code>, Then the <code>Event remove from the </code>UnreadEvents<code>list and add to the</code>Model`. </p>
-<p>The protocol rebroadcast the received <code>Inv</code> to the network.</p>
+<p>Allows a node to advertise its knowledge of one or more objects. It can
+be received unsolicited or in reply to <code>getevents</code>.</p>
+<p>An <code>Inv</code> message is a confirmation from a node in the network that the
+<code>Event</code> has been read.</p>
+<p>Confirmation for an <code>Event</code> does not exist in the <code>UnreadEvents</code> list.
+Instead, the protocol sends a <code>GetData</code> message to request the missing
+<code>Event</code>.</p>
+<p>The protocol updates the <code>Event</code> in the <code>UnreadEvents</code> list by
+increasing the read_confirms by one.</p>
+<p>The updated <code>Event</code> state changes to read when the read_confirms exceed
+<code>MAX_CONFIRMS</code>. Then, the <code>UnreadEvents</code> list removes the <code>Event</code> and
+adds it to the <code>Model</code>.</p>
+<p>The protocol rebroadcasts the received <code>Inv</code> to the network.</p>
 <h3 id="sending-an-inv-message"><a class="header" href="#sending-an-inv-message">Sending an <code>Inv</code> message</a></h3>
-<p>On receiving an <code>Event</code> with unread status from the network, The protocol send back 
-an <code>Inv</code> message to confirm that the <code>Event</code> has been read.</p>
+<p>Upon receiving an <code>Event</code> with unread status from the network, the
+protocol sends back an <code>Inv</code> message to confirm that the <code>Event</code> has
+been read.</p>
 <h2 id="getdata"><a class="header" href="#getdata">GetData</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>events</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>A list of <code>EventId</code></td></tr>
+<tr><td>events</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>A list of <code>EventId</code>s</td></tr>
 </tbody></table>
 </div>
 <h3 id="receiving-a-getdata-message"><a class="header" href="#receiving-a-getdata-message">Receiving a <code>GetData</code> message</a></h3>
-<p>The protocol search in both <code>Model</code> and <code>UnreadEvents</code> for requested <code>Event</code>s
-in <code>GetData</code> message.</p>
+<p>The protocol searches in both <code>Model</code> and <code>UnreadEvents</code> for the
+requested <code>Event</code>s in <code>GetData</code> message.</p>
 <h2 id="unreadevents"><a class="header" href="#unreadevents">UnreadEvents</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>Messages</td><td>HashMap&lt;<code>EventId</code>, <code>Event</code>&gt;</td><td>Hold all the <code>Event</code>s that have broadcasted to other nodes but haven't confirmed yet</td></tr>
 </tbody></table>
 </div>
 <h3 id="add-new-event-to-unreadevents"><a class="header" href="#add-new-event-to-unreadevents">Add new <code>Event</code> to <code>UnreadEvents</code></a></h3>
-<p>To add an <code>Event</code> to <code>UnreadEvents</code>, the protocol first must check the validity of
-<code>Event</code>. </p>
-<p>The <code>Event</code> is not valid in the network if it's too far in the future from now,
-or too far in the past from now.</p>
+<p>To add an <code>Event</code> to <code>UnreadEvents</code>, the protocol first must check the
+validity of <code>Event</code>.</p>
+<p>The <code>Event</code> is not valid in the network if it's either too far in the
+future or in the past.</p>
 <h3 id="updating-unreadevents-list"><a class="header" href="#updating-unreadevents-list">Updating <code>UnreadEvents</code> list</a></h3>
-<p>The protocol continually broadcast unread <code>Event</code> to the network 
-after a certain period of time(<code>SEND_UNREAD_EVENTS_INTERVAL</code>), 
-Until the state of <code>Event</code> updated to read.</p>
+<p>The protocol continuously broadcasts unread <code>Event</code>s to the network,
+after a certain period of time (<code>SEND_UNREAD_EVENTS_INTERVAL</code>),
+until the state of <code>Event</code> updates to read.</p>
 <h2 id="syncevent"><a class="header" href="#syncevent">SyncEvent</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>Leaves</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>hash of <code>Event</code>s</td></tr>
+<tr><td>Leaves</td><td>Vec&lt;<code>EventId</code>&gt;</td><td>Hash of <code>Event</code>s</td></tr>
 </tbody></table>
 </div>
 <h3 id="synchronization-1"><a class="header" href="#synchronization-1">Synchronization</a></h3>
-<p>To achieve complete synchronization between nodes, the protocol send a
+<p>To achieve complete synchronization between nodes, the protocol sends a
 <code>SyncEvent</code> message every 2 seconds to other nodes in the network.</p>
-<p>The <code>SyncEvent</code> contains the hashes of <code>Event</code>s set in the leaves of <code>Model</code>'s tree.</p>
-<p>On receiving <code>SyncEvent</code> message, The leaves in <code>SyncEvent</code> should match the 
-leaves in the <code>Model</code>'s tree, Otherwise the protocol send <code>Event</code>s which are the childern of
-<code>Event</code>s in <code>SyncEvent</code> </p>
-<h2 id="seen"><a class="header" href="#seen">Seen<ObjectId></a></h2>
-<p>This used to prevent receiving duplicate Objects.
-The list will contains only 2^16 ids.</p>
+<p>The <code>SyncEvent</code> contains the hashes of <code>Event</code>s set in the leaves of
+<code>Model</code>'s tree.</p>
+<p>On receiving <code>SyncEvent</code> message, the leaves in <code>SyncEvent</code> should
+match the leaves in the <code>Model</code>'s tree; otherwise, the protocol sends
+<code>Event</code>s which are the children of <code>Event</code>s in <code>SyncEvent</code>.</p>
+<h2 id="seen"><a class="header" href="#seen">Seen</a></h2>
+<p>This prevents receiving duplicate objects.
+The list contains only 2^16 ids.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
-<tr><td>Ids</td><td>Vec<ObjectId></td><td>Contains objects ids</td></tr>
+<tr><td>Ids</td><td>Vec&lt;<code>ObjectId</code>&gt;</td><td>Contains objects ids</td></tr>
 </tbody></table>
 </div>
 <h2 id="receiving-a-new-event"><a class="header" href="#receiving-a-new-event">Receiving a new <code>Event</code></a></h2>
-<p>The new received <code>Event</code> with unread status add to the <code>UnreadEvents</code> buffer after
-increasing the read_confirms by one. </p>
-<p>The <code>Event</code> with read status add to the <code>Model</code>.</p>
-<p>The protocol broadcast the received <code>Event</code> to the network again, to ensure every nodes
-in the network get the Event.</p>
+<p>The new received <code>Event</code> with unread status is added to the
+<code>UnreadEvents</code> buffer after increasing the read_confirms by one.</p>
+<p>The <code>Event</code> with read status is added to the <code>Model</code>.</p>
+<p>The protocol broadcasts the received <code>Event</code> to the network, again.
+This ensures all nodes in the network get the Event.</p>
 <h2 id="sending-an-event"><a class="header" href="#sending-an-event">Sending an <code>Event</code></a></h2>
 <p>A new created <code>Event</code> has unread status with read_confirms equal to 0.</p>
-<p>The protocol broadcast the <code>Event</code> to the network after adding it to the
-<code>UnreadEvents</code>.</p>
+<p>The protocol broadcasts the <code>Event</code> to the network after adding it to
+the <code>UnreadEvents</code>.</p>
 <h2 id="add-new-event-to-model"><a class="header" href="#add-new-event-to-model">Add new <code>Event</code> to <code>Model</code></a></h2>
-<p>For the <code>Event</code> to be successfully add to the <code>Model</code>, the protocol check if
-the previous <code>Event</code>'s hash inside the <code>Event</code> is exist in the <code>Model</code>.</p>
-<p>In case the check for previous <code>Event</code> failed The protocol 
-send a <code>GetData</code> message requesting the previous <code>Event</code>.</p>
+<p>For the <code>Event</code> to be successfully added to the <code>Model</code>, the protocol
+checks if the previous <code>Event</code>'s hash inside the <code>Event</code> exists in the
+<code>Model</code>.</p>
+<p>In case the previous <code>Event</code> check fails, the protocol
+sends a <code>GetData</code> message requesting the previous <code>Event</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="darkwiki"><a class="header" href="#darkwiki">Darkwiki</a></h1>
 <p>Collaborative wiki using peer-to-peer network and raft consensus.</p>

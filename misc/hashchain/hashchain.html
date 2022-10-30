@@ -154,12 +154,12 @@
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="structures"><a class="header" href="#structures">Structures</a></h1>
 <h2 id="eventid"><a class="header" href="#eventid">EventId</a></h2>
-<p>Hash of <code>Event</code> </p>
-<pre><code>type EventId = [u8; 32];	
+<p>Hash of <code>Event</code></p>
+<pre><code class="language-rust">type EventId = [u8; 32];
 </code></pre>
 <h2 id="eventaction"><a class="header" href="#eventaction">EventAction</a></h2>
 <p>The <code>Event</code> could have many actions according to the underlying data.</p>
-<pre><code>enum EventAction { ... };	
+<pre><code class="language-rust">enum EventAction { ... };
 </code></pre>
 <h2 id="event"><a class="header" href="#event">Event</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
@@ -176,9 +176,11 @@
 </tbody></table>
 </div>
 <h2 id="model"><a class="header" href="#model">Model</a></h2>
-<p>The <code>Model</code> consist of chains(<code>EventNodes</code>) structured as a tree, each chain has Event-based
-list. To maintain strict order in chain, Each <code>Event</code> dependent on the hash of the previous <code>Event</code>. 
-All the chains share a root <code>Event</code> to preserve the tree structure. </p>
+<p>The <code>Model</code> consists of chains (<code>EventNodes</code>) structured as a tree;
+whereby, each chain has an <code>Event</code>-based list. To maintain a strict
+order of chains, each <code>Event</code> depends on the hash of the previous
+<code>Event</code>. All of the chains share a root <code>Event</code> to preserve the tree
+structure.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>current_root</td><td><code>EventId</code></td><td>The root <code>Event</code> for the tree</td></tr>
 <tr><td>orphans</td><td>HashMap&lt;<code>EventId</code>, <code>Event</code>&gt;</td><td>Recently added <code>Event</code>s</td></tr>
@@ -187,38 +189,43 @@ All the chains share a root <code>Event</code> to preserve the tree structure. <
 </tbody></table>
 </div>
 <h2 id="view"><a class="header" href="#view">View</a></h2>
-<p>The <code>View</code> check the <code>Model</code> for new <code>Event</code>s, then dispatch these <code>Event</code>s to the clients. </p>
-<p><code>Event</code>s are sorted according to the timestamp attached to each <code>Event</code>.</p>
+<p>The <code>View</code> checks the <code>Model</code> for new <code>Event</code>s and then dispatches
+these <code>Event</code>s to the clients.</p>
+<p><code>Event</code>s are sorted according to the timestamp attached to each
+<code>Event</code>.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>seen</td><td>HashMap&lt;<code>EventId</code>, <code>Event</code>&gt;</td><td>A list of <code>Event</code>s</td></tr>
 </tbody></table>
 </div>
 <h2 id="eventsqueue"><a class="header" href="#eventsqueue">EventsQueue</a></h2>
 <p>The <code>EventsQueue</code> used to transport the event from <code>Model</code> to <code>View</code>.</p>
-<p>The <code>Model</code> fill The <code>EventsQueue</code> with the new <code>Event</code>, while the <code>View</code> keep
-fetching <code>Event</code>s from queue continuously.</p>
+<p>The <code>Model</code> fills the <code>EventsQueue</code> with the new <code>Event</code>, while the
+<code>View</code> continuously fetches <code>Event</code>s from queue.</p>
 <h1 id="architecture"><a class="header" href="#architecture">Architecture</a></h1>
-<p>Tau using Model–view software architecture. All the operations, main data structures, 
-and handling messages from network protocol, happen in the <code>Model</code> side. 
-While keeping the <code>View</code> independent of the <code>Model</code> and focusing on getting update 
-from it continuously.</p>
-<h2 id="add-new-event"><a class="header" href="#add-new-event">Add new Event</a></h2>
-<p>Once receiving new <code>Event</code> from the network protocol, the <code>Event</code> will be add to the
-orphans list. </p>
-<p>After the ancestor for the new orphan gets found, The orphan <code>Event</code> will be add to the chain
-according to its ancestor.</p>
-<p>For example, in the <em> Example1 </em> below, An <code>Event</code> add to the first chain if
-its previous hash is Event-A1</p>
+<p>Tau uses Model–view software architecture. All of the operations, main
+data structures, and message handling from the network protocol happen
+on the <code>Model</code> side. Further, this keeps the <code>View</code> independent of the
+<code>Model</code> and allows the <code>View</code> to focus on receiving continuous updates
+from it.</p>
+<h2 id="add-new-event"><a class="header" href="#add-new-event">Add new <code>Event</code></a></h2>
+<p>Upon receiving a new <code>Event</code> from the network protocol, the <code>Event</code>
+will be added to the orphans list.</p>
+<p>After the ancestor of the new orphan is found, the orphan <code>Event</code> will
+be added to the chain according to its ancestor.</p>
+<p>For example: in <a href="#example1">Example1</a> below, an <code>Event</code> is added to the
+first chain if its previous hash is Event-A1.</p>
 <h2 id="remove-old-leaves"><a class="header" href="#remove-old-leaves">Remove old leaves</a></h2>
-<p>Remove leaves which are too far from the head leaf(the leaf in the longest chain).</p>
-<p>The depth difference from the common ancestor between a leaf to be removed and a head leaf 
-must be greater than <code>MAX_DEPTH</code>. </p>
+<p>Remove leaves which are too far from the head leaf (the leaf in the
+longest chain).</p>
+<p>The depth difference from the common ancestor between a leaf to be
+removed and a head leaf must be greater than <code>MAX_DEPTH</code>.</p>
 <h2 id="update-the-root"><a class="header" href="#update-the-root">Update the root</a></h2>
-<p>Finding the highest common ancestor for the leaves and assign it as the root
-for the tree.</p>
-<p>The highest common ancestor must have height greater than <code>MAX_HEIGHT</code>.</p>
+<p>Finding the highest common ancestor for the leaves and assign it as the
+root for the tree.</p>
+<p>The highest common ancestor must have a height greater than
+<code>MAX_HEIGHT</code>.</p>
+<h2 id="example1"><a class="header" href="#example1">Example1</a></h2>
 <p><img src="../../assets/mv_event.png" alt="data structure" /></p>
-<p>Example1</p>
 
                     </main>
 
