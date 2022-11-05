@@ -240,6 +240,7 @@ on the transaction's structure or other function calls (such as their call data)
     // TODO: this is wrong. It should be Vec&lt;Vec&lt;Signature&gt;&gt;
     // each Vec&lt;Signature&gt; correspond to ONE function call
     pub signatures: Vec&lt;Signature&gt;,
+    // pub proofs: Vec&lt;Proof&gt;,
 }
 </code></pre>
 <p>Function calls represent mutations of the current active state to a new state.</p>
@@ -334,6 +335,7 @@ The <code>contract_id</code> and <code>func_id</code> corresponds to the contrac
     // TODO: this is wrong. It should be Vec&lt;Vec&lt;Signature&gt;&gt;
     // each Vec&lt;Signature&gt; correspond to ONE function call
     pub signatures: Vec&lt;Signature&gt;,
+    // pub proofs: Vec&lt;Proof&gt;,
 }
 </code></pre>
 <p>And corresponding function calls.</p>
