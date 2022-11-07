@@ -275,12 +275,12 @@ before-mentioned public inputs for the circuit:</p>
     let token_blind = pallas::Scalar::random(&amp;mut OsRng);
     let serial = pallas::Base::random(&amp;mut OsRng);
     let coin_blind = pallas::Base::random(&amp;mut OsRng);
-    let public_key = PublicKey::random(&amp;mut OsRng);
-    let coords = public_key.0.to_affine().coordinates().unwrap();
+    let public_key = PublicKey::from_secret(SecretKey::random(&amp;mut OsRng));
+    let (pub_x, pub_y) = public_key.xy();
 
     let prover_witnesses = vec![
-        Witness::Base(Value::known(*coords.x())),
-        Witness::Base(Value::known(*coords.y())),
+        Witness::Base(Value::known(pub_x)),
+        Witness::Base(Value::known(pub_y)),
         Witness::Base(Value::known(pallas::Base::from(value))),
         Witness::Base(Value::known(token_id)),
         Witness::Base(Value::known(serial)),
@@ -290,7 +290,7 @@ before-mentioned public inputs for the circuit:</p>
     ];
 
     // Create the public inputs
-    let msgs = [*coords.x(), *coords.y(), pallas::Base::from(value), token_id, serial, coin_blind];
+    let msgs = [pub_x, pub_y, pallas::Base::from(value), token_id, serial, coin_blind];
     let coin = poseidon::Hash::&lt;_, poseidon::P128Pow5T3, poseidon::ConstantLength&lt;6&gt;, 3, 2&gt;::init()
         .hash(msgs);
 
@@ -452,9 +452,8 @@ before-mentioned public inputs for the circuit:</p>
 
     // Build the coin
     let coin2 = {
-        let coords = PublicKey::from_secret(secret).0.to_affine().coordinates().unwrap();
-        let messages =
-            [*coords.x(), *coords.y(), pallas::Base::from(value), token_id, serial, coin_blind];
+        let (pub_x, pub_y) = PublicKey::from_secret(secret).xy();
+        let messages = [pub_x, pub_y, pallas::Base::from(value), token_id, serial, coin_blind];
 
         poseidon::Hash::&lt;_, poseidon::P128Pow5T3, poseidon::ConstantLength&lt;6&gt;, 3, 2&gt;::init()
             .hash(messages)
@@ -502,7 +501,7 @@ before-mentioned public inputs for the circuit:</p>
     let token_coords = token_commit.to_affine().coordinates().unwrap();
 
     let sig_pubkey = PublicKey::from_secret(sig_secret);
-    let sig_coords = sig_pubkey.0.to_affine().coordinates().unwrap();
+    let (sig_x, sig_y) = sig_pubkey.xy();
 
     let merkle_root = tree.root(0).unwrap();
 
@@ -513,8 +512,8 @@ before-mentioned public inputs for the circuit:</p>
         *token_coords.x(),
         *token_coords.y(),
         merkle_root.inner(),
-        *sig_coords.x(),
-        *sig_coords.y(),
+        sig_x,
+        sig_y,
     ];
 
     // Create the circuit
