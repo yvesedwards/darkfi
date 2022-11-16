@@ -1699,7 +1699,7 @@ tx as invalid, and the tx is discarded. This should also be parallelized.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="tooling"><a class="header" href="#tooling">Tooling</a></h1>
 <h2 id="darkfi-fullnode-daemon"><a class="header" href="#darkfi-fullnode-daemon">DarkFi Fullnode Daemon</a></h2>
-<p><code>drkd</code> the darkfi fullnode. It manages the blockchain, validates transactions
+<p><code>darkfid</code> is the darkfi fullnode. It manages the blockchain, validates transactions
 and remains connected to the p2p network.</p>
 <p>Clients can connect over localhost RPC or secure socket and perform these functions:</p>
 <ul>
@@ -1708,10 +1708,10 @@ and remains connected to the p2p network.</p>
 <li>Broadcast txs to the p2p network.</li>
 <li>Get tx status, query the mempool and interact with components.</li>
 </ul>
-<p><code>drkd</code> does not have any concept of keys or wallet functionality. It does not
+<p><code>darkfid</code> does not have any concept of keys or wallet functionality. It does not
 manage keys.</p>
 <h2 id="low-level-client"><a class="header" href="#low-level-client">Low Level Client</a></h2>
-<p>Clients manage keys and objects. They make queries to <code>drkd</code>, and receive notes
+<p>Clients manage keys and objects. They make queries to <code>darkfid</code>, and receive notes
 encrypted to their public keys.</p>
 <p>Their design is usually specific to their application but modular.</p>
 <p>They also expose a high level simple to use API corresponding <strong>exactly</strong> to
