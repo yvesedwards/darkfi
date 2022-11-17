@@ -2055,6 +2055,9 @@ the stack and become available for later references.</p>
 <tr><td><code>WitnessBase</code></td><td>Witness an unsigned integer into a <code>Base</code>.</td></tr>
 <tr><td><code>RangeCheck</code></td><td>Perform a (either 64bit or 253bit) range check over some <code>Base</code></td></tr>
 <tr><td><code>LessThan</code></td><td>Compare if <code>Base</code> a is lesser than <code>Base</code> b</td></tr>
+<tr><td><code>BoolCheck</code></td><td>Enforce that a <code>Base</code> fits in a boolean value (either 0 or 1)</td></tr>
+<tr><td><code>ConstrainEqualBase</code></td><td>Constrain equality of two <code>Base</code> elements from the stack</td></tr>
+<tr><td><code>ConstrainEqualPoint</code></td><td>Constrain equality of two <code>EcPoint</code> elements from the stack</td></tr>
 <tr><td><code>ConstrainInstance</code></td><td>Constrain a <code>Base</code> to a Circuit's Public Input.</td></tr>
 </tbody></table>
 </div>
@@ -2074,6 +2077,9 @@ the stack and become available for later references.</p>
 <tr><td><code>WitnessBase</code></td><td><code>witness_base(123)</code></td><td><code>(Base a)</code></td></tr>
 <tr><td><code>RangeCheck</code></td><td><code>range_check(64, Base a)</code></td><td><code>()</code></td></tr>
 <tr><td><code>LessThan</code></td><td><code>less_than(Base a, Base b)</code></td><td><code>()</code></td></tr>
+<tr><td><code>BoolCheck</code></td><td><code>bool_check(Base a)</code></td><td><code>()</code></td></tr>
+<tr><td><code>ConstrainEqualBase</code></td><td><code>constrain_equal_base(Base a, Base b)</code></td><td><code>()</code></td></tr>
+<tr><td><code>ConstrainEqualPoint</code></td><td><code>constrain_equal_point(EcPoint a, EcPoint b)</code></td><td><code>()</code></td></tr>
 <tr><td><code>ConstrainInstance</code></td><td><code>constrain_instance(Base a)</code></td><td><code>()</code></td></tr>
 </tbody></table>
 </div>
