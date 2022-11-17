@@ -209,6 +209,7 @@ error if this is the case. Otherwise, a transaction ID will be returned.
 <h2 id="wallet-methods"><a class="header" href="#wallet-methods">wallet methods</a></h2>
 <ul>
 <li><a href="#walletquery_row_single"><code>wallet.query_row_single</code></a></li>
+<li><a href="#walletquery_row_multi"><code>wallet.query_row_multi</code></a></li>
 <li><a href="#walletexec_sql"><code>wallet.exec_sql</code></a></li>
 </ul>
 <h3 id="walletquery_row_single"><a class="header" href="#walletquery_row_single"><code>wallet.query_row_single</code></a></h3>
@@ -230,10 +231,20 @@ NOTE: This is obviously vulnerable to SQL injection. Open to interesting solutio
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;wallet.query_row_single&quot;, &quot;params&quot;: [...], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: [&quot;va&quot;, &quot;lu&quot;, &quot;es&quot;, ...], &quot;id&quot;: 1}
 </code></pre>
+<h3 id="walletquery_row_multi"><a class="header" href="#walletquery_row_multi"><code>wallet.query_row_multi</code></a></h3>
+<p>Attempts to query for all available rows in a given table.
+The parameters given contain paired metadata so we know how to decode the SQL data.
+They're the same as above in <code>wallet.query_row_single</code>.
+If there are any values found, they will be returned in a paired array. If not, an
+empty array will be returned.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_wallet.rs#L140">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;wallet.query_row_multi&quot;, &quot;params&quot;: [...], &quot;id&quot;: 1}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: [[&quot;va&quot;, &quot;lu&quot;], [&quot;es&quot;, &quot;es&quot;], ...], &quot;id&quot;: 1}
+</code></pre>
 <h3 id="walletexec_sql"><a class="header" href="#walletexec_sql"><code>wallet.exec_sql</code></a></h3>
 <p>Executes an arbitrary SQL query on the wallet, and returns <code>true</code> on success.
 <code>params[1..]</code> can optionally be provided in pairs like in <code>wallet.query_row_single</code>.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_wallet.rs#L137">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_wallet.rs#L231">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;wallet.exec_sql&quot;, &quot;params&quot;: [&quot;CREATE TABLE ...&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: true, &quot;id&quot;: 1}
 </code></pre>
