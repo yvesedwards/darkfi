@@ -1,0 +1,337 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js ayu">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>The DarkFi Book</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">DarkFi</a></li><li class="chapter-item expanded "><a href="../philosophy/philosophy.html"><strong aria-hidden="true">1.</strong> Philosophy</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../philosophy/ideology.html"><strong aria-hidden="true">1.1.</strong> Ideology</a></li><li class="chapter-item expanded "><a href="../philosophy/recommended-books.html"><strong aria-hidden="true">1.2.</strong> Recommended Books</a></li><li class="chapter-item expanded "><a href="../philosophy/reading-maths-books.html"><strong aria-hidden="true">1.3.</strong> Reading Maths Books</a></li></ol></li><li class="chapter-item expanded "><a href="../development.html"><strong aria-hidden="true">2.</strong> Development</a></li><li class="chapter-item expanded "><a href="../portranges.html"><strong aria-hidden="true">3.</strong> Port ranges</a></li><li class="chapter-item expanded "><a href="../architecture/architecture.html"><strong aria-hidden="true">4.</strong> Architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/overview.html"><strong aria-hidden="true">4.1.</strong> Overview</a></li><li class="chapter-item expanded "><a href="../architecture/anonymous_assets.html"><strong aria-hidden="true">4.2.</strong> Anonymous Assets</a></li><li class="chapter-item expanded "><a href="../architecture/blockchain.html"><strong aria-hidden="true">4.3.</strong> Blockchain</a></li><li class="chapter-item expanded "><a href="../architecture/consensus.html" class="active"><strong aria-hidden="true">4.4.</strong> Consensus</a></li><li class="chapter-item expanded "><a href="../architecture/dna.html"><strong aria-hidden="true">4.5.</strong> DNA</a></li><li class="chapter-item expanded "><a href="../architecture/smart_contracts.html"><strong aria-hidden="true">4.6.</strong> Smart Contracts</a></li><li class="chapter-item expanded "><a href="../architecture/tooling.html"><strong aria-hidden="true">4.7.</strong> Tooling</a></li></ol></li><li class="chapter-item expanded "><a href="../clients/clients.html"><strong aria-hidden="true">5.</strong> Client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../clients/darkfid_jsonrpc.html"><strong aria-hidden="true">5.1.</strong> darkfid JSON-RPC API</a></li><li class="chapter-item expanded "><a href="../clients/cashierd_jsonrpc.html"><strong aria-hidden="true">5.2.</strong> cashierd JSON-RPC API</a></li><li class="chapter-item expanded "><a href="../clients/faucetd_jsonrpc.html"><strong aria-hidden="true">5.3.</strong> faucetd JSON-RPC API</a></li></ol></li><li class="chapter-item expanded "><a href="../zkas/index.html"><strong aria-hidden="true">6.</strong> zkas</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/bincode.html"><strong aria-hidden="true">6.1.</strong> Bincode</a></li><li class="chapter-item expanded "><a href="../zkas/examples.html"><strong aria-hidden="true">6.2.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zkas/examples/sapling.html"><strong aria-hidden="true">6.2.1.</strong> Sapling scheme</a></li><li class="chapter-item expanded "><a href="../zkas/examples/voting.html"><strong aria-hidden="true">6.2.2.</strong> Anonymous voting</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../misc/misc.html"><strong aria-hidden="true">7.</strong> Miscellaneous tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../misc/vanityaddr.html"><strong aria-hidden="true">7.1.</strong> vanityaddr</a></li><li class="chapter-item expanded "><a href="../misc/ircd/ircd.html"><strong aria-hidden="true">7.2.</strong> ircd</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../misc/ircd/specification.html"><strong aria-hidden="true">7.2.1.</strong> Specification</a></li><li class="chapter-item expanded "><a href="../misc/ircd/private_message.html"><strong aria-hidden="true">7.2.2.</strong> Private Message</a></li></ol></li><li class="chapter-item expanded "><a href="../misc/tau.html"><strong aria-hidden="true">7.3.</strong> tau</a></li><li class="chapter-item expanded "><a href="../misc/event_graph/event_graph.html"><strong aria-hidden="true">7.4.</strong> event_graph</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../misc/event_graph/network_protocol.html"><strong aria-hidden="true">7.4.1.</strong> Network Protocol</a></li></ol></li><li class="chapter-item expanded "><a href="../misc/hashchain/hashchain.html"><strong aria-hidden="true">7.5.</strong> HashChain</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../misc/hashchain/network_protocol.html"><strong aria-hidden="true">7.5.1.</strong> Network Protocol</a></li></ol></li><li class="chapter-item expanded "><a href="../misc/darkwiki.html"><strong aria-hidden="true">7.6.</strong> darkwiki</a></li><li class="chapter-item expanded "><a href="../misc/dnetview.html"><strong aria-hidden="true">7.7.</strong> dnetview</a></li></ol></li><li class="chapter-item expanded "><a href="../learn/learn.html"><strong aria-hidden="true">8.</strong> Learn</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../learn/research.html"><strong aria-hidden="true">8.1.</strong> Research</a></li><li class="chapter-item expanded "><a href="../learn/zk_explainer.html"><strong aria-hidden="true">8.2.</strong> ZK explainer</a></li><li class="chapter-item expanded "><a href="../learn/dchat/dchat.html"><strong aria-hidden="true">8.3.</strong> Dchat</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../learn/dchat/deployment/part-1.html"><strong aria-hidden="true">8.3.1.</strong> Deployment</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../learn/dchat/deployment/getting-started.html"><strong aria-hidden="true">8.3.1.1.</strong> Getting started</a></li><li class="chapter-item expanded "><a href="../learn/dchat/deployment/writing-a-daemon.html"><strong aria-hidden="true">8.3.1.2.</strong> Writing a daemon</a></li><li class="chapter-item expanded "><a href="../learn/dchat/deployment/sessions.html"><strong aria-hidden="true">8.3.1.3.</strong> Sessions</a></li><li class="chapter-item expanded "><a href="../learn/dchat/deployment/settings.html"><strong aria-hidden="true">8.3.1.4.</strong> Settings</a></li><li class="chapter-item expanded "><a href="../learn/dchat/deployment/error-handling.html"><strong aria-hidden="true">8.3.1.5.</strong> Error handling</a></li><li class="chapter-item expanded "><a href="../learn/dchat/deployment/start-run-stop.html"><strong aria-hidden="true">8.3.1.6.</strong> Start-Run-Stop</a></li><li class="chapter-item expanded "><a href="../learn/dchat/deployment/seed-node.html"><strong aria-hidden="true">8.3.1.7.</strong> Seed</a></li><li class="chapter-item expanded "><a href="../learn/dchat/deployment/deploy.html"><strong aria-hidden="true">8.3.1.8.</strong> Deploy</a></li></ol></li><li class="chapter-item expanded "><a href="../learn/dchat/creating-dchat/part-2.html"><strong aria-hidden="true">8.3.2.</strong> Creating dchat</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../learn/dchat/creating-dchat/message.html"><strong aria-hidden="true">8.3.2.1.</strong> Message</a></li><li class="chapter-item expanded "><a href="../learn/dchat/creating-dchat/protocols.html"><strong aria-hidden="true">8.3.2.2.</strong> Protocols</a></li><li class="chapter-item expanded "><a href="../learn/dchat/creating-dchat/protocol-dchat.html"><strong aria-hidden="true">8.3.2.3.</strong> ProtocolDchat</a></li><li class="chapter-item expanded "><a href="../learn/dchat/creating-dchat/register-protocol.html"><strong aria-hidden="true">8.3.2.4.</strong> Register protocol</a></li><li class="chapter-item expanded "><a href="../learn/dchat/creating-dchat/sending-messages.html"><strong aria-hidden="true">8.3.2.5.</strong> Sending messages</a></li><li class="chapter-item expanded "><a href="../learn/dchat/creating-dchat/ui.html"><strong aria-hidden="true">8.3.2.6.</strong> Slap on a UI</a></li><li class="chapter-item expanded "><a href="../learn/dchat/creating-dchat/using-dchat.html"><strong aria-hidden="true">8.3.2.7.</strong> Using dchat</a></li></ol></li><li class="chapter-item expanded "><a href="../learn/dchat/network-tools/part-3.html"><strong aria-hidden="true">8.3.3.</strong> Net tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../learn/dchat/network-tools/rpc.html"><strong aria-hidden="true">8.3.3.1.</strong> RPC interface</a></li><li class="chapter-item expanded "><a href="../learn/dchat/network-tools/accept-addr.html"><strong aria-hidden="true">8.3.3.2.</strong> Accept addr</a></li><li class="chapter-item expanded "><a href="../learn/dchat/network-tools/pong.html"><strong aria-hidden="true">8.3.3.3.</strong> Adding methods</a></li><li class="chapter-item expanded "><a href="../learn/dchat/network-tools/server.html"><strong aria-hidden="true">8.3.3.4.</strong> RPC server</a></li><li class="chapter-item expanded "><a href="../learn/dchat/network-tools/get-info.html"><strong aria-hidden="true">8.3.3.5.</strong> get_info</a></li><li class="chapter-item expanded "><a href="../learn/dchat/network-tools/using-dnetview.html"><strong aria-hidden="true">8.3.3.6.</strong> Using dnetview</a></li><li class="chapter-item expanded "><a href="../learn/dchat/network-tools/debug.html"><strong aria-hidden="true">8.3.3.7.</strong> Debugging</a></li></ol></li></ol></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <!-- Make the book title only appear if it is *not* the chapter title as well -->
+                    <h1 id="book-title" class="menu-title">The DarkFi Book</h1>
+                    <script type="text/javascript">
+                        var bookTitleElement = document.getElementById('book-title')
+                        var bookTitle = 'The DarkFi Book';
+                        var chapterTitle = 'Consensus';
+                        if (bookTitle === chapterTitle) {
+                            bookTitleElement.innerText = null;
+                            document.title = bookTitle;
+                        }
+                    </script>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="consensus"><a class="header" href="#consensus">Consensus</a></h1>
+<p>This section of the book describes how nodes participating in the DarkFi blockchain achieve consensus.</p>
+<h2 id="glossary"><a class="header" href="#glossary">Glossary</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
+<tr><td>Consensus</td><td>Algorithm for reaching Blockchain consensus between participating nodes</td></tr>
+<tr><td>Node</td><td>darkfid daemon participating in the network</td></tr>
+<tr><td>Slot</td><td>Specified timeframe for block production, measured in seconds(default=20)</td></tr>
+<tr><td>Epoch</td><td>Specified timeframe for blockchain events, measured in slots(default=10)</td></tr>
+<tr><td>Leader</td><td>Block producer</td></tr>
+<tr><td>Unproposed Transaction</td><td>A transaction that exists in nodes memory pool, but have not yet been included in a block</td></tr>
+<tr><td>P2P network</td><td>Peer-To-Peer network all nodes communicate with each other</td></tr>
+<tr><td>Finalization</td><td>Append a Block and its content to canonical blockchain</td></tr>
+<tr><td>Fork</td><td>Chain of unfinalized blocks, starting by the last canonical block of blockchain</td></tr>
+</tbody></table>
+</div>
+<h2 id="node-main-loop"><a class="header" href="#node-main-loop">Node main loop</a></h2>
+<p>As described in previous chapter, DarkFi is based on Ouroboros Crypsinous, therefore, to be able to produce a block,
+at slot start each node checks if they are the slots' leader, based on the leader selection algorithm. 
+If they succeed, they can produce a block containing unproposed transactions, by extending the largest known fork, 
+and share it with rest nodes, by broadcasting it in the P2P network. 
+Right before slot end, each node triggers the finalization check, to verify which blocks can be finalized,
+also known as finalization sync period.</p>
+<p>Pseudocode:</p>
+<pre><code>loop {
+    wait_for_next_slot_start()
+
+    if epoch_changed() {
+        create_competing_coins()   
+    }
+
+    if is_slot_leader() {
+        block = propose_block()
+        p2p.broadcast_block(block)
+    }
+
+    wait_for_slot_end()
+
+    chain_finalization()
+}
+</code></pre>
+<h2 id="listening-for-blocks"><a class="header" href="#listening-for-blocks">Listening for blocks</a></h2>
+<p>Concurently with the main loop, each node listens to new block proposals, and upon receiving them,
+they try to extend a known fork, as described in next section.</p>
+<h2 id="fork-extension"><a class="header" href="#fork-extension">Fork extension</a></h2>
+<p>Since there can be more than one slot leaders, each node holds a set of known forks in memory.
+When a node becomes leader, they extend the longest fork they hold.
+Upon receiving a block, one of the following cases occur:</p>
+<div class="table-wrapper"><table><thead><tr><th>Description</th><th>Handling</th></tr></thead><tbody>
+<tr><td>Block extends a known fork at its end</td><td>Append block to fork</td></tr>
+<tr><td>Block extends a known fork not at its end</td><td>Create a new fork up to the extended block and append the new block</td></tr>
+<tr><td>Block extends canonical blockchain</td><td>Create a new fork containing the new block</td></tr>
+<tr><td>Block doesn't extends any known chains</td><td>Ignore block</td></tr>
+</tbody></table>
+</div>
+<h3 id="visual-examples"><a class="header" href="#visual-examples">Visual Examples</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Sympol</th><th>Description</th></tr></thead><tbody>
+<tr><td>[C]</td><td>Canonical(finalized) blockchain block</td></tr>
+<tr><td>[Ln]</td><td>Block produced by Leader n</td></tr>
+<tr><td>+--</td><td>Appending a block to fork</td></tr>
+<tr><td>/--</td><td>Dropped fork</td></tr>
+</tbody></table>
+</div>
+<p>Starting state:</p>
+<pre><code>              |--[L0] &lt;-- L0 fork
+[C]--..--[C]--|
+              |--[L1] &lt;-- L1 fork
+</code></pre>
+<h4 id="case-1"><a class="header" href="#case-1">Case 1</a></h4>
+<p>New proposal received extending L0 fork:</p>
+<pre><code>              |--[L0]+--[L2] &lt;-- L0L2 fork
+[C]--..--[C]--|
+              |--[L1]        &lt;-- L1 fork
+</code></pre>
+<h4 id="case-2"><a class="header" href="#case-2">Case 2</a></h4>
+<p>New proposal received extending L0L2 fork at [L0] slot:</p>
+<pre><code>              |--[L0]--[L2]  &lt;-- L0L2 fork
+[C]--..--[C]--|
+              |--[L0]+--[L3] &lt;-- L0L3 fork
+              |
+              |--[L1]        &lt;-- L1 fork
+</code></pre>
+<h5 id="case-3"><a class="header" href="#case-3">Case 3</a></h5>
+<p>New proposal received extending canonical:</p>
+<pre><code>              |--[L0]--[L2] &lt;-- L0L2 fork
+[C]--..--[C]--|
+              |--[L0]--[L3] &lt;-- L0L3 fork
+              |
+              |--[L1]       &lt;-- L1 fork
+              |
+              |+--[L4]      &lt;-- L4 fork
+</code></pre>
+<h2 id="finalization"><a class="header" href="#finalization">Finalization</a></h2>
+<p>When finalization sync period kicks in, each node finds the longest fork chain it holds, that is at least 3 blocks long,
+without any other fock chain with same length.
+If such a fork chain exists, nodes finalizes(appends to canonical blockchain) all proposed blocks up to the last one.
+When a fork chain gets finalized, rest fork chains are removed from nodes memory pool.
+This practically means, that while we have competting(same length) fork chains,
+no finalization occurs until a slot with a single leader happens.</p>
+<p>We continue Case 3 from previous sector to visualize this logic.
+On slot 5, node observes 2 proposals, one extending L0L2 fork and one extending L0L3 fork:</p>
+<pre><code>              |--[L0]--[L2]+--[L5a] &lt;-- L0L2L5a fork
+[C]--..--[C]--|
+              |--[L0]--[L3]+--[L5b] &lt;-- L0L3L5b fork
+              |
+              |--[L1]               &lt;-- L1 fork
+              |
+              |--[L4]               &lt;-- L4 fork
+</code></pre>
+<p>Finalization cannot occur, since we have two competting fork chains.
+On next slot, node only observers 1 proposal, extending L0L3L5b fork:</p>
+<pre><code>              |--[L0]--[L2]--[L5a]        &lt;-- L0L2L5a fork
+[C]--..--[C]--|
+              |--[L0]--[L3]--[L5b]+--[L6] &lt;-- L0L3L5bL6 fork
+              |
+              |--[L1]                     &lt;-- L1 fork
+              |
+              |--[L4]                     &lt;-- L4 fork
+</code></pre>
+<p>Ehen finalization sync period starts, node sees that it can finalize fork L0L3L5bL6 and drop rest forks:</p>
+<pre><code>              |/--[L0]--[L2]--[L5a]       &lt;-- L0L2L5a fork
+[C]--..--[C]--|
+              |--[L0]--[L3]--[L5b]+--[L6] &lt;-- L0L3L5bL6 fork
+              |
+              |/--[L1]                    &lt;-- L1 fork
+              |
+              |/--[L4]                    &lt;-- L4 fork
+</code></pre>
+<p>resulting in the following state:</p>
+<pre><code>[c]--..--[c]--|--[L6]
+</code></pre>
+<p>where canonical contains blocks L0, L3 and L5b from L0L3L56L6 fork.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../architecture/blockchain.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../architecture/dna.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../architecture/blockchain.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../architecture/dna.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/mermaid.min.js"></script>
+        <script type="text/javascript" src="../theme/mermaid-init.js"></script>
+
+
+    </body>
+</html>
