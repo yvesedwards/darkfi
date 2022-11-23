@@ -1370,27 +1370,33 @@ be used by the protocol.</p>
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="consensus"><a class="header" href="#consensus">Consensus</a></h1>
-<p>This section of the book describes how nodes participating in the DarkFi blockchain achieve consensus.</p>
+<p>This section of the book describes how nodes participating in the DarkFi
+blockchain achieve consensus.</p>
 <h2 id="glossary"><a class="header" href="#glossary">Glossary</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
-<tr><td>Consensus</td><td>Algorithm for reaching Blockchain consensus between participating nodes</td></tr>
+<tr><td>Consensus</td><td>Algorithm for reaching blockchain consensus between participating nodes</td></tr>
 <tr><td>Node</td><td>darkfid daemon participating in the network</td></tr>
 <tr><td>Slot</td><td>Specified timeframe for block production, measured in seconds(default=20)</td></tr>
 <tr><td>Epoch</td><td>Specified timeframe for blockchain events, measured in slots(default=10)</td></tr>
 <tr><td>Leader</td><td>Block producer</td></tr>
-<tr><td>Unproposed Transaction</td><td>A transaction that exists in nodes memory pool, but have not yet been included in a block</td></tr>
-<tr><td>P2P network</td><td>Peer-To-Peer network all nodes communicate with each other</td></tr>
-<tr><td>Finalization</td><td>Append a Block and its content to canonical blockchain</td></tr>
-<tr><td>Fork</td><td>Chain of unfinalized blocks, starting by the last canonical block of blockchain</td></tr>
+<tr><td>Unproposed Transaction</td><td>Transaction that exists in the memory pool but has not yet been included in a block</td></tr>
+<tr><td>Block proposal</td><td>Block that has not yet been appended onto the canonical blockchain</td></tr>
+<tr><td>P2P network</td><td>Peer-to-peer network on which nodes communicate with eachother</td></tr>
+<tr><td>Finalization</td><td>State achieved when a block and its contents are appended to the canonical blockchain</td></tr>
+<tr><td>Fork</td><td>Chain of block proposals that begins with the last block of the canonical blockchain</td></tr>
 </tbody></table>
 </div>
 <h2 id="node-main-loop"><a class="header" href="#node-main-loop">Node main loop</a></h2>
-<p>As described in previous chapter, DarkFi is based on Ouroboros Crypsinous, therefore, to be able to produce a block,
-at slot start each node checks if they are the slots' leader, based on the leader selection algorithm. 
-If they succeed, they can produce a block containing unproposed transactions, by extending the largest known fork, 
-and share it with rest nodes, by broadcasting it in the P2P network. 
-Right before slot end, each node triggers the finalization check, to verify which blocks can be finalized,
-also known as finalization sync period.</p>
+<p>As described in previous chapter, DarkFi is based on Ouroboros
+Crypsinous. Therefore, block production involves the following steps:</p>
+<p>At the start of every slot, each node runs a leader selection algorithm
+to determine if they are the slot's leader. If successful, they can
+produce a block containing unproposed transactions. This block is then
+appended to the largest known fork and shared with rest of the nodes on
+the P2P network as a block proposal.</p>
+<p>Before the end of every slot each node triggers a <em>finalization check</em>,
+to verify which block proposals can be finalized onto the canonical
+blockchain. This is also known as the finalization sync period.</p>
 <p>Pseudocode:</p>
 <pre><code>loop {
     wait_for_next_slot_start()
@@ -1410,17 +1416,20 @@ also known as finalization sync period.</p>
 }
 </code></pre>
 <h2 id="listening-for-blocks"><a class="header" href="#listening-for-blocks">Listening for blocks</a></h2>
-<p>Concurently with the main loop, each node listens to new block proposals, and upon receiving them,
-they try to extend a known fork, as described in next section.</p>
+<p>Each node listens to new block proposals concurrently with the main
+loop. Upon receiving block proposals, nodes try to extend the proposals
+onto a fork that they hold in memory. This process is described in the
+next section.</p>
 <h2 id="fork-extension"><a class="header" href="#fork-extension">Fork extension</a></h2>
-<p>Since there can be more than one slot leaders, each node holds a set of known forks in memory.
-When a node becomes leader, they extend the longest fork they hold.
-Upon receiving a block, one of the following cases occur:</p>
+<p>Since there can be more than one slot leader, each node holds a set of
+known forks in memory.  When a node becomes a leader, they extend the
+longest fork they hold. </p>
+<p>Upon receiving a block, one of the following cases may occur:</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Handling</th></tr></thead><tbody>
 <tr><td>Block extends a known fork at its end</td><td>Append block to fork</td></tr>
 <tr><td>Block extends a known fork not at its end</td><td>Create a new fork up to the extended block and append the new block</td></tr>
 <tr><td>Block extends canonical blockchain</td><td>Create a new fork containing the new block</td></tr>
-<tr><td>Block doesn't extends any known chains</td><td>Ignore block</td></tr>
+<tr><td>Block doesn't extend any known chain</td><td>Ignore block</td></tr>
 </tbody></table>
 </div>
 <h3 id="visual-examples"><a class="header" href="#visual-examples">Visual Examples</a></h3>
@@ -1438,13 +1447,13 @@ Upon receiving a block, one of the following cases occur:</p>
                |--[L1] &lt;-- L1 fork
 </code></pre>
 <h4 id="case-1"><a class="header" href="#case-1">Case 1</a></h4>
-<p>New proposal received extending L0 fork:</p>
+<p>Extending L0 fork with a new block proposal:</p>
 <pre><code>               |--[L0]+--[L2] &lt;-- L0L2 fork
 [C]--...--[C]--|
                |--[L1]        &lt;-- L1 fork
 </code></pre>
 <h4 id="case-2"><a class="header" href="#case-2">Case 2</a></h4>
-<p>New proposal received extending L0L2 fork at [L0] slot:</p>
+<p>Extending L0L2 fork at [L0] slot with a new block proposal:</p>
 <pre><code>               |--[L0]--[L2]  &lt;-- L0L2 fork
 [C]--...--[C]--|
                |--[L0]+--[L3] &lt;-- L0L3 fork
@@ -1452,7 +1461,7 @@ Upon receiving a block, one of the following cases occur:</p>
                |--[L1]        &lt;-- L1 fork
 </code></pre>
 <h5 id="case-3"><a class="header" href="#case-3">Case 3</a></h5>
-<p>New proposal received extending canonical:</p>
+<p>Extending the canonical blockchain with a new block proposal:</p>
 <pre><code>               |--[L0]--[L2] &lt;-- L0L2 fork
 [C]--...--[C]--|
                |--[L0]--[L3] &lt;-- L0L3 fork
@@ -1462,14 +1471,18 @@ Upon receiving a block, one of the following cases occur:</p>
                |+--[L4]      &lt;-- L4 fork
 </code></pre>
 <h2 id="finalization"><a class="header" href="#finalization">Finalization</a></h2>
-<p>When finalization sync period kicks in, each node finds the longest fork chain it holds, that is at least 3 blocks long,
-without any other fock chain with same length.
-If such a fork chain exists, nodes finalizes(appends to canonical blockchain) all proposed blocks up to the last one.
-When a fork chain gets finalized, rest fork chains are removed from nodes memory pool.
-This practically means, that while we have competting(same length) fork chains,
-no finalization occurs until a slot with a single leader happens.</p>
-<p>We continue Case 3 from previous sector to visualize this logic.
-On slot 5, node observes 2 proposals, one extending L0L2 fork and one extending L0L3 fork:</p>
+<p>When the finalization sync period kicks in, each node looks up the longest
+fork chain it holds. This must be at least 3 blocks long and there must
+be no other fork chain with same length.  If such a fork chain exists,
+nodes finalize all block proposals up to the last one by appending them
+to the canonical blockchain.</p>
+<p>Once finalized, all other fork chains are removed from the memory pool.
+Practically this means that no finalization can occur while there are
+competing fork chains of the same length. In such a case, finalization
+can only occur when we have a a slot with a single leader.</p>
+<p>We continue Case 3 from the previous section to visualize this logic.
+On slot 5, a node observes 2 proposals. One extends the L0L2 fork,
+and the other extends the L0L3 fork:</p>
 <pre><code>               |--[L0]--[L2]+--[L5a] &lt;-- L0L2L5a fork
 [C]--...--[C]--|
                |--[L0]--[L3]+--[L5b] &lt;-- L0L3L5b fork
@@ -1478,8 +1491,9 @@ On slot 5, node observes 2 proposals, one extending L0L2 fork and one extending 
                |
                |--[L4]               &lt;-- L4 fork
 </code></pre>
-<p>Finalization cannot occur, since we have two competting fork chains.
-On next slot, node only observers 1 proposal, extending L0L3L5b fork:</p>
+<p>Since we have two competing fork chains finalization cannot occur.</p>
+<p>On next slot, a node only observes 1 proposal. So it extends the
+L0L3L5b fork:</p>
 <pre><code>               |--[L0]--[L2]--[L5a]        &lt;-- L0L2L5a fork
 [C]--...--[C]--|
                |--[L0]--[L3]--[L5b]+--[L6] &lt;-- L0L3L5bL6 fork
@@ -1488,7 +1502,8 @@ On next slot, node only observers 1 proposal, extending L0L3L5b fork:</p>
                |
                |--[L4]                     &lt;-- L4 fork
 </code></pre>
-<p>When finalization sync period starts, node sees that it can finalize fork L0L3L5bL6 and drop rest forks:</p>
+<p>When the finalization sync period starts, the node finalizes the fork
+L0L3L5bL6 and all other forks get dropped:</p>
 <pre><code>               |/--[L0]--[L2]--[L5a]      &lt;-- L0L2L5a fork
 [C]--...--[C]--|
                |--[L0]--[L3]--[L5b]--[L6] &lt;-- L0L3L5bL6 fork
@@ -1497,10 +1512,11 @@ On next slot, node only observers 1 proposal, extending L0L3L5b fork:</p>
                |
                |/--[L4]                   &lt;-- L4 fork
 </code></pre>
-<p>resulting in the following state:</p>
+<p>This results in the following state:</p>
 <pre><code>[C]--...--[C]--|--[L6]
 </code></pre>
-<p>where canonical contains blocks L0, L3 and L5b from L0L3L56L6 fork.</p>
+<p>The canonical blockchain contains blocks L0, L3 and L5b from the
+L0L3L56L6 fork.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="darkfi-node-architecture-dna"><a class="header" href="#darkfi-node-architecture-dna">DarkFi Node Architecture (DNA)</a></h1>
 <p>The DarkFi ecosystem runs as a network of P2P nodes, where these nodes
