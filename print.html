@@ -1844,6 +1844,7 @@ RPC API.</p>
 <ul>
 <li><a href="clients/darkfid_jsonrpc.html#blockchainget_slot"><code>blockchain.get_slot</code></a></li>
 <li><a href="clients/darkfid_jsonrpc.html#blockchainmerkle_roots"><code>blockchain.merkle_roots</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#blockchainsubscribe_blocks"><code>blockchain.subscribe_blocks</code></a></li>
 </ul>
 <h3 id="blockchainget_slot"><a class="header" href="#blockchainget_slot"><code>blockchain.get_slot</code></a></h3>
 <p>Queries the blockchain database for a block in the given slot.
@@ -1857,6 +1858,14 @@ Returns a readable block upon success.
 <br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L71">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.merkle_roots&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: [..., ..., ...], &quot;id&quot;: 1}
+</code></pre>
+<h3 id="blockchainsubscribe_blocks"><a class="header" href="#blockchainsubscribe_blocks"><code>blockchain.subscribe_blocks</code></a></h3>
+<p>Initializes a subscription to new incoming blocks.
+Once a subscription is established, <code>darkfid</code> will send JSON-RPC notifications of
+new incoming blocks to the subscriber.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L101">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.subscribe_blocks&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.subscribe_blocks&quot;, &quot;params&quot;: [`blockinfo`]}
 </code></pre>
 <h2 id="tx-methods"><a class="header" href="#tx-methods">tx methods</a></h2>
 <ul>
