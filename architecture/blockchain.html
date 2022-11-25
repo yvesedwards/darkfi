@@ -340,7 +340,7 @@ be used by the protocol.</p>
 <h2 id="header"><a class="header" href="#header">Header</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>version</code></td><td><code>u8</code></td><td>Version</td></tr>
-<tr><td><code>state</code></td><td><code>blake3Hash</code></td><td>Previous block hash</td></tr>
+<tr><td><code>previous</code></td><td><code>blake3Hash</code></td><td>Previous block hash</td></tr>
 <tr><td><code>epoch</code></td><td><code>u64</code></td><td>Epoch</td></tr>
 <tr><td><code>slot</code></td><td><code>u64</code></td><td>Slot UID</td></tr>
 <tr><td><code>timestamp</code></td><td><code>Timestamp</code></td><td>Block creation timestamp</td></tr>
@@ -352,16 +352,18 @@ be used by the protocol.</p>
 <tr><td><code>magic</code></td><td><code>u8</code></td><td>Magic bytes</td></tr>
 <tr><td><code>header</code></td><td><code>blake3Hash</code></td><td>Header hash</td></tr>
 <tr><td><code>txs</code></td><td><code>Vec&lt;blake3Hash&gt;</code></td><td>Transaction hashes</td></tr>
-<tr><td><code>metadata</code></td><td><code>Metadata</code></td><td>Additional block information</td></tr>
+<tr><td><code>lead_info</code></td><td><code>LeadInfo</code></td><td>Block leader information</td></tr>
 </tbody></table>
 </div>
-<h2 id="metadata"><a class="header" href="#metadata">Metadata</a></h2>
+<h2 id="leadinfo"><a class="header" href="#leadinfo">LeadInfo</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>signature</code></td><td><code>Signature</code></td><td>Block owner signature</td></tr>
 <tr><td><code>public_inputs</code></td><td><code>Vec&lt;pallas::Base&gt;</code></td><td>Nizk proof public inputs</td></tr>
 <tr><td><code>serial_number</code></td><td><code>pallas::Base</code></td><td>competing coin's nullifier</td></tr>
 <tr><td><code>eta</code></td><td><code>[u8; 32]</code></td><td>randomness from the previous epoch</td></tr>
 <tr><td><code>proof</code></td><td><code>Vec&lt;u8&gt;</code></td><td>Nizk <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span></span></span></span> Proof the stakeholder is the block owner</td></tr>
+<tr><td><code>offset</code></td><td><code>u64</code></td><td>Slot offset block producer used</td></tr>
+<tr><td><code>leaders</code></td><td><code>u64</code></td><td>Block producer leaders count</td></tr>
 </tbody></table>
 </div>
                     </main>
