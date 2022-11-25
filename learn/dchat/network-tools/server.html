@@ -163,7 +163,8 @@ requests.</p>
 <p>Add the following lines to <code>main()</code>:</p>
 <pre><code class="language-rust">    let accept_addr = settings.accept_addr.clone();
     let rpc = Arc::new(JsonRpcInterface { addr: accept_addr.clone(), p2p });
-    ex.spawn(async move { listen_and_serve(accept_addr.clone(), rpc).await }).detach();
+    let _ex = ex.clone();
+    ex.spawn(async move { listen_and_serve(accept_addr.clone(), rpc, _ex).await }).detach();
 </code></pre>
 <p>We create a new <code>JsonRpcInterface</code> inside an <code>Arc</code> pointer and pass in our
 <code>accept_addr</code> and <code>p2p</code> object.</p>
@@ -199,7 +200,8 @@ async fn main() -&gt; Result&lt;()&gt; {
 
     let accept_addr = settings.accept_addr.clone();
     let rpc = Arc::new(JsonRpcInterface { addr: accept_addr.clone(), p2p });
-    ex.spawn(async move { listen_and_serve(accept_addr.clone(), rpc).await }).detach();
+    let _ex = ex.clone();
+    ex.spawn(async move { listen_and_serve(accept_addr.clone(), rpc, _ex).await }).detach();
 
     let nthreads = num_cpus::get();
     let (signal, shutdown) = smol::channel::unbounded::&lt;()&gt;();
