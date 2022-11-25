@@ -219,39 +219,40 @@ longest fork they hold. </p>
 <div class="table-wrapper"><table><thead><tr><th>Sympol</th><th>Description</th></tr></thead><tbody>
 <tr><td>[C]</td><td>Canonical(finalized) blockchain block</td></tr>
 <tr><td>[C]--...--[C]</td><td>Sequence of canonical blocks</td></tr>
-<tr><td>[Ln]</td><td>Block produced by Leader n</td></tr>
+<tr><td>[Ln]</td><td>Proposal produced by Leader n</td></tr>
+<tr><td>Fn</td><td>Fork name to identify them in examples</td></tr>
 <tr><td>+--</td><td>Appending a block to fork</td></tr>
 <tr><td>/--</td><td>Dropped fork</td></tr>
 </tbody></table>
 </div>
 <p>Starting state:</p>
-<pre><code>               |--[L0] &lt;-- L0 fork
+<pre><code>               |--[L0] &lt;-- F0
 [C]--...--[C]--|
-               |--[L1] &lt;-- L1 fork
+               |--[L1] &lt;-- F1
 </code></pre>
 <h4 id="case-1"><a class="header" href="#case-1">Case 1</a></h4>
-<p>Extending L0 fork with a new block proposal:</p>
-<pre><code>               |--[L0]+--[L2] &lt;-- L0L2 fork
+<p>Extending F0 fork with a new block proposal:</p>
+<pre><code>               |--[L0]+--[L2] &lt;-- F0
 [C]--...--[C]--|
-               |--[L1]        &lt;-- L1 fork
+               |--[L1]        &lt;-- F1
 </code></pre>
 <h4 id="case-2"><a class="header" href="#case-2">Case 2</a></h4>
-<p>Extending L0L2 fork at [L0] slot with a new block proposal:</p>
-<pre><code>               |--[L0]--[L2]  &lt;-- L0L2 fork
+<p>Extending F0 fork at [L0] slot with a new block proposal, creating a new fork chain:</p>
+<pre><code>               |--[L0]--[L2]   &lt;-- F0
 [C]--...--[C]--|
-               |--[L0]+--[L3] &lt;-- L0L3 fork
+               |--[L1]         &lt;-- F1
                |
-               |--[L1]        &lt;-- L1 fork
+               |+--[L0]+--[L3] &lt;-- F2
 </code></pre>
 <h5 id="case-3"><a class="header" href="#case-3">Case 3</a></h5>
 <p>Extending the canonical blockchain with a new block proposal:</p>
-<pre><code>               |--[L0]--[L2] &lt;-- L0L2 fork
+<pre><code>               |--[L0]--[L2] &lt;-- F0
 [C]--...--[C]--|
-               |--[L0]--[L3] &lt;-- L0L3 fork
+               |--[L1]       &lt;-- F1
                |
-               |--[L1]       &lt;-- L1 fork
+               |--[L0]--[L3] &lt;-- F2
                |
-               |+--[L4]      &lt;-- L4 fork
+               |+--[L4]      &lt;-- F3
 </code></pre>
 <h2 id="finalization"><a class="header" href="#finalization">Finalization</a></h2>
 <p>When the finalization sync period kicks in, each node looks up the longest
@@ -264,42 +265,41 @@ Practically this means that no finalization can occur while there are
 competing fork chains of the same length. In such a case, finalization
 can only occur when we have a a slot with a single leader.</p>
 <p>We continue Case 3 from the previous section to visualize this logic.
-On slot 5, a node observes 2 proposals. One extends the L0L2 fork,
-and the other extends the L0L3 fork:</p>
-<pre><code>               |--[L0]--[L2]+--[L5a] &lt;-- L0L2L5a fork
+On slot 5, a node observes 2 proposals. One extends the F0 fork,
+and the other extends the F2 fork:</p>
+<pre><code>               |--[L0]--[L2]+--[L5a] &lt;-- F0
 [C]--...--[C]--|
-               |--[L0]--[L3]+--[L5b] &lt;-- L0L3L5b fork
+               |--[L1]               &lt;-- F1
                |
-               |--[L1]               &lt;-- L1 fork
+               |--[L0]--[L3]+--[L5b] &lt;-- F2
                |
-               |--[L4]               &lt;-- L4 fork
+               |--[L4]               &lt;-- F3
 </code></pre>
 <p>Since we have two competing fork chains finalization cannot occur.</p>
 <p>On next slot, a node only observes 1 proposal. So it extends the
-L0L3L5b fork:</p>
-<pre><code>               |--[L0]--[L2]--[L5a]        &lt;-- L0L2L5a fork
+F2 fork:</p>
+<pre><code>               |--[L0]--[L2]--[L5a]        &lt;-- F0
 [C]--...--[C]--|
-               |--[L0]--[L3]--[L5b]+--[L6] &lt;-- L0L3L5bL6 fork
+               |--[L1]                     &lt;-- F1
                |
-               |--[L1]                     &lt;-- L1 fork
+               |--[L0]--[L3]--[L5b]+--[L6] &lt;-- F2
                |
-               |--[L4]                     &lt;-- L4 fork
+               |--[L4]                     &lt;-- F3
 </code></pre>
-<p>When the finalization sync period starts, the node finalizes the fork
-L0L3L5bL6 and all other forks get dropped:</p>
-<pre><code>               |/--[L0]--[L2]--[L5a]      &lt;-- L0L2L5a fork
+<p>When the finalization sync period starts, the node finalizes fork
+F2 and all other forks get dropped:</p>
+<pre><code>               |/--[L0]--[L2]--[L5a]      &lt;-- F0
 [C]--...--[C]--|
-               |--[L0]--[L3]--[L5b]--[L6] &lt;-- L0L3L5bL6 fork
+               |/--[L1]                   &lt;-- F1
                |
-               |/--[L1]                   &lt;-- L1 fork
+               |--[L0]--[L3]--[L5b]--[L6] &lt;-- F2
                |
-               |/--[L4]                   &lt;-- L4 fork
+               |/--[L4]                   &lt;-- F3
 </code></pre>
 <p>This results in the following state:</p>
 <pre><code>[C]--...--[C]--|--[L6]
 </code></pre>
-<p>The canonical blockchain contains blocks L0, L3 and L5b from the
-L0L3L5bL6 fork.</p>
+<p>The canonical blockchain contains blocks L0, L3 and L5b from fork F2.</p>
 
                     </main>
 
