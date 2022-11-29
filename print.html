@@ -1800,6 +1800,7 @@ RPC API.</p>
 <h2 id="blockchain-methods"><a class="header" href="#blockchain-methods">blockchain methods</a></h2>
 <ul>
 <li><a href="clients/darkfid_jsonrpc.html#blockchainget_slot"><code>blockchain.get_slot</code></a></li>
+<li><a href="clients/darkfid_jsonrpc.html#blockchainlast_known_slot"><code>blockchain.last_known_slot</code></a></li>
 <li><a href="clients/darkfid_jsonrpc.html#blockchainmerkle_roots"><code>blockchain.merkle_roots</code></a></li>
 <li><a href="clients/darkfid_jsonrpc.html#blockchainsubscribe_blocks"><code>blockchain.subscribe_blocks</code></a></li>
 <li><a href="clients/darkfid_jsonrpc.html#blockchainlookup_zkas"><code>blockchain.lookup_zkas</code></a></li>
@@ -1811,9 +1812,15 @@ Returns a readable block upon success.
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.get_slot&quot;, &quot;params&quot;: [0], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: {...}, &quot;id&quot;: 1}
 </code></pre>
+<h3 id="blockchainlast_known_slot"><a class="header" href="#blockchainlast_known_slot"><code>blockchain.last_known_slot</code></a></h3>
+<p>Queries the blockchain database to find the last known slot
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L73">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.last_known_slot&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: 1234, &quot;id&quot;: 1}
+</code></pre>
 <h3 id="blockchainmerkle_roots"><a class="header" href="#blockchainmerkle_roots"><code>blockchain.merkle_roots</code></a></h3>
 <p>Queries the blockchain database for all available merkle roots.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L75">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L91">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.merkle_roots&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: [..., ..., ...], &quot;id&quot;: 1}
 </code></pre>
@@ -1821,14 +1828,14 @@ Returns a readable block upon success.
 <p>Initializes a subscription to new incoming blocks.
 Once a subscription is established, <code>darkfid</code> will send JSON-RPC notifications of
 new incoming blocks to the subscriber.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L105">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L121">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.subscribe_blocks&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.subscribe_blocks&quot;, &quot;params&quot;: [`blockinfo`]}
 </code></pre>
 <h3 id="blockchainlookup_zkas"><a class="header" href="#blockchainlookup_zkas"><code>blockchain.lookup_zkas</code></a></h3>
 <p>Performs a lookup of zkas bincodes for a given contract ID and returns all of
 them, including their namespace.
-<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L122">[src]</a></sup></p>
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_blockchain.rs#L138">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;blockchain.lookup_zkas&quot;, &quot;params&quot;: [&quot;6Ef42L1KLZXBoxBuCDto7coi9DA2D2SRtegNqNU4sd74&quot;], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: [[&quot;Foo&quot;, [...]], [&quot;Bar&quot;, [...]]], &quot;id&quot;: 1}
 </code></pre>
@@ -3588,7 +3595,7 @@ dependencies:</p>
 <pre><code>async-std = &quot;1.12.0&quot;
 async-trait = &quot;0.1.59&quot;
 easy-parallel = &quot;3.2.0&quot;
-smol = &quot;1.2.5&quot;
+smol = &quot;1.3.0&quot;
 num_cpus = &quot;1.14.0&quot;
 
 log = &quot;0.4.17&quot;
