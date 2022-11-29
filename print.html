@@ -896,43 +896,6 @@ and make his work effortless and smooth.</p>
 <tr><td>arch</td><td>Architecture, project management and integration</td><td>nar</td><td>par</td><td></td><td>Alpha</td></tr>
 </tbody></table>
 </div>
-<p>Priorities:</p>
-<ol>
-<li>Consensus
-<ol>
-<li>Settle on final algorithm. Currently fixing the reward function.
-<ol>
-<li>Todos are leader proof, rewards proof, balance proof and ledger API</li>
-</ol>
-</li>
-<li>Review the contracts</li>
-<li>Create the blockchain API</li>
-</ol>
-</li>
-<li>WASM
-<ol>
-<li>Update current WASM code</li>
-<li>Experiment and draft docs</li>
-<li>Begin to implement smart contract subsystem</li>
-<li>Migrate dao and otc applications over</li>
-</ol>
-</li>
-<li>util
-<ol>
-<li>Simulate event graph subsystem</li>
-<li>Create underlying event graph subsystem</li>
-<li>Create abstraction layer and APIs</li>
-<li>Begin to rewire ircd and taud</li>
-<li>Update taud to CRDTs</li>
-<li>Q&amp;A on wallet application</li>
-</ol>
-</li>
-</ol>
-<p>Deferred (future):</p>
-<ol>
-<li>Migration away from SQLite for WalletDb to file system db based off
-git porcelain.</li>
-</ol>
 <h2 id="release-cycle"><a class="header" href="#release-cycle">Release Cycle</a></h2>
 <pre class="mermaid">gantt
     title Release Cycle
@@ -1656,8 +1619,7 @@ on the calldata of other function calls within the same tx. See <code>DAO::exec(
             ...
         }
     }
-}
-</code></pre>
+}</code></pre>
 <p>There is a pipeline where the prover runs <code>Builder::build()</code> to create the <code>FuncCall</code> object that
 is then broadcast to the verifiers through the p2p network.</p>
 <p>The <code>CallData</code> usually is the public values exported from a ZK proof. Essentially it is the data
@@ -1670,16 +1632,14 @@ on the transaction's structure or other function calls (such as their call data)
     pub func_calls: Vec&lt;FuncCall&gt;,
     pub signatures: Vec&lt;Vec&lt;Signature&gt;&gt;,
     // pub proofs: Vec&lt;Proof&gt;,
-}
-</code></pre>
+}</code></pre>
 <p>Function calls represent mutations of the current active state to a new state.</p>
 <pre><code class="language-rust">pub struct FuncCall {
     pub contract_id: ContractId,
     pub func_id: FuncId,
     pub call_data: Box&lt;dyn CallDataBase + Send + Sync&gt;,
     pub proofs: Vec&lt;Proof&gt;,
-}
-</code></pre>
+}</code></pre>
 <p>The <code>contract_id</code> corresponds to the top level module for the contract which
 includes the global <code>State</code>.</p>
 <p>The <code>func_id</code> of a function call corresponds to predefined objects in the submodules:</p>
@@ -1717,8 +1677,7 @@ represent <code>DAO::mint()</code> or <code>Money::transfer()</code>.</p>
             ...
         }
     }
-}
-</code></pre>
+}</code></pre>
 <p>The <code>state_transition()</code> has access to the entire atomic transaction to enforce correctness. For example
 chaining of function calls is used by the <code>DAO::exec()</code> smart contract function to execute moving money out
 of the treasury using <code>Money::transfer()</code> within the same transaction.</p>
@@ -1739,8 +1698,7 @@ applied at the end. This ensures atomicity property of transactions.</p>
             ...
         }
     }
-}
-</code></pre>
+}</code></pre>
 <p>The transaction verification pipeline roughly looks like this:</p>
 <ol>
 <li>Loop through all function call invocations within the transaction:
@@ -1763,16 +1721,14 @@ The <code>contract_id</code> and <code>func_id</code> corresponds to the contrac
     pub func_calls: Vec&lt;FuncCall&gt;,
     pub signatures: Vec&lt;Vec&lt;Signature&gt;&gt;,
     // pub proofs: Vec&lt;Proof&gt;,
-}
-</code></pre>
+}</code></pre>
 <p>And corresponding function calls.</p>
 <pre><code class="language-rust">pub struct FuncCall {
     pub contract_id: ContractId,
     pub func_id: FuncId,
     pub call_data: Box&lt;dyn CallDataBase + Send + Sync&gt;,
     pub proofs: Vec&lt;Proof&gt;,
-}
-</code></pre>
+}</code></pre>
 <p>As we can see the ZK proofs and signatures are separate from the actuall <code>call_data</code> interpreted
 by <code>state_transition()</code>. They are both automatically verified by the VM.</p>
 <p>However for verification to work, the ZK proofs also need corresponding public values, and
@@ -1793,8 +1749,7 @@ methods:</p>
         &amp;self,
         writer: &amp;mut dyn std::io::Write,
     ) -&gt; std::result::Result&lt;usize, std::io::Error&gt;;
-}
-</code></pre>
+}</code></pre>
 <p>These methods export the required values needed for the ZK proofs and signature verification
 from the actual call data itself.</p>
 <p>For signature verification, the data we are verifying is simply the entire transactions minus
@@ -2059,8 +2014,7 @@ can be added by extending
         !args.strip,
     );
 
-    let bincode = compiler.compile();
-</code></pre>
+    let bincode = compiler.compile();</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="zkas-bincode"><a class="header" href="#zkas-bincode">zkas bincode</a></h1>
 <p>The bincode design for zkas is the compiled code in the form of a
@@ -2404,8 +2358,7 @@ before-mentioned public inputs for the circuit:</p>
     let circuit = ZkCircuit::new(verifier_witnesses, zkbin);
 
     let verifying_key = VerifyingKey::build(13, &amp;circuit);
-    proof.verify(&amp;verifying_key, &amp;public_inputs)?;
-</code></pre>
+    proof.verify(&amp;verifying_key, &amp;public_inputs)?;</code></pre>
 <h2 id="burn-1"><a class="header" href="#burn-1">Burn</a></h2>
 <pre><code>constant &quot;Burn&quot; {
 	EcFixedPointShort VALUE_COMMIT_VALUE,
@@ -2617,8 +2570,7 @@ before-mentioned public inputs for the circuit:</p>
     let circuit = ZkCircuit::new(verifier_witnesses, zkbin);
 
     let verifying_key = VerifyingKey::build(13, &amp;circuit);
-    proof.verify(&amp;verifying_key, &amp;public_inputs)?;
-</code></pre>
+    proof.verify(&amp;verifying_key, &amp;public_inputs)?;</code></pre>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>See section 3: <em>The Commitment Scheme</em> of Torben Pryds Pedersen's
 <a href="https://link.springer.com/content/pdf/10.1007%2F3-540-46766-1_9.pdf">paper on Non-Interactive and
@@ -3235,8 +3187,7 @@ layer should ignore this event. This serves as the origin event for synchronizat
 <h1 id="network-protocol"><a class="header" href="#network-protocol">Network Protocol</a></h1>
 <h2 id="common-structures"><a class="header" href="#common-structures">Common Structures</a></h2>
 <h3 id="eventid"><a class="header" href="#eventid">EventId</a></h3>
-<pre><code class="language-rust">type EventId = [u8; 32];
-</code></pre>
+<pre><code class="language-rust">type EventId = [u8; 32];</code></pre>
 <h2 id="inv"><a class="header" href="#inv">inv</a></h2>
 <p>Inventory vectors are used for notifying other nodes about objects they have or data which is being requested.</p>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
@@ -3270,12 +3221,10 @@ It uses this message to synchronize with the current network state.</p>
 <h1 id="structures"><a class="header" href="#structures">Structures</a></h1>
 <h2 id="eventid-1"><a class="header" href="#eventid-1">EventId</a></h2>
 <p>Hash of <code>Event</code></p>
-<pre><code class="language-rust">type EventId = [u8; 32];
-</code></pre>
+<pre><code class="language-rust">type EventId = [u8; 32];</code></pre>
 <h2 id="eventaction"><a class="header" href="#eventaction">EventAction</a></h2>
 <p>The <code>Event</code> could have many actions according to the underlying data.</p>
-<pre><code class="language-rust">enum EventAction { ... };
-</code></pre>
+<pre><code class="language-rust">enum EventAction { ... };</code></pre>
 <h2 id="event-1"><a class="header" href="#event-1">Event</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>previous_event_hash</td><td><code>EventId</code></td><td>Hash of the previous <code>Event</code></td></tr>
@@ -3583,8 +3532,7 @@ and <span class="katex"><span class="katex-html" aria-hidden="true"><span class=
 the verifier does know the coefficients (which are of the <code>Scalar</code>
 type) shown in the table above. In our example they only either <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>
 or <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">1</span></span></span></span>, but can also be other constant values.</p>
-<pre><code class="language-rust">pub struct LinearCombination&lt;Scalar: PrimeField&gt;(Vec&lt;(Variable, Scalar)&gt;);
-</code></pre>
+<pre><code class="language-rust">pub struct LinearCombination&lt;Scalar: PrimeField&gt;(Vec&lt;(Variable, Scalar)&gt;);</code></pre>
 <p>It is important to note that each one of the left, right and out
 registers is simply a list of tuples of (constant coefficient,
 variable value).</p>
@@ -3680,8 +3628,7 @@ async fn main() -&gt; Result&lt;()&gt; {
 
     result
 
-}
-</code></pre>
+}</code></pre>
 <p>We get the number of cpu cores using <code>num_cpus::get()</code> and spin up a
 bunch of threads in parallel using <code>easy_parallel</code>. Right now it doesn't
 do anything, but soon we'll run dchat inside this block.</p>
@@ -3752,8 +3699,7 @@ inbound node:</p>
    };
 
    Ok(settings)
-}
-</code></pre>
+}</code></pre>
 <p>This is a function that returns the settings to create Bob, an
 outbound node:</p>
 <pre><code class="language-rust">fn bob() -&gt; Result&lt;Settings&gt; {
@@ -3774,8 +3720,7 @@ outbound node:</p>
    };
 
    Ok(settings)
-}
-</code></pre>
+}</code></pre>
 <p>Both outbound and inbound nodes specify a seed address to connect to. The
 inbound node also specifies an external address and an inbound address:
 this is where it will receive connections. The outbound node specifies
@@ -3798,8 +3743,7 @@ impl fmt::Display for ErrorMissingSpecifier {
     }
 }
 
-impl error::Error for ErrorMissingSpecifier {}
-</code></pre>
+impl error::Error for ErrorMissingSpecifier {}</code></pre>
 <p>We can then read the flag from the command-line by adding the following
 lines to <code>main()</code>:</p>
 <pre><code class="language-rust">use crate::dchat_error::ErrorMissingSpecifier;
@@ -3819,15 +3763,13 @@ async fn main() -&gt; Result&lt;()&gt; {
         None =&gt; Err(ErrorMissingSpecifier.into()),
     };
     // ...
-}
-</code></pre>
+}</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="start-run-stop"><a class="header" href="#start-run-stop">Start-Run-Stop</a></h1>
 <p>Now that we have initialized the network settings we can create an
 instance of the p2p network.</p>
 <p>Add the following to <code>main()</code>:</p>
-<pre><code class="language-rust">    let p2p = net::P2p::new(settings?).await;
-</code></pre>
+<pre><code class="language-rust">    let p2p = net::P2p::new(settings?).await;</code></pre>
 <p>We will next create a <code>Dchat</code> struct that will store all the data required
 by dchat. For now, it will just hold a pointer to the p2p network.</p>
 <pre><code class="language-rust">struct Dchat {
@@ -3838,8 +3780,7 @@ impl Dchat {
     fn new(p2p: net::P2pPtr) -&gt; Self {
         Self { p2p }
     }
-}
-</code></pre>
+}</code></pre>
 <p>Now let's add a <code>start()</code> function to the <code>Dchat</code> implementation. <code>start()</code>
 takes an executor and runs three p2p methods, <code>p2p::start()</code>, <code>p2p::run()</code>,
 and <code>p2p::stop()</code>.</p>
@@ -3853,7 +3794,6 @@ and <code>p2p::stop()</code>.</p>
 
         Ok(())
     }
-
 </code></pre>
 <p>Let's take a quick look at the underlying p2p methods we're using here.</p>
 <h2 id="start"><a class="header" href="#start">Start</a></h2>
@@ -3872,8 +3812,7 @@ and <code>p2p::stop()</code>.</p>
 
         debug!(target: &quot;net&quot;, &quot;P2p::start() [END]&quot;);
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <p><code>start()</code> changes the <code>P2pState</code> to <code>P2pState::Start</code> and runs a <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/session/seed_session.rs">seed
 session</a>.</p>
 <p>This loops through the seed addresses specified in our <code>Settings</code> and
@@ -3911,8 +3850,7 @@ the channel from the channel list.</p>
 
         debug!(target: &quot;net&quot;, &quot;P2p::run() [END]&quot;);
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <p><code>run()</code> changes the P2pState to <code>P2pState::Run</code>. It then calls <code>start()</code>
 on manual, inbound and outbound sessions that are contained with the
 <code>P2p</code> struct. The outcome of <code>start()</code> will depend on how your node is
@@ -3928,8 +3866,7 @@ is received.</p>
 <p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L306">stop()</a>.</p>
 <pre><code class="language-rust">        pub async fn stop(&amp;self) {
         self.stop_subscriber.notify(()).await
-    }
-</code></pre>
+    }</code></pre>
 <p><code>stop()</code> transmits a shutdown signal to all channels subscribed to the
 stop signal and safely shuts down the network.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -3971,8 +3908,7 @@ async fn main() -&gt; Result&lt;()&gt; {
         });
 
     result
-}
-</code></pre>
+}</code></pre>
 <p>Now try to run the program, don't forget to add a specifier <code>a</code> or <code>b</code>
 to define the type of node.</p>
 <p>It should output the following error: </p>
@@ -4101,8 +4037,7 @@ impl net::Message for DchatMsg {
 #[derive(Debug, Clone, SerialEncodable, SerialDecodable)]
 pub struct DchatMsg {
     pub msg: String,
-}
-</code></pre>
+}</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="understanding-protocols"><a class="header" href="#understanding-protocols">Understanding protocols</a></h1>
 <p>We now need to implement a custom protocol which defines how our chat
@@ -4172,8 +4107,7 @@ pub struct ProtocolDchat {
     jobsman: net::ProtocolJobsManagerPtr,
     msg_sub: net::MessageSubscription&lt;DchatMsg&gt;,
     msgs: DchatMsgsBuffer,
-}
-</code></pre>
+}</code></pre>
 <p>Next we'll implement the trait <code>ProtocolBase</code>. <code>ProtocolBase</code> requires
 two functions, <code>start()</code> and <code>name()</code>. In <code>start()</code> we will start up the
 <code>ProtocolJobsManager</code>. <code>name()</code> will return a <code>str</code> of the protocol name.</p>
@@ -4187,8 +4121,7 @@ impl net::ProtocolBase for ProtocolDchat {
     fn name(&amp;self) -&gt; &amp;'static str {
         &quot;ProtocolDchat&quot;
     }
-}
-</code></pre>
+}</code></pre>
 <p>Once that's done, we'll need to create a <code>ProtocolDchat</code> constructor
 that we will pass to the <code>ProtocolRegistry</code> to register our protocol.
 We'll invoke the <code>MessageSubsystem</code> and add <code>DchatMsg</code> as to the list
@@ -4211,8 +4144,7 @@ pointer to the protocol.</p>
             msgs,
         })
     }
-}
-</code></pre>
+}</code></pre>
 <p>We're nearly there. But right now the protocol doesn't actually do
 anything. Let's write a method called <code>handle_receive_msg()</code> which receives
 a message on our <code>MessageSubscription</code> and adds it to <code>DchatMsgsBuffer</code>.</p>
@@ -4225,8 +4157,7 @@ a message on our <code>MessageSubscription</code> and adds it to <code>DchatMsgs
         }
 
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <p>As a final step, let's add that task to the <code>ProtocolJobManager</code> that is invoked
 in <code>start()</code>:</p>
 <pre><code class="language-rust">    async fn start(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
@@ -4235,8 +4166,7 @@ in <code>start()</code>:</p>
         self.jobsman.clone().spawn(self.clone().handle_receive_msg(), executor.clone()).await;
         debug!(target: &quot;dchat&quot;, &quot;ProtocolDchat::ProtocolBase::start() [STOP]&quot;);
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="registering-a-protocol"><a class="header" href="#registering-a-protocol">Registering a protocol</a></h1>
 <p>We've now successfully created a custom protocol. The next step is the
@@ -4256,8 +4186,7 @@ call <code>register()</code> on the registry and pass the <code>ProtocolDchat</c
             .await;
         debug!(target: &quot;dchat&quot;, &quot;Dchat::register_protocol() [STOP]&quot;);
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <p>There's a lot going on here. <code>register()</code> takes a closure with two
 arguments, <code>channel</code> and <code>p2p</code>. We use <code>move</code> to capture these values. We
 then create an async closure that captures these values and the value
@@ -4266,8 +4195,7 @@ then create an async closure that captures these values and the value
 <pre><code class="language-rust">registry.register(!net::SESSION_SEED, async move |channel, _p2p| {
         ProtocolDchat::init(channel, msgs).await
     })
-    .await;
-</code></pre>
+    .await;</code></pre>
 <p>However we cannot do this due to limitation with async closures. So
 instead we wrap the <code>async move</code> in a <code>move</code> in order to capture the
 variables needed by <code>ProtocolDchat::init()</code>.</p>
@@ -4281,8 +4209,7 @@ in <code>main()</code> and pass it to <code>Dchat::new()</code>. Let's add <code
 <pre><code class="language-rust">struct Dchat {
     p2p: net::P2pPtr,
     recv_msgs: DchatMsgsBuffer,
-}
-</code></pre>
+}</code></pre>
 <p>And initialize it:</p>
 <pre><code class="language-rust">#[async_std::main]
 async fn main() -&gt; Result&lt;()&gt; {
@@ -4304,8 +4231,7 @@ async fn main() -&gt; Result&lt;()&gt; {
         });
 
     result
-}
-</code></pre>
+}</code></pre>
 <p>Finally, call <code>register_protocol()</code> in <code>dchat::start()</code>:</p>
 <pre><code class="language-rust">    async fn start(&amp;mut self, ex: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
         let ex2 = ex.clone();
@@ -4318,7 +4244,6 @@ async fn main() -&gt; Result&lt;()&gt; {
 
         Ok(())
     }
-
 </code></pre>
 <p>Now try running Alice and Bob and seeing what debug output you get. Keep
 an eye out for the following:</p>
@@ -4375,8 +4300,7 @@ can now support. Finally, we pass the message into <code>p2p.broadcast()</code>.
         }
 
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <p>This is pretty straightforward: <code>broadcast()</code> takes a generic <code>Message</code> type
 and sends it across all the channels that our node has access to.</p>
 <p>All that's left to do is to create a UI.</p>
@@ -4434,8 +4358,7 @@ simply displays the messages that <code>ProtocolDchat</code> has saved in the
                 _ =&gt; {}
             }
         }
-    }
-</code></pre>
+    }</code></pre>
 <p>We'll call <code>menu()</code> inside of <code>dchat::start()</code> along with our other methods, like so:</p>
 <pre><code class="language-rust">    async fn start(&amp;mut self, ex: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
         let ex2 = ex.clone();
@@ -4448,8 +4371,7 @@ simply displays the messages that <code>ProtocolDchat</code> has saved in the
 
         self.p2p.stop().await;
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <p>But wait- if you try running this code, you'll notice that the menu never
 gets displayed. That's because we call <code>.await</code> on the previous function
 call, <code>p2p.run()</code>. <code>p2p.run()</code> is a loop that runs until we exit the program,
@@ -4471,8 +4393,7 @@ to detach it in the background.</p>
 
         debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [STOP]&quot;);
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="using-dchat"><a class="header" href="#using-dchat">Using dchat</a></h1>
 <p>We are finally ready to test our program. Spin up 5 different terminals.</p>
@@ -4518,8 +4439,7 @@ and a pointer to the p2p network.</p>
 <pre><code class="language-rust">pub struct JsonRpcInterface {
     pub addr: Url,
     pub p2p: net::P2pPtr,
-}
-</code></pre>
+}</code></pre>
 <p>We'll need to implement a trait called <code>RequestHandler</code> for
 the <code>JsonRpcInterface</code>. <code>RequestHandler</code> exposes a method called
 <code>handle_request()</code> which is a handle for processing incoming
@@ -4534,8 +4454,7 @@ pub enum JsonResult {
     Error(JsonError),
     Notification(JsonNotification),
     Subscriber(JsonSubscriber),
-}
-</code></pre>
+}</code></pre>
 <p>This is <code>JsonRequest</code>:</p>
 <pre><code class="language-rust">#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct JsonRequest {
@@ -4547,8 +4466,7 @@ pub struct JsonRequest {
     pub method: Value,
     /// Request parameters
     pub params: Value,
-}
-</code></pre>
+}</code></pre>
 <p>We'll use <code>handle_request()</code> to run a match statement on
 <code>JsonRequest.method</code>.</p>
 <p>Running a match on <code>method</code> will allow us to branch out to functions
@@ -4567,8 +4485,7 @@ impl RequestHandler for JsonRpcInterface {
             Some(_) | None =&gt; JsonError::new(ErrorCode::MethodNotFound, None, req.id).into(),
         }
     }
-}
-</code></pre>
+}</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="accept-addr"><a class="header" href="#accept-addr">Accept addr</a></h1>
 <p>To deploy the <code>JsonRpcInterface</code> and start receiving JSON-RPC requests,
@@ -4588,8 +4505,7 @@ impl AppSettings {
     pub fn new(accept_addr: Url, net: Settings) -&gt; Self {
         Self { accept_addr, net }
     }
-}
-</code></pre>
+}</code></pre>
 <p>Next, we'll change our <code>alice()</code> method to return a <code>AppSettings</code>
 instead of a <code>Settings</code>.</p>
 <pre><code class="language-rust">fn alice() -&gt; Result&lt;AppSettings&gt; {
@@ -4616,8 +4532,7 @@ instead of a <code>Settings</code>.</p>
     let settings = AppSettings::new(accept_addr, net);
 
     Ok(settings)
-}
-</code></pre>
+}</code></pre>
 <p>And the same for <code>bob()</code>:</p>
 <pre><code class="language-rust">fn bob() -&gt; Result&lt;AppSettings&gt; {
     let log_level = simplelog::LevelFilter::Debug;
@@ -4641,8 +4556,7 @@ instead of a <code>Settings</code>.</p>
     let settings = AppSettings::new(accept_addr, net);
 
     Ok(settings)
-}
-</code></pre>
+}</code></pre>
 <p>Update <code>main()</code> with the new type:</p>
 <pre><code class="language-rust">#[async_std::main]
 async fn main() -&gt; Result&lt;()&gt; {
@@ -4660,8 +4574,7 @@ async fn main() -&gt; Result&lt;()&gt; {
     let p2p = net::P2p::new(settings.net).await;
     //...
     }
-}
-</code></pre>
+}</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="methods"><a class="header" href="#methods">Methods</a></h1>
 <p>We're ready to deploy our <code>JsonRpcInterface</code>. But right now now it just
@@ -4670,14 +4583,12 @@ let's implement some methods.</p>
 <p>We'll start with a simple <code>pong</code> method that replies to <code>ping</code>.</p>
 <pre><code class="language-rust">    async fn pong(&amp;self, id: Value, _params: Value) -&gt; JsonResult {
         JsonResponse::new(json!(&quot;pong&quot;), id).into()
-    }
-</code></pre>
+    }</code></pre>
 <p>And add it to <code>handle_request()</code>:</p>
 <pre><code class="language-rust">        match req.method.as_str() {
             Some(&quot;ping&quot;) =&gt; self.pong(req.id, req.params).await,
             Some(_) | None =&gt; JsonError::new(ErrorCode::MethodNotFound, None, req.id).into(),
-            }
-</code></pre>
+            }</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="rpc-server"><a class="header" href="#rpc-server">RPC server</a></h1>
 <p>To deploy the <code>JsonRpcInterface</code>, we'll need to
@@ -4691,8 +4602,7 @@ requests.</p>
 <pre><code class="language-rust">    let accept_addr = settings.accept_addr.clone();
     let rpc = Arc::new(JsonRpcInterface { addr: accept_addr.clone(), p2p });
     let _ex = ex.clone();
-    ex.spawn(async move { listen_and_serve(accept_addr.clone(), rpc, _ex).await }).detach();
-</code></pre>
+    ex.spawn(async move { listen_and_serve(accept_addr.clone(), rpc, _ex).await }).detach();</code></pre>
 <p>We create a new <code>JsonRpcInterface</code> inside an <code>Arc</code> pointer and pass in our
 <code>accept_addr</code> and <code>p2p</code> object.</p>
 <p>Next, we create an async block that calls <code>listen_and_serve()</code>. The async
@@ -4744,8 +4654,7 @@ async fn main() -&gt; Result&lt;()&gt; {
         });
 
     result
-}
-</code></pre>
+}</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="get_info"><a class="header" href="#get_info">get_info</a></h1>
 <p>If you run Alice now, you'll see the following output:</p>
@@ -4760,15 +4669,13 @@ method:</p>
 <pre><code class="language-rust">    async fn get_info(&amp;self, id: Value, _params: Value) -&gt; JsonResult {
         let resp = self.p2p.get_info().await;
         JsonResponse::new(resp, id).into()
-    }
-</code></pre>
+    }</code></pre>
 <p>And add it to <code>handle_request()</code>:</p>
 <pre><code class="language-rust">        match req.method.as_str() {
             Some(&quot;ping&quot;) =&gt; self.pong(req.id, req.params).await,
             Some(&quot;get_info&quot;) =&gt; self.get_info(req.id, req.params).await,
             Some(_) | None =&gt; JsonError::new(ErrorCode::MethodNotFound, None, req.id).into(),
-        }
-</code></pre>
+        }</code></pre>
 <p>This calls the p2p function <code>get_info()</code> and passes the returned data into a
 <code>JsonResponse</code>.</p>
 <p>Under the hood, this function triggers a hierarchy of <code>get_info()</code>
@@ -4789,8 +4696,7 @@ calls which deliver info specific to a node, its inbound or outbound
             &quot;session_outbound&quot;: self.session_outbound().await.get_info().await,
             &quot;state&quot;: self.state.lock().await.to_string(),
         })
-    }
-</code></pre>
+    }</code></pre>
 <p>Here we return two pieces of info that are unique to a node:
 <code>external_addr</code> and <code>state</code>. We couple that data with <code>SessionInfo</code>
 by calling <code>get_info()</code> on each <code>Session</code>.</p>
@@ -4818,8 +4724,7 @@ happens via a child struct called <code>ChannelInfo</code>.</p>
             &quot;last_status&quot;: self.last_status,
             &quot;log&quot;: log,
         })
-    }
-</code></pre>
+    }</code></pre>
 <p><code>dnetview</code> uses the info returned from <code>Channel</code> and <code>Session</code> and
 node-specific info like <code>external_addr</code> to display an overview of the
 p2p network.</p>

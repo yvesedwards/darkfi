@@ -156,8 +156,7 @@
 <p>Now that we have initialized the network settings we can create an
 instance of the p2p network.</p>
 <p>Add the following to <code>main()</code>:</p>
-<pre><code class="language-rust">    let p2p = net::P2p::new(settings?).await;
-</code></pre>
+<pre><code class="language-rust">    let p2p = net::P2p::new(settings?).await;</code></pre>
 <p>We will next create a <code>Dchat</code> struct that will store all the data required
 by dchat. For now, it will just hold a pointer to the p2p network.</p>
 <pre><code class="language-rust">struct Dchat {
@@ -168,8 +167,7 @@ impl Dchat {
     fn new(p2p: net::P2pPtr) -&gt; Self {
         Self { p2p }
     }
-}
-</code></pre>
+}</code></pre>
 <p>Now let's add a <code>start()</code> function to the <code>Dchat</code> implementation. <code>start()</code>
 takes an executor and runs three p2p methods, <code>p2p::start()</code>, <code>p2p::run()</code>,
 and <code>p2p::stop()</code>.</p>
@@ -183,7 +181,6 @@ and <code>p2p::stop()</code>.</p>
 
         Ok(())
     }
-
 </code></pre>
 <p>Let's take a quick look at the underlying p2p methods we're using here.</p>
 <h2 id="start"><a class="header" href="#start">Start</a></h2>
@@ -202,8 +199,7 @@ and <code>p2p::stop()</code>.</p>
 
         debug!(target: &quot;net&quot;, &quot;P2p::start() [END]&quot;);
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <p><code>start()</code> changes the <code>P2pState</code> to <code>P2pState::Start</code> and runs a <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/session/seed_session.rs">seed
 session</a>.</p>
 <p>This loops through the seed addresses specified in our <code>Settings</code> and
@@ -241,8 +237,7 @@ the channel from the channel list.</p>
 
         debug!(target: &quot;net&quot;, &quot;P2p::run() [END]&quot;);
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <p><code>run()</code> changes the P2pState to <code>P2pState::Run</code>. It then calls <code>start()</code>
 on manual, inbound and outbound sessions that are contained with the
 <code>P2p</code> struct. The outcome of <code>start()</code> will depend on how your node is
@@ -258,8 +253,7 @@ is received.</p>
 <p>This is <a href="https://github.com/darkrenaissance/darkfi/blob/master/src/net/p2p.rs#L306">stop()</a>.</p>
 <pre><code class="language-rust">        pub async fn stop(&amp;self) {
         self.stop_subscriber.notify(()).await
-    }
-</code></pre>
+    }</code></pre>
 <p><code>stop()</code> transmits a shutdown signal to all channels subscribed to the
 stop signal and safely shuts down the network.</p>
 

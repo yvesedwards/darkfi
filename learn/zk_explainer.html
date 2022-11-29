@@ -221,8 +221,7 @@ and <span class="katex"><span class="katex-html" aria-hidden="true"><span class=
 the verifier does know the coefficients (which are of the <code>Scalar</code>
 type) shown in the table above. In our example they only either <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>
 or <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">1</span></span></span></span>, but can also be other constant values.</p>
-<pre><code class="language-rust">pub struct LinearCombination&lt;Scalar: PrimeField&gt;(Vec&lt;(Variable, Scalar)&gt;);
-</code></pre>
+<pre><code class="language-rust">pub struct LinearCombination&lt;Scalar: PrimeField&gt;(Vec&lt;(Variable, Scalar)&gt;);</code></pre>
 <p>It is important to note that each one of the left, right and out
 registers is simply a list of tuples of (constant coefficient,
 variable value).</p>

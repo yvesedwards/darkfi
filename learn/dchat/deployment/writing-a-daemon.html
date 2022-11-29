@@ -180,8 +180,7 @@ async fn main() -&gt; Result&lt;()&gt; {
 
     result
 
-}
-</code></pre>
+}</code></pre>
 <p>We get the number of cpu cores using <code>num_cpus::get()</code> and spin up a
 bunch of threads in parallel using <code>easy_parallel</code>. Right now it doesn't
 do anything, but soon we'll run dchat inside this block.</p>

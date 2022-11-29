@@ -161,8 +161,7 @@ and a pointer to the p2p network.</p>
 <pre><code class="language-rust">pub struct JsonRpcInterface {
     pub addr: Url,
     pub p2p: net::P2pPtr,
-}
-</code></pre>
+}</code></pre>
 <p>We'll need to implement a trait called <code>RequestHandler</code> for
 the <code>JsonRpcInterface</code>. <code>RequestHandler</code> exposes a method called
 <code>handle_request()</code> which is a handle for processing incoming
@@ -177,8 +176,7 @@ pub enum JsonResult {
     Error(JsonError),
     Notification(JsonNotification),
     Subscriber(JsonSubscriber),
-}
-</code></pre>
+}</code></pre>
 <p>This is <code>JsonRequest</code>:</p>
 <pre><code class="language-rust">#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct JsonRequest {
@@ -190,8 +188,7 @@ pub struct JsonRequest {
     pub method: Value,
     /// Request parameters
     pub params: Value,
-}
-</code></pre>
+}</code></pre>
 <p>We'll use <code>handle_request()</code> to run a match statement on
 <code>JsonRequest.method</code>.</p>
 <p>Running a match on <code>method</code> will allow us to branch out to functions
@@ -210,8 +207,7 @@ impl RequestHandler for JsonRpcInterface {
             Some(_) | None =&gt; JsonError::new(ErrorCode::MethodNotFound, None, req.id).into(),
         }
     }
-}
-</code></pre>
+}</code></pre>
 
                     </main>
 

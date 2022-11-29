@@ -170,8 +170,7 @@ call <code>register()</code> on the registry and pass the <code>ProtocolDchat</c
             .await;
         debug!(target: &quot;dchat&quot;, &quot;Dchat::register_protocol() [STOP]&quot;);
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <p>There's a lot going on here. <code>register()</code> takes a closure with two
 arguments, <code>channel</code> and <code>p2p</code>. We use <code>move</code> to capture these values. We
 then create an async closure that captures these values and the value
@@ -180,8 +179,7 @@ then create an async closure that captures these values and the value
 <pre><code class="language-rust">registry.register(!net::SESSION_SEED, async move |channel, _p2p| {
         ProtocolDchat::init(channel, msgs).await
     })
-    .await;
-</code></pre>
+    .await;</code></pre>
 <p>However we cannot do this due to limitation with async closures. So
 instead we wrap the <code>async move</code> in a <code>move</code> in order to capture the
 variables needed by <code>ProtocolDchat::init()</code>.</p>
@@ -195,8 +193,7 @@ in <code>main()</code> and pass it to <code>Dchat::new()</code>. Let's add <code
 <pre><code class="language-rust">struct Dchat {
     p2p: net::P2pPtr,
     recv_msgs: DchatMsgsBuffer,
-}
-</code></pre>
+}</code></pre>
 <p>And initialize it:</p>
 <pre><code class="language-rust">#[async_std::main]
 async fn main() -&gt; Result&lt;()&gt; {
@@ -218,8 +215,7 @@ async fn main() -&gt; Result&lt;()&gt; {
         });
 
     result
-}
-</code></pre>
+}</code></pre>
 <p>Finally, call <code>register_protocol()</code> in <code>dchat::start()</code>:</p>
 <pre><code class="language-rust">    async fn start(&amp;mut self, ex: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
         let ex2 = ex.clone();
@@ -232,7 +228,6 @@ async fn main() -&gt; Result&lt;()&gt; {
 
         Ok(())
     }
-
 </code></pre>
 <p>Now try running Alice and Bob and seeing what debug output you get. Keep
 an eye out for the following:</p>

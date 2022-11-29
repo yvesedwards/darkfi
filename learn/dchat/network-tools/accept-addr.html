@@ -170,8 +170,7 @@ impl AppSettings {
     pub fn new(accept_addr: Url, net: Settings) -&gt; Self {
         Self { accept_addr, net }
     }
-}
-</code></pre>
+}</code></pre>
 <p>Next, we'll change our <code>alice()</code> method to return a <code>AppSettings</code>
 instead of a <code>Settings</code>.</p>
 <pre><code class="language-rust">fn alice() -&gt; Result&lt;AppSettings&gt; {
@@ -198,8 +197,7 @@ instead of a <code>Settings</code>.</p>
     let settings = AppSettings::new(accept_addr, net);
 
     Ok(settings)
-}
-</code></pre>
+}</code></pre>
 <p>And the same for <code>bob()</code>:</p>
 <pre><code class="language-rust">fn bob() -&gt; Result&lt;AppSettings&gt; {
     let log_level = simplelog::LevelFilter::Debug;
@@ -223,8 +221,7 @@ instead of a <code>Settings</code>.</p>
     let settings = AppSettings::new(accept_addr, net);
 
     Ok(settings)
-}
-</code></pre>
+}</code></pre>
 <p>Update <code>main()</code> with the new type:</p>
 <pre><code class="language-rust">#[async_std::main]
 async fn main() -&gt; Result&lt;()&gt; {
@@ -242,8 +239,7 @@ async fn main() -&gt; Result&lt;()&gt; {
     let p2p = net::P2p::new(settings.net).await;
     //...
     }
-}
-</code></pre>
+}</code></pre>
 
                     </main>
 

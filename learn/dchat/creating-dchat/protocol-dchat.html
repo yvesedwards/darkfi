@@ -169,8 +169,7 @@ pub struct ProtocolDchat {
     jobsman: net::ProtocolJobsManagerPtr,
     msg_sub: net::MessageSubscription&lt;DchatMsg&gt;,
     msgs: DchatMsgsBuffer,
-}
-</code></pre>
+}</code></pre>
 <p>Next we'll implement the trait <code>ProtocolBase</code>. <code>ProtocolBase</code> requires
 two functions, <code>start()</code> and <code>name()</code>. In <code>start()</code> we will start up the
 <code>ProtocolJobsManager</code>. <code>name()</code> will return a <code>str</code> of the protocol name.</p>
@@ -184,8 +183,7 @@ impl net::ProtocolBase for ProtocolDchat {
     fn name(&amp;self) -&gt; &amp;'static str {
         &quot;ProtocolDchat&quot;
     }
-}
-</code></pre>
+}</code></pre>
 <p>Once that's done, we'll need to create a <code>ProtocolDchat</code> constructor
 that we will pass to the <code>ProtocolRegistry</code> to register our protocol.
 We'll invoke the <code>MessageSubsystem</code> and add <code>DchatMsg</code> as to the list
@@ -208,8 +206,7 @@ pointer to the protocol.</p>
             msgs,
         })
     }
-}
-</code></pre>
+}</code></pre>
 <p>We're nearly there. But right now the protocol doesn't actually do
 anything. Let's write a method called <code>handle_receive_msg()</code> which receives
 a message on our <code>MessageSubscription</code> and adds it to <code>DchatMsgsBuffer</code>.</p>
@@ -222,8 +219,7 @@ a message on our <code>MessageSubscription</code> and adds it to <code>DchatMsgs
         }
 
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <p>As a final step, let's add that task to the <code>ProtocolJobManager</code> that is invoked
 in <code>start()</code>:</p>
 <pre><code class="language-rust">    async fn start(self: Arc&lt;Self&gt;, executor: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
@@ -232,8 +228,7 @@ in <code>start()</code>:</p>
         self.jobsman.clone().spawn(self.clone().handle_receive_msg(), executor.clone()).await;
         debug!(target: &quot;dchat&quot;, &quot;ProtocolDchat::ProtocolBase::start() [STOP]&quot;);
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 
                     </main>
 

@@ -225,8 +225,7 @@ on the calldata of other function calls within the same tx. See <code>DAO::exec(
             ...
         }
     }
-}
-</code></pre>
+}</code></pre>
 <p>There is a pipeline where the prover runs <code>Builder::build()</code> to create the <code>FuncCall</code> object that
 is then broadcast to the verifiers through the p2p network.</p>
 <p>The <code>CallData</code> usually is the public values exported from a ZK proof. Essentially it is the data
@@ -239,16 +238,14 @@ on the transaction's structure or other function calls (such as their call data)
     pub func_calls: Vec&lt;FuncCall&gt;,
     pub signatures: Vec&lt;Vec&lt;Signature&gt;&gt;,
     // pub proofs: Vec&lt;Proof&gt;,
-}
-</code></pre>
+}</code></pre>
 <p>Function calls represent mutations of the current active state to a new state.</p>
 <pre><code class="language-rust">pub struct FuncCall {
     pub contract_id: ContractId,
     pub func_id: FuncId,
     pub call_data: Box&lt;dyn CallDataBase + Send + Sync&gt;,
     pub proofs: Vec&lt;Proof&gt;,
-}
-</code></pre>
+}</code></pre>
 <p>The <code>contract_id</code> corresponds to the top level module for the contract which
 includes the global <code>State</code>.</p>
 <p>The <code>func_id</code> of a function call corresponds to predefined objects in the submodules:</p>
@@ -286,8 +283,7 @@ represent <code>DAO::mint()</code> or <code>Money::transfer()</code>.</p>
             ...
         }
     }
-}
-</code></pre>
+}</code></pre>
 <p>The <code>state_transition()</code> has access to the entire atomic transaction to enforce correctness. For example
 chaining of function calls is used by the <code>DAO::exec()</code> smart contract function to execute moving money out
 of the treasury using <code>Money::transfer()</code> within the same transaction.</p>
@@ -308,8 +304,7 @@ applied at the end. This ensures atomicity property of transactions.</p>
             ...
         }
     }
-}
-</code></pre>
+}</code></pre>
 <p>The transaction verification pipeline roughly looks like this:</p>
 <ol>
 <li>Loop through all function call invocations within the transaction:
@@ -332,16 +327,14 @@ The <code>contract_id</code> and <code>func_id</code> corresponds to the contrac
     pub func_calls: Vec&lt;FuncCall&gt;,
     pub signatures: Vec&lt;Vec&lt;Signature&gt;&gt;,
     // pub proofs: Vec&lt;Proof&gt;,
-}
-</code></pre>
+}</code></pre>
 <p>And corresponding function calls.</p>
 <pre><code class="language-rust">pub struct FuncCall {
     pub contract_id: ContractId,
     pub func_id: FuncId,
     pub call_data: Box&lt;dyn CallDataBase + Send + Sync&gt;,
     pub proofs: Vec&lt;Proof&gt;,
-}
-</code></pre>
+}</code></pre>
 <p>As we can see the ZK proofs and signatures are separate from the actuall <code>call_data</code> interpreted
 by <code>state_transition()</code>. They are both automatically verified by the VM.</p>
 <p>However for verification to work, the ZK proofs also need corresponding public values, and
@@ -362,8 +355,7 @@ methods:</p>
         &amp;self,
         writer: &amp;mut dyn std::io::Write,
     ) -&gt; std::result::Result&lt;usize, std::io::Error&gt;;
-}
-</code></pre>
+}</code></pre>
 <p>These methods export the required values needed for the ZK proofs and signature verification
 from the actual call data itself.</p>
 <p>For signature verification, the data we are verifying is simply the entire transactions minus

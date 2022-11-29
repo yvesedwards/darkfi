@@ -205,8 +205,7 @@ simply displays the messages that <code>ProtocolDchat</code> has saved in the
                 _ =&gt; {}
             }
         }
-    }
-</code></pre>
+    }</code></pre>
 <p>We'll call <code>menu()</code> inside of <code>dchat::start()</code> along with our other methods, like so:</p>
 <pre><code class="language-rust">    async fn start(&amp;mut self, ex: Arc&lt;Executor&lt;'_&gt;&gt;) -&gt; Result&lt;()&gt; {
         let ex2 = ex.clone();
@@ -219,8 +218,7 @@ simply displays the messages that <code>ProtocolDchat</code> has saved in the
 
         self.p2p.stop().await;
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 <p>But wait- if you try running this code, you'll notice that the menu never
 gets displayed. That's because we call <code>.await</code> on the previous function
 call, <code>p2p.run()</code>. <code>p2p.run()</code> is a loop that runs until we exit the program,
@@ -242,8 +240,7 @@ to detach it in the background.</p>
 
         debug!(target: &quot;dchat&quot;, &quot;Dchat::start() [STOP]&quot;);
         Ok(())
-    }
-</code></pre>
+    }</code></pre>
 
                     </main>
 

@@ -155,12 +155,10 @@
 <h1 id="structures"><a class="header" href="#structures">Structures</a></h1>
 <h2 id="eventid"><a class="header" href="#eventid">EventId</a></h2>
 <p>Hash of <code>Event</code></p>
-<pre><code class="language-rust">type EventId = [u8; 32];
-</code></pre>
+<pre><code class="language-rust">type EventId = [u8; 32];</code></pre>
 <h2 id="eventaction"><a class="header" href="#eventaction">EventAction</a></h2>
 <p>The <code>Event</code> could have many actions according to the underlying data.</p>
-<pre><code class="language-rust">enum EventAction { ... };
-</code></pre>
+<pre><code class="language-rust">enum EventAction { ... };</code></pre>
 <h2 id="event"><a class="header" href="#event">Event</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Description</th><th>Data Type</th><th>Comments</th></tr></thead><tbody>
 <tr><td>previous_event_hash</td><td><code>EventId</code></td><td>Hash of the previous <code>Event</code></td></tr>

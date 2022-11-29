@@ -165,15 +165,13 @@ method:</p>
 <pre><code class="language-rust">    async fn get_info(&amp;self, id: Value, _params: Value) -&gt; JsonResult {
         let resp = self.p2p.get_info().await;
         JsonResponse::new(resp, id).into()
-    }
-</code></pre>
+    }</code></pre>
 <p>And add it to <code>handle_request()</code>:</p>
 <pre><code class="language-rust">        match req.method.as_str() {
             Some(&quot;ping&quot;) =&gt; self.pong(req.id, req.params).await,
             Some(&quot;get_info&quot;) =&gt; self.get_info(req.id, req.params).await,
             Some(_) | None =&gt; JsonError::new(ErrorCode::MethodNotFound, None, req.id).into(),
-        }
-</code></pre>
+        }</code></pre>
 <p>This calls the p2p function <code>get_info()</code> and passes the returned data into a
 <code>JsonResponse</code>.</p>
 <p>Under the hood, this function triggers a hierarchy of <code>get_info()</code>
@@ -194,8 +192,7 @@ calls which deliver info specific to a node, its inbound or outbound
             &quot;session_outbound&quot;: self.session_outbound().await.get_info().await,
             &quot;state&quot;: self.state.lock().await.to_string(),
         })
-    }
-</code></pre>
+    }</code></pre>
 <p>Here we return two pieces of info that are unique to a node:
 <code>external_addr</code> and <code>state</code>. We couple that data with <code>SessionInfo</code>
 by calling <code>get_info()</code> on each <code>Session</code>.</p>
@@ -223,8 +220,7 @@ happens via a child struct called <code>ChannelInfo</code>.</p>
             &quot;last_status&quot;: self.last_status,
             &quot;log&quot;: log,
         })
-    }
-</code></pre>
+    }</code></pre>
 <p><code>dnetview</code> uses the info returned from <code>Channel</code> and <code>Session</code> and
 node-specific info like <code>external_addr</code> to display an overview of the
 p2p network.</p>

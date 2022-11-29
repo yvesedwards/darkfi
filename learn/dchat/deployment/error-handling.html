@@ -166,8 +166,7 @@ impl fmt::Display for ErrorMissingSpecifier {
     }
 }
 
-impl error::Error for ErrorMissingSpecifier {}
-</code></pre>
+impl error::Error for ErrorMissingSpecifier {}</code></pre>
 <p>We can then read the flag from the command-line by adding the following
 lines to <code>main()</code>:</p>
 <pre><code class="language-rust">use crate::dchat_error::ErrorMissingSpecifier;
@@ -187,8 +186,7 @@ async fn main() -&gt; Result&lt;()&gt; {
         None =&gt; Err(ErrorMissingSpecifier.into()),
     };
     // ...
-}
-</code></pre>
+}</code></pre>
 
                     </main>
 

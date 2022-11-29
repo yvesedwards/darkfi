@@ -164,8 +164,7 @@ requests.</p>
 <pre><code class="language-rust">    let accept_addr = settings.accept_addr.clone();
     let rpc = Arc::new(JsonRpcInterface { addr: accept_addr.clone(), p2p });
     let _ex = ex.clone();
-    ex.spawn(async move { listen_and_serve(accept_addr.clone(), rpc, _ex).await }).detach();
-</code></pre>
+    ex.spawn(async move { listen_and_serve(accept_addr.clone(), rpc, _ex).await }).detach();</code></pre>
 <p>We create a new <code>JsonRpcInterface</code> inside an <code>Arc</code> pointer and pass in our
 <code>accept_addr</code> and <code>p2p</code> object.</p>
 <p>Next, we create an async block that calls <code>listen_and_serve()</code>. The async
@@ -217,8 +216,7 @@ async fn main() -&gt; Result&lt;()&gt; {
         });
 
     result
-}
-</code></pre>
+}</code></pre>
 
                     </main>
 

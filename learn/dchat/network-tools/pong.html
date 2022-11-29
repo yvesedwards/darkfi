@@ -159,14 +159,12 @@ let's implement some methods.</p>
 <p>We'll start with a simple <code>pong</code> method that replies to <code>ping</code>.</p>
 <pre><code class="language-rust">    async fn pong(&amp;self, id: Value, _params: Value) -&gt; JsonResult {
         JsonResponse::new(json!(&quot;pong&quot;), id).into()
-    }
-</code></pre>
+    }</code></pre>
 <p>And add it to <code>handle_request()</code>:</p>
 <pre><code class="language-rust">        match req.method.as_str() {
             Some(&quot;ping&quot;) =&gt; self.pong(req.id, req.params).await,
             Some(_) | None =&gt; JsonError::new(ErrorCode::MethodNotFound, None, req.id).into(),
-            }
-</code></pre>
+            }</code></pre>
 
                     </main>
 
