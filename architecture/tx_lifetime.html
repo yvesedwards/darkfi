@@ -184,8 +184,31 @@ chain:</p>
 <li><code>CS</code> writes the state updates to their chain</li>
 <li><code>CS</code> removes <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> from their <code>mempool</code></li>
 </ol>
-<h2 id="real-world-simulation-with-non-instant-finality-and-forks"><a class="header" href="#real-world-simulation-with-non-instant-finality-and-forks">Real-world simulation with non-instant finality and forks</a></h2>
+<h2 id="real-world-simulation-with-non-instant-finality"><a class="header" href="#real-world-simulation-with-non-instant-finality">Real-world simulation with non-instant finality</a></h2>
 <p>The lifetime of a transaction <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> that passes verification and whose
+state transition is pending to be applied on top of the finalized (canonical)
+chain:</p>
+<ol>
+<li>User creates a transaction <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span></li>
+<li>User broadcasts <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> to <code>CS</code></li>
+<li><code>CS</code> validates <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> state transition</li>
+<li><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> enters <code>CS</code> <code>mempool</code></li>
+<li><code>CS</code> broadcasts <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> to <code>CP</code></li>
+<li><code>CP</code> validates <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> state transition</li>
+<li><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> enters <code>CP</code> <code>mempool</code></li>
+<li><code>CP</code> proposes a block proposal containing <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span></li>
+<li><code>CP</code> proposes more block proposals</li>
+<li>When proposals can be finalized, <code>CP</code> validates all their transactions
+in sequence</li>
+<li><code>CP</code> writes the state transition update of <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> to their chain</li>
+<li><code>CP</code> removes <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> from their <code>mempool</code></li>
+<li><code>CP</code> broadcasts the finalizated proposals sequence</li>
+<li><code>CS</code> receives the proposals sequence and validates transactions</li>
+<li><code>CS</code> writes the state updates to their chain</li>
+<li><code>CS</code> removes <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> from their <code>mempool</code></li>
+</ol>
+<h2 id="real-world-simulation-with-non-instant-finality-forks-and-multiple-cp-nodes"><a class="header" href="#real-world-simulation-with-non-instant-finality-forks-and-multiple-cp-nodes">Real-world simulation with non-instant finality, forks and multiple <code>CP</code> nodes</a></h2>
+<p>The lifetime of a transaction <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> that passes verifications and whose
 state transition is pending to be applied on top of the finalized (canonical)
 chain:</p>
 <ol>
@@ -196,23 +219,28 @@ chain:</p>
 <li><code>CS</code> broadcasts <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> to <code>CP</code></li>
 <li><code>CP</code> validates <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> state transition against all known fork states</li>
 <li><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> enters <code>CP</code> <code>mempool</code></li>
-<li><code>CP</code> finds which fork to extend</li>
-<li><code>CP</code> validates all unproposed transactions in its <code>mempool</code> in sequence,
+<li><code>CP</code> broadcasts <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> to rest <code>CP</code> nodes</li>
+<li>Slot producer <code>CP</code> (<code>SCP</code>) node finds which fork to extend</li>
+<li><code>SCP</code> validates all unproposed transactions in its <code>mempool</code> in sequence,
 against extended fork state, discarding invalid</li>
-<li><code>CP</code> proposes a block proposal containing <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> extending the fork</li>
-<li>When/if fork can be finalized, <code>CP</code> validates all its proposals
+<li><code>SCP</code> creates a block proposal containing <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> extending the fork</li>
+<li><code>CP</code> receives block proposal and validates its transactions against
+the extended fork state</li>
+<li><code>SCP</code> proposes more block proposals extending a fork state</li>
+<li>When a fork can be finalized, <code>CP</code> validates all its proposals
 transactions in sequence, against canonical state</li>
 <li><code>CP</code> writes the state transition update of <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> to their chain</li>
 <li><code>CP</code> removes <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> from their <code>mempool</code></li>
+<li><code>CP</code> drop rest forks and keeps only the finalized one</li>
 <li><code>CP</code> broadcasts the finalizated proposals sequence</li>
 <li><code>CS</code> receives the proposals sequence and validates transactions</li>
 <li><code>CS</code> writes the state updates to their chain</li>
 <li><code>CS</code> removes <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> from their <code>mempool</code></li>
 </ol>
 <p><code>CP</code> will keep <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> in its <code>mempool</code> as long as it is a valid state transition
-for any fork(including canonical) until it get finalized.</p>
+for any fork(including canonical) or it get finalized.</p>
 <p>Unproposed transactions refers to all <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> not included in a proposal of any fork.</p>
-<p>If a fork that can be finalized fails to validate all its transactions(11), it should be dropped.</p>
+<p>If a fork that can be finalized fails to validate all its transactions(14), it should be dropped.</p>
 
                     </main>
 
