@@ -1465,6 +1465,10 @@ F2 and all other forks get dropped:</p>
 <li>Consensus Participant (<code>CP</code>)</li>
 <li>Consensus Spectator (non-participant) (<code>CS</code>)</li>
 </ol>
+<p><code>CS</code> acts as a relayer for transactions in order to help out
+that transactions reach <code>CP</code>.</p>
+<p>To avoid spam attacks, <code>CS</code> should keep <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> in their mempool for some
+period of time, and then prune it.</p>
 <h2 id="ideal-simulation-with-instant-finality"><a class="header" href="#ideal-simulation-with-instant-finality">Ideal simulation with instant finality</a></h2>
 <p>The lifetime of a transaction <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> that passes verification and whose
 state transition can be applied on top of the finalized (canonical)
@@ -1477,20 +1481,44 @@ chain:</p>
 <li><code>CS</code> broadcasts <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> to <code>CP</code></li>
 <li><code>CP</code> validates <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> state transition</li>
 <li><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> enters <code>CP</code> <code>mempool</code></li>
+<li><code>CP</code> validates all transactions in its <code>mempool</code> in sequence</li>
 <li><code>CP</code> proposes a block finalization containing <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span></li>
 <li><code>CP</code> writes the state transition update of <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> to their chain</li>
 <li><code>CP</code> removes <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> from their <code>mempool</code></li>
-<li><code>CP</code> broadcasts a finalization proposal</li>
+<li><code>CP</code> broadcasts the finalizated proposal</li>
 <li><code>CS</code> receives the proposal and validates transactions</li>
 <li><code>CS</code> writes the state updates to their chain</li>
 <li><code>CS</code> removes <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> from their <code>mempool</code></li>
 </ol>
-<p>In the above context, <code>CS</code> acts as a relayer for transactions in
-order to help out that transactions reach <code>CP</code>.</p>
-<p>To avoid spam attacks, <code>CS</code> should keep <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> in their mempool for some
-period of time, and then prune it.</p>
 <h2 id="real-world-simulation-with-non-instant-finality-and-forks"><a class="header" href="#real-world-simulation-with-non-instant-finality-and-forks">Real-world simulation with non-instant finality and forks</a></h2>
-<p>Write here.</p>
+<p>The lifetime of a transaction <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> that passes verification and whose
+state transition is pending to be applied on top of the finalized (canonical)
+chain:</p>
+<ol>
+<li>User creates a transaction <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span></li>
+<li>User broadcasts <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> to <code>CS</code></li>
+<li><code>CS</code> validates <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> state transition against canonical chain state</li>
+<li><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> enters <code>CS</code> <code>mempool</code></li>
+<li><code>CS</code> broadcasts <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> to <code>CP</code></li>
+<li><code>CP</code> validates <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> state transition against all known fork states</li>
+<li><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> enters <code>CP</code> <code>mempool</code></li>
+<li><code>CP</code> finds which fork to extend</li>
+<li><code>CP</code> validates all unproposed transactions in its <code>mempool</code> in sequence,
+against extended fork state, discarding invalid</li>
+<li><code>CP</code> proposes a block proposal containing <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> extending the fork</li>
+<li>When/if fork can be finalized, <code>CP</code> validates all its proposals
+transactions in sequence, against canonical state</li>
+<li><code>CP</code> writes the state transition update of <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> to their chain</li>
+<li><code>CP</code> removes <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> from their <code>mempool</code></li>
+<li><code>CP</code> broadcasts the finalizated proposals sequence</li>
+<li><code>CS</code> receives the proposals sequence and validates transactions</li>
+<li><code>CS</code> writes the state updates to their chain</li>
+<li><code>CS</code> removes <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> from their <code>mempool</code></li>
+</ol>
+<p><code>CP</code> will keep <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> in its <code>mempool</code> as long as it is a valid state transition
+for any fork(including canonical) until it get finalized.</p>
+<p>Unproposed transactions refers to all <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">x</span></span></span></span> not included in a proposal of any fork.</p>
+<p>If a fork that can be finalized fails to validate all its transactions(11), it should be dropped.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="darkfi-node-architecture-dna"><a class="header" href="#darkfi-node-architecture-dna">DarkFi Node Architecture (DNA)</a></h1>
 <p>The DarkFi ecosystem runs as a network of P2P nodes, where these nodes
