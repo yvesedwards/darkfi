@@ -153,12 +153,12 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="vanityaddr"><a class="header" href="#vanityaddr">vanityaddr</a></h1>
-<p>A tool for Vanity address generation for DarkFi keypairs. Given some
-prefix, the tool will bruteforce secret keys to find one which, when
-derived into an address, starts with a given prefix.</p>
+<p>A tool for Vanity address generation for DarkFi keypairs and token IDs.
+Given some prefix, the tool will bruteforce secret keys to find one
+which, when derived, starts with a given prefix.</p>
 <h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
 <pre><code>vanityaddr 0.3.0
-Vanity address generation tool for DarkFi keypairs.
+Vanity address generation tool for DarkFi keypairs and token IDs.
 
 USAGE:
     vanityaddr [OPTIONS] &lt;PREFIX&gt;
@@ -168,18 +168,19 @@ ARGS:
 
 OPTIONS:
     -c                  Should the search be case-sensitive
+    --token-id          Search for TokenID instead of an address
     -h, --help          Print help information
     -t &lt;THREADS&gt;        Number of threads to use (defaults to number of available CPUs)
     -V, --version       Print version information
 </code></pre>
 <p>We can use the tool in our command line:</p>
-<pre><code>% vanityaddr 1Foo
+<pre><code>% vanityaddr drk
 [00:00:05] 53370 attempts
 </code></pre>
 <p>And the program will start crunching numbers. After a period of time,
 we will get JSON output containing an address, secret key, and the
 number of attempts it took to find the secret key.</p>
-<pre><code>{&quot;address&quot;:&quot;1FoomByzBBQywKaeBB5XPkAm5eCboh8K4CBhBe9uKbJm3kEiCS&quot;,&quot;attempts&quot;:78418,&quot;secret&quot;:&quot;0x16545da4a401adcd035ef51c8040acf5f4f1c66c0dd290bb5ec9e95991ae3615&quot;}
+<pre><code>{&quot;address&quot;:&quot;DrkZcAiZPQoQUrdii9CUCQC2SNcUrSYEYW4wTj6Nhtp1&quot;,&quot;attempts&quot;:78418,&quot;secret&quot;:&quot;BL9zmxqFhCHHU42CPY1G4hj1ahUYh61F54rPBBwLVLVv&quot;}
 </code></pre>
 
                     </main>
