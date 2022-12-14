@@ -257,6 +257,8 @@ empty array will be returned.
 <ul>
 <li><a href="#ping"><code>ping</code></a></li>
 <li><a href="#clock"><code>clock</code></a></li>
+<li><a href="#get_info"><code>get_info</code></a></li>
+<li><a href="#get_consensus_info"><code>get_consensus_info</code></a></li>
 </ul>
 <h3 id="ping"><a class="header" href="#ping"><code>ping</code></a></h3>
 <p>Returns a <code>pong</code> to the <code>ping</code> request.
@@ -269,6 +271,18 @@ empty array will be returned.
 <br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_misc.rs#L43">[src]</a></sup></p>
 <pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;clock&quot;, &quot;params&quot;: [], &quot;id&quot;: 1}
 &lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;result&quot;: {...}, &quot;id&quot;: 1}
+</code></pre>
+<h3 id="get_info"><a class="header" href="#get_info"><code>get_info</code></a></h3>
+<p>Returns sync P2P network information.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_misc.rs#L52">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_info&quot;, &quot;params&quot;: [], &quot;id&quot;: 42}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, result&quot;: {&quot;nodeID&quot;: [], &quot;nodeinfo&quot;: [], &quot;id&quot;: 42}
+</code></pre>
+<h3 id="get_consensus_info"><a class="header" href="#get_consensus_info"><code>get_consensus_info</code></a></h3>
+<p>Returns consensus P2P network information.
+<br><sup><a href="https://github.com/darkrenaissance/darkfi/blob/master/bin/darkfid/src/rpc_misc.rs#L65">[src]</a></sup></p>
+<pre><code class="language-json">--&gt; {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;get_consensus_info&quot;, &quot;params&quot;: [], &quot;id&quot;: 42}
+&lt;-- {&quot;jsonrpc&quot;: &quot;2.0&quot;, result&quot;: {&quot;nodeID&quot;: [], &quot;nodeinfo&quot;: [], &quot;id&quot;: 42}
 </code></pre>
 
                     </main>
