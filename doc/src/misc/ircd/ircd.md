@@ -1,7 +1,7 @@
 # P2P IRC
 
 In DarkFi, we organize our communication using resilient and
-censorship-resistant infrastructure. For chatting, `ircd` is a
+censorship-resistant infrastructure. For chatting, we use `ircd`, a
 peer-to-peer implementation of an IRC server in which any user can
 participate anonymously using any IRC frontend and by running the
 IRC daemon. `ircd` uses the DarkFi P2P engine to synchronize chats
@@ -10,16 +10,15 @@ between hosts.
 
 ## Installation
 
+Before installing `ircd`, make sure you have all the necessary dependencies 
+by following the instructions in the [README](https://darkrenaissance.github.io/darkfi/index.html)
+
 ```shell
 % git clone https://github.com/darkrenaissance/darkfi 
 % cd darkfi
 % make BINS=ircd
 % sudo make install BINS=ircd
 ```
-
-Follow the instructions in the
-[README](https://darkrenaissance.github.io/darkfi/index.html) to ensure
-you have all the necessary dependenices.
 
 ## Usage (DarkFi Network)
 
